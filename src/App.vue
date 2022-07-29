@@ -11,7 +11,7 @@
 					<h3 class="text-2xl text-center mb-4 text-theme-800">
 						Designer
 					</h3>
-					<p class="">
+					<p>
 						The web is full of generic, messy, slow, and
 						inaccessible sites, but it doesn't have to be. I create
 						designs that are bold and unique but don't compromise on
@@ -196,7 +196,7 @@ main section {
 }
 
 #projects-list {
-	@apply w-full grid gap-8 justify-center md:grid-cols-[repeat(auto-fit,minmax(300px,1fr))];
+	@apply w-full grid gap-x-8 gap-y-16 justify-center md:grid-cols-[repeat(auto-fit,minmax(300px,1fr))];
 
 	/* grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); */
 }

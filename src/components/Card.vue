@@ -2,7 +2,6 @@
 	<li
 		class="
 			relative
-			min-h-80
 			max-w-80
 			p-4
 			pb-8
