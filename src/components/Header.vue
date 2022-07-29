@@ -7,7 +7,7 @@
 
 		<div id="cutout" class="w-192 mx-auto mt-16 p-4 rounded-xl">
 			<h1 class="leading-16 px-8 text-center" text="6xl theme-850">
-				Hi, I'm Daniel
+				Hi, I'm Daniel Grayvold
 			</h1>
 			<p class="text-center px-8" text="4xl theme-800">
 				I'm making waves in creative media &amp; tech
