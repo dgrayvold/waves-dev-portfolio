@@ -1,8 +1,7 @@
 <template>
-	<a :href="href" class="text-center">
+	<a :href="href">
 		<button
 			class="
-				border-3 border-theme-800
 				pl-2
 				pr-4
 				rounded-xl

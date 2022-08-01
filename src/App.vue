@@ -188,11 +188,11 @@ h2 {
 }
 
 main section {
-	@apply my-16 px-12 py-8;
+	@apply mt-0 py-16 px-12 py-8;
 }
 
 #about {
-	@apply -mt-16;
+	@apply pt-0 bg-theme-600;
 }
 
 #projects-list {
