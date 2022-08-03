@@ -72,7 +72,7 @@
 						border-l-2 border-theme-800
 					"
 				>
-					<ButtonLink href="#about">
+					<ButtonLink href="#about" class="group">
 						<template #icon>
 							<WavesIcon
 								class="
@@ -81,13 +81,14 @@
 									-mt-2
 									-mr-2
 									inline-block
+									group-hover:animate-float
 								"
 							/>
 						</template>
 						<template #cta>About</template>
 					</ButtonLink>
 
-					<ButtonLink href="#projects">
+					<ButtonLink href="#projects" class="group">
 						<template #icon>
 							<SailboatIcon
 								class="
@@ -97,17 +98,30 @@
 									-mt-2
 									-mr-2
 									stroke-current stroke-4
+									group-hover:animate-boat
 								"
 							/>
 						</template>
 						<template #cta>Projects</template>
 					</ButtonLink>
 
-					<ButtonLink href="skills">
+					<ButtonLink href="skills" class="group">
+						<template #icon>
+							<ShipWheelIcon
+								class="
+									inline-block
+									w-[24px]
+									h-[24px]
+									-mt-2
+									-mr-2
+									group-hover:animate-turn
+								"
+							/>
+						</template>
 						<template #cta>Skills</template>
 					</ButtonLink>
 
-					<ButtonLink>
+					<ButtonLink class="group">
 						<template #icon>
 							<LighthouseIcon
 								class="
@@ -116,6 +130,7 @@
 									h-[24px]
 									-mt-2
 									-mr-2
+									group-hover:animate-lighthouse
 								"
 							/>
 						</template>
@@ -132,6 +147,7 @@ import { Blava } from 'blava';
 import ButtonLink from '@/components/ButtonLink.vue';
 import WavesIcon from '@/components/Icons/WavesIcon.vue';
 import SailboatIcon from '@/components/Icons/SailboatIcon.vue';
+import ShipWheelIcon from '@/components/Icons/ShipWheelIcon.vue';
 import AnchorIcon from '@/components/Icons/AnchorIcon.vue';
 import LighthouseIcon from '@/components/Icons/LighthouseIcon.vue';
 
@@ -140,6 +156,7 @@ export default {
 		ButtonLink,
 		WavesIcon,
 		SailboatIcon,
+		ShipWheelIcon,
 		AnchorIcon,
 		LighthouseIcon,
 	},
@@ -153,6 +170,12 @@ export default {
 		},
 	},
 
+	data() {
+		return {
+			blavas: [],
+		};
+	},
+
 	mounted() {
 		// Create blavas and manage animation based on visibility
 		const shades = ['#072227', '#35858b', '#4fbdba', '#aefeff'];
@@ -161,25 +184,27 @@ export default {
 		for (let x = 0; x < 4; x++) {
 			const blava = new Blava(this.$refs[`background-${x}`], {
 				gradient: { from: shades[x], to: shades[x] },
+				movementSpeed: 'slow',
 			});
 
 			blavas.push(blava);
 		}
 
+		this.blavas = blavas;
+
 		window.addEventListener('visibilitychange', function () {
-			blavas.forEach(blava =>
-				document.hidden ? blava.pause() : blava.play(),
-			);
+			this.toggleWavesAnimation(!document.hidden);
 		});
 
 		const observer = new IntersectionObserver(
 			entries => {
-				blavas.forEach(blava =>
-					blava[entries[0].isIntersecting ? 'play' : 'pause'](),
-				);
+				if (entries[0].intersectionRatio >= 0.5) {
+					this.$emit('aweigh');
+				}
+				this.toggleWavesAnimation(entries[0].isIntersecting);
 			},
 			{
-				threshold: [0, 1],
+				threshold: [0, 0.5, 0.75, 1],
 			},
 		);
 
@@ -187,6 +212,10 @@ export default {
 	},
 
 	methods: {
+		toggleWavesAnimation(play) {
+			this.blavas.forEach(blava => blava[play ? 'play' : 'pause']());
+		},
+
 		triggerFirstSection() {
 			this.$emit('dive');
 		},

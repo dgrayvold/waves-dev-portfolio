@@ -9,7 +9,6 @@
  */
 function smoothScroll(y, frames = 60, scrollingElement) {
 	return new Promise(res => {
-		console.time('scroll');
 		let curFrame = 0,
 			curPosition = scrollingElement
 				? scrollingElement.scrollTop
@@ -36,7 +35,7 @@ function smoothScroll(y, frames = 60, scrollingElement) {
 						window.scrollTo(0, endPosition);
 					}
 				}
-				console.timeEnd('scroll');
+
 				return res(true);
 			}
 

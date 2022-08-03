@@ -1,7 +1,8 @@
 <template>
 	<Header
-		@click="anchorDropped = !anchorDropped"
-		@dive="scrollToSection('about')"
+		ref="header"
+		@dive="diveIn"
+		@aweigh="anchorDropped = false"
 		:anchorDropped="anchorDropped"
 	/>
 
@@ -198,6 +199,12 @@ export default {
 			const offset = element.getBoundingClientRect().top;
 
 			ui.smoothScroll(offset, 90);
+		},
+
+		diveIn() {
+			this.$refs.header.toggleWavesAnimation();
+			this.anchorDropped = true;
+			this.scrollToSection('about');
 		},
 	},
 
