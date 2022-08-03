@@ -1,4 +1,8 @@
 <template>
+	<section class="w-full h-192 bg-black">
+		<Snowflake />
+	</section>
+
 	<Header
 		ref="header"
 		@dive="diveIn"
@@ -174,6 +178,7 @@
 <script>
 import Header from '@/components/Header.vue';
 import Card from '@/components/Card.vue';
+import Snowflake from '@/components/Snowflake.vue';
 import WavesIcon from '@/components/Icons/WavesIcon.vue';
 import SailboatIcon from '@/components/Icons/SailboatIcon.vue';
 
@@ -185,6 +190,7 @@ export default {
 		Header,
 		WavesIcon,
 		SailboatIcon,
+		Snowflake,
 	},
 
 	data() {
