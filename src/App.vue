@@ -1,8 +1,12 @@
 <template>
-	<Header />
+	<Header
+		@click="anchorDropped = !anchorDropped"
+		@dive="scrollToSection('about')"
+		:anchorDropped="anchorDropped"
+	/>
 
 	<main>
-		<section id="about">
+		<section ref="initialSection" id="about">
 			<WavesIcon class="w-24 h-24 mx-auto mb-8 text-theme-800" />
 			<h2 class="text-theme-800">What I am</h2>
 
@@ -172,6 +176,8 @@ import Card from '@/components/Card.vue';
 import WavesIcon from '@/components/Icons/WavesIcon.vue';
 import SailboatIcon from '@/components/Icons/SailboatIcon.vue';
 
+import ui from '@/mixins/ui.js';
+
 export default {
 	components: {
 		Card,
@@ -179,6 +185,23 @@ export default {
 		WavesIcon,
 		SailboatIcon,
 	},
+
+	data() {
+		return {
+			anchorDropped: false,
+		};
+	},
+
+	methods: {
+		async scrollToSection(id) {
+			const element = document.querySelector(`#${id}`);
+			const offset = element.getBoundingClientRect().top;
+
+			ui.smoothScroll(offset, 90);
+		},
+	},
+
+	mixins: [ui],
 };
 </script>
 

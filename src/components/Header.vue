@@ -15,8 +15,10 @@
 
 			<nav class="flex justify-center mt-14 px-4 text-theme-900">
 				<button
+					@click="triggerFirstSection"
 					class="
-						px-8
+						top-0
+						pr-9
 						text-center
 						transition-colors
 						text-theme-800
@@ -24,17 +26,41 @@
 					"
 				>
 					<AnchorIcon
+						id="dive-icon"
 						class="
+							relative
 							w-28
 							h-28
+							top-0
 							transform
 							origin-center
 							mx-auto
 							-rotate-45
 							-translate-x-2
+							transition-all
+							ease-out
+							-z-10
 						"
+						:class="{
+							'top-128': anchorDropped,
+						}"
 					/>
-					<span class="text-2xl uppercase">Dive in</span>
+					<span
+						class="
+							relative
+							top-0
+							text-2xl
+							uppercase
+							transition-all
+							duration-300
+						"
+						:class="{
+							'top-8': anchorDropped,
+							'opacity-0': anchorDropped,
+						}"
+					>
+						Dive in
+					</span>
 				</button>
 
 				<ul
@@ -118,6 +144,15 @@ export default {
 		LighthouseIcon,
 	},
 
+	props: {
+		/**
+		 * Whether the anchor icon should be in its initial or dropped position
+		 */
+		anchorDropped: {
+			type: Boolean,
+		},
+	},
+
 	mounted() {
 		// Create blavas and manage animation based on visibility
 		const shades = ['#072227', '#35858b', '#4fbdba', '#aefeff'];
@@ -150,6 +185,12 @@ export default {
 
 		observer.observe(this.$el);
 	},
+
+	methods: {
+		triggerFirstSection() {
+			this.$emit('dive');
+		},
+	},
 };
 </script>
 
@@ -159,14 +200,18 @@ header canvas {
 }
 
 #background-2 {
-	bottom: 1rem;
-}
-
-#background-1 {
 	bottom: 2rem;
 }
 
-#background-0 {
+#background-1 {
 	bottom: 3rem;
+}
+
+#background-0 {
+	bottom: 4rem;
+}
+
+#dive-icon {
+	transition: top 1.5s;
 }
 </style>
