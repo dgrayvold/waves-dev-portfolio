@@ -25,14 +25,31 @@ export default {
 		const c = this.$refs.canvas;
 		const ctx = c.getContext('2d');
 
-		ctx.fillStyle = 'white';
+		// Draw reference guides
+		ctx.fillStyle = 'yellow';
+		ctx.fillRect(499, 0, 2, 1000);
+		ctx.fillRect(0, 499, 1000, 2);
 
-		// ctx.scale(5, 5);
-		// ctx.translate(50, 0);
+		ctx.fillStyle = this.color;
+		ctx.scale(5, 5);
 
+		// North
+		ctx.translate(50, 0);
 		ctx.fill(path);
 
-		ctx.rotate(-90);
+		// East (from north)
+		ctx.rotate((90 * Math.PI) / 180);
+		ctx.translate(50, -150);
+		ctx.fill(path);
+
+		// South (from east)
+		ctx.rotate((90 * Math.PI) / 180);
+		ctx.translate(50, -150);
+		ctx.fill(path);
+
+		// West (from south)
+		ctx.rotate((90 * Math.PI) / 180);
+		ctx.translate(50, -150);
 		ctx.fill(path);
 	},
 };
