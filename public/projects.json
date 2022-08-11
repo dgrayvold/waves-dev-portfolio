@@ -1,0 +1,49 @@
+[
+	{
+		"project": "Exodus",
+		"location": "GreatNews.Life",
+		"tags": ["Vue 3", "Vite SSG", "Tailwind/Windi CSS"],
+		"description": "Simple, fast access to the latest positive-only news in northwestern Indiana",
+		"url": null
+	},
+
+	{
+		"project": "GreatNews.Life Corporate Site",
+		"location": "GreatNews.Life",
+		"tags": ["Nuxt", "Blava", "Tailwind/Windi CSS", "Serverless"],
+		"description": "Rebranded corporate site with a fresh design using modern tools",
+		"url": "https://gnl-corporate-site.netlify.app"
+	},
+
+	{
+		"project": "Blava",
+		"location": "GreatNews.Life",
+		"tags": ["JS", "HTML Canvas", "Spline"],
+		"description": "Performant artful blob generator using canvas 📋",
+		"url": "https://blava.greatnews.life"
+	},
+
+	{
+		"project": "BLC Website",
+		"location": "Bethlehem Lutheran Church, Chesterton, Indiana",
+		"tags": ["JS", "PHP"],
+		"description": "Performant artful blob generator using canvas 📋",
+		"url": "https://blcin.com"
+	},
+
+	{
+		"project": "Dice Roller",
+		"location": "Solo Project",
+		"tags": ["JS", "Web App"],
+		"description": "A unique group-based take on dice rolling for RPGs",
+		"url": "https://dgrayvold.com/apps/diceroller"
+	},
+
+	{
+		"project": "Wordy",
+		"location": "Solo Project",
+		"tags": ["Vue 3", "Vuex", "Vite SSG", "Tailwind/Windi CSS"],
+		"description": "A Wordle clone with a fresh coat of paint",
+		"url": "https://wordy.grayvold.me"
+	}
+]
