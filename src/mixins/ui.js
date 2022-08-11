@@ -10,14 +10,11 @@
 function smoothScroll(y, frames = 60, scrollingElement) {
 	return new Promise(res => {
 		let curFrame = 0,
-			curPosition = scrollingElement
-				? scrollingElement.scrollTop
-				: window.pageYOffset,
+			curPosition = scrollingElement ? scrollingElement.scrollTop : window.pageYOffset,
 			documentMaxEndPosition = scrollingElement
 				? scrollingElement.scrollHeight
 				: document.body.offsetHeight - window.innerHeight,
-			endPosition =
-				y > documentMaxEndPosition ? documentMaxEndPosition : y,
+			endPosition = y > documentMaxEndPosition ? documentMaxEndPosition : y,
 			totalFrames = frames,
 			curVelocity = 0,
 			maxVelocity = ((endPosition - curPosition) / totalFrames) * 2;

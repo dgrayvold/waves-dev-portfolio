@@ -26,8 +26,7 @@ export default defineConfig({
 				boat: {
 					'0%, 100%': { transform: 'translateY(0px) rotateZ(0deg)' },
 					'33%': {
-						transform:
-							'translateY(-4px) rotateX(2deg) rotateZ(5deg)',
+						transform: 'translateY(-4px) rotateX(2deg) rotateZ(5deg)',
 					},
 					'66%': { transform: 'translateY(4px) rotateZ(-6deg)' },
 				},

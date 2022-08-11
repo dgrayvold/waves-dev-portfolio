@@ -46,14 +46,7 @@
 						}"
 					/>
 					<span
-						class="
-							relative
-							top-0
-							text-2xl
-							uppercase
-							transition-all
-							duration-300
-						"
+						class="relative top-0 text-2xl uppercase transition-all duration-300"
 						:class="{
 							'top-8': anchorDropped,
 							'opacity-0': anchorDropped,
@@ -63,15 +56,7 @@
 					</span>
 				</button>
 
-				<ul
-					class="
-						grid grid-rows-4
-						gap-2
-						px-10
-						justify-start
-						border-l-2 border-theme-800
-					"
-				>
+				<ul class="grid grid-rows-4 gap-2 px-10 justify-start border-l-2 border-theme-800">
 					<ButtonLink href="#about" class="group">
 						<template #icon>
 							<WavesIcon

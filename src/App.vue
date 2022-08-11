@@ -12,9 +12,7 @@
 
 	<main>
 		<section id="about" ref="initialSection" class="grid grid-cols-2">
-			<div
-				class="w-100 h-100 mx-8 rounded-xl inline-block bg-black"
-			></div>
+			<div class="w-100 h-100 mx-8 rounded-xl inline-block bg-black"></div>
 
 			<div class="max-w-128 ml-auto">
 				<WavesIcon class="w-8 h-8 mb-0 -ml-0.5 text-theme-800" />
@@ -22,21 +20,17 @@
 
 				<p class="text-2xl">Lorem ipsum dolor sit amet.</p>
 				<p class="text-2xl">
-					Interdum mattis fringilla eleifend semper imperdiet fames
-					mattis purus.
+					Interdum mattis fringilla eleifend semper imperdiet fames mattis purus.
 				</p>
 				<p class="text-2xl">
-					Dictum id tempor odio interdum est aliquam luctus a at.
-					Interdum tempus sapien quam platea molestie nibh non etiam
-					turpis justo.
+					Dictum id tempor odio interdum est aliquam luctus a at. Interdum tempus sapien
+					quam platea molestie nibh non etiam turpis justo.
 				</p>
 			</div>
 		</section>
 
 		<section id="projects" class="grid grid-cols-2">
-			<SailboatIcon
-				class="w-10 h-10 !stroke-theme-700 stroke-2 col-span-2"
-			/>
+			<SailboatIcon class="w-10 h-10 !stroke-theme-700 stroke-2 col-span-2" />
 			<h2 class="text-theme-100 col-span-2">What I've made</h2>
 
 			<ul
@@ -57,8 +51,7 @@
 					even=" bg-theme-600 bg-opacity-20"
 					hover="bg-theme-800 bg-opacity-100"
 					:class="{
-						'!bg-opacity-100 !bg-theme-900':
-							activeProject == project.project,
+						'!bg-opacity-100 !bg-theme-900': activeProject == project.project,
 					}"
 				>
 					<button
@@ -75,12 +68,7 @@
 							<li
 								v-for="tag in project.tags"
 								:key="tag"
-								class="
-									px-1.5
-									text-theme-900
-									bg-theme-600
-									rounded
-								"
+								class="px-1.5 text-theme-900 bg-theme-600 rounded"
 							>
 								{{ tag }}
 							</li>

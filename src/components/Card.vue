@@ -1,15 +1,5 @@
 <template>
-	<li
-		class="
-			relative
-			max-w-80
-			p-4
-			pb-8
-			bg-theme-600
-			rounded-xl
-			overflow-hidden
-		"
-	>
+	<li class="relative max-w-80 p-4 pb-8 bg-theme-600 rounded-xl overflow-hidden">
 		<h3 class="text-2xl leading-6">
 			<slot name="project"> Project Name </slot>
 		</h3>
