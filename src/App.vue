@@ -132,13 +132,27 @@
 			</figure>
 		</section>
 
-		<section id="contact" class="bg-theme-900 text-center pb-32">
+		<section id="contact" class="relative text-center pb-32 overflow-hidden">
 			<h2 class="inline-block text-theme-100">
 				<ShipWheelIcon class="w-8 h-8 mb-0 mx-auto text-theme-700" />
 				<span>Let's set sail together</span>
 			</h2>
 
-			<ContactForm />
+			<ContactForm class="bg-theme-900" />
+
+			<AnchorIcon
+				class="
+					absolute
+					h-64
+					w-64
+					text-theme-850
+					-bottom-16
+					left-8
+					transform
+					-rotate-30
+					-z-1
+				"
+			/>
 		</section>
 	</main>
 </template>
@@ -147,6 +161,7 @@
 import Header from '@/components/Header.vue';
 import Snowflake from '@/components/Snowflake.vue';
 import ContactForm from '@/components/ContactForm.vue';
+import AnchorIcon from '@/components/Icons/AnchorIcon.vue';
 import ShipWheelIcon from '@/components/Icons/ShipWheelIcon.vue';
 import LighthouseIcon from '@/components/Icons/LighthouseIcon.vue';
 import WavesIcon from '@/components/Icons/WavesIcon.vue';
@@ -165,6 +180,7 @@ export default {
 		SailboatIcon,
 		ShipWheelIcon,
 		Snowflake,
+		AnchorIcon,
 	},
 
 	data() {
