@@ -2,17 +2,21 @@
 	{
 		"project": "Exodus",
 		"location": "GreatNews.Life",
+		"image": "https://cdn.grayvold.me/file/grayvold-me-cdn/developer/images/exodus.jpg",
 		"tags": ["Vue 3", "Vite SSG", "Tailwind/Windi CSS"],
 		"description": "Simple, fast access to the latest positive-only news in northwestern Indiana",
-		"url": null
+		"url": "https://network.greatnews.life",
+		"cta":"Get connected"
 	},
 
 	{
 		"project": "GreatNews.Life Corporate Site",
 		"location": "GreatNews.Life",
+		"image": "https://cdn.grayvold.me/file/grayvold-me-cdn/developer/images/gnl.jpg",
 		"tags": ["Nuxt", "Blava", "Tailwind/Windi CSS", "Serverless"],
 		"description": "Rebranded corporate site with a fresh design using modern tools",
-		"url": "https://gnl-corporate-site.netlify.app"
+		"url": "https://gnl-corporate-site.netlify.app",
+		"cta": "Read all about it"
 	},
 
 	{
@@ -20,23 +24,27 @@
 		"location": "GreatNews.Life",
 		"tags": ["JS", "HTML Canvas", "Spline"],
 		"description": "Performant artful blob generator using canvas 📋",
-		"url": "https://blava.greatnews.life"
+		"url": "https://blava.greatnews.life",
+		"cta": "Get blobby"
 	},
 
 	{
 		"project": "BLC Website",
 		"location": "Bethlehem Lutheran Church, Chesterton, Indiana",
 		"tags": ["JS", "PHP"],
-		"description": "Performant artful blob generator using canvas 📋",
-		"url": "https://blcin.com"
+		"description": "Connecting the community together with a simple, fast, and accessible site",
+		"url": "https://blcin.com",
+		"cta": "Explore"
 	},
 
 	{
 		"project": "Dice Roller",
 		"location": "Solo Project",
+		"image": "https://cdn.grayvold.me/file/grayvold-me-cdn/developer/images/dice-roller.jpg",
 		"tags": ["JS", "Web App"],
 		"description": "A unique group-based take on dice rolling for RPGs",
-		"url": "https://dgrayvold.com/apps/diceroller"
+		"url": "https://dgrayvold.com/apps/diceroller",
+		"cta": "Roll for init"
 	},
 
 	{
@@ -44,6 +52,7 @@
 		"location": "Solo Project",
 		"tags": ["Vue 3", "Vuex", "Vite SSG", "Tailwind/Windi CSS"],
 		"description": "A Wordle clone with a fresh coat of paint",
-		"url": "https://wordy.grayvold.me"
+		"url": "https://wordy.grayvold.me",
+		"cta": "Guess words"
 	}
 ]

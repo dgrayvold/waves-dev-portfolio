@@ -6,9 +6,7 @@
 		<canvas ref="background-3" id="background-3"></canvas>
 
 		<div class="w-192 mx-auto mt-16 p-4 rounded-xl">
-			<h1 class="leading-16 px-8 text-center" text="6xl theme-850">
-				Hi, I'm Daniel Grayvold
-			</h1>
+			<h1 class="leading-16 px-8" text="6xl center theme-850">Hi, I'm Daniel Grayvold</h1>
 			<p class="text-center px-8" text="4xl theme-800">
 				I'm making waves in creative media &amp; tech
 			</p>
@@ -92,22 +90,6 @@
 
 					<ButtonLink href="skills" class="group">
 						<template #icon>
-							<ShipWheelIcon
-								class="
-									inline-block
-									w-[24px]
-									h-[24px]
-									-mt-2
-									-mr-2
-									group-hover:animate-turn
-								"
-							/>
-						</template>
-						<template #cta>Skills</template>
-					</ButtonLink>
-
-					<ButtonLink class="group">
-						<template #icon>
 							<LighthouseIcon
 								class="
 									inline-block
@@ -116,6 +98,22 @@
 									-mt-2
 									-mr-2
 									group-hover:animate-lighthouse
+								"
+							/>
+						</template>
+						<template #cta>Skills</template>
+					</ButtonLink>
+
+					<ButtonLink class="group">
+						<template #icon>
+							<ShipWheelIcon
+								class="
+									inline-block
+									w-[24px]
+									h-[24px]
+									-mt-2
+									-mr-2
+									group-hover:animate-turn
 								"
 							/>
 						</template>
@@ -189,7 +187,7 @@ export default {
 				this.toggleWavesAnimation(entries[0].isIntersecting);
 			},
 			{
-				threshold: [0, 0.5, 0.75, 1],
+				threshold: [0, 0.5, 1],
 			},
 		);
 
@@ -209,8 +207,19 @@ export default {
 </script>
 
 <style scoped lang="postcss">
+header {
+	@apply relative;
+}
+
 header canvas {
 	@apply absolute bottom-0 sm:w-[200vw] lg:w-full h-1/3 -z-1 opacity-100;
+}
+
+header::before {
+	content: '';
+	z-index: -100;
+
+	@apply absolute inset-0 bg-theme-100;
 }
 
 #background-2 {

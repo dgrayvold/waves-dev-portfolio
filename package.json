@@ -7,6 +7,7 @@
 		"serve": "vite preview"
 	},
 	"dependencies": {
+		"@cloudflare/pages-plugin-mailchannels": "^0.1.1",
 		"blava": "^3.0.0",
 		"vue": "3.2.19",
 		"vuex": "4.0.2"
@@ -19,7 +20,7 @@
 		"prettier": "2.4.1",
 		"vite": "2.6.2",
 		"vite-plugin-windicss": "1.4.8",
-		"vite-ssg": "0.15.4",
+		"vite-ssg": "0.20.2",
 		"vue-router": "4.0.11",
 		"windicss": "3.4.4"
 	}
