@@ -169,7 +169,7 @@ import SailboatIcon from '@/components/Icons/SailboatIcon.vue';
 
 import ui from '@/mixins/ui.js';
 
-import projects from '../public/projects.json';
+import projects from '/src/projects.json';
 
 export default {
 	components: {
