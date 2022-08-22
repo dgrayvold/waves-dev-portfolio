@@ -88,7 +88,7 @@
 				"
 			>
 				<img
-					:src="activeProject.image"
+					:src="activeProject.loadedImage?.src ?? activeProject.image"
 					class="
 						border-b-1 border-theme-100 border-opacity-50
 						w-full
@@ -189,6 +189,23 @@ export default {
 			projects: projects,
 			activeProject: projects[0],
 		};
+	},
+
+	mounted() {
+		// Load project images for later use
+		this.projects.forEach((project, index) => {
+			if (project.image == null) {
+				return;
+			}
+
+			const loadedImage = new Image();
+
+			loadedImage.onload = data => {
+				this.projects[index].loadedImage = loadedImage;
+			};
+
+			loadedImage.src = project.image;
+		});
 	},
 
 	methods: {
