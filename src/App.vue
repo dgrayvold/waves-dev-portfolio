@@ -92,7 +92,7 @@
 					class="
 						border-b-1 border-theme-100 border-opacity-50
 						w-full
-						max-h-72
+						h-72
 						object-cover object-top
 					"
 				/>
@@ -134,7 +134,7 @@
 
 		<section id="contact" class="relative text-center pb-32 overflow-hidden">
 			<h2 class="inline-block text-theme-100">
-				<ShipWheelIcon class="w-8 h-8 mb-0 mx-auto text-theme-700" />
+				<ShipWheelIcon class="w-10 h-10 mb-8 mx-auto text-theme-700" />
 				<span>Let's set sail together</span>
 			</h2>
 
@@ -147,7 +147,7 @@
 					w-64
 					text-theme-850
 					-bottom-16
-					left-8
+					right-8
 					transform
 					-rotate-30
 					-z-1
