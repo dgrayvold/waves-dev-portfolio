@@ -6,7 +6,7 @@
 		"tags": ["Vue 3", "Vite SSG", "Tailwind/Windi CSS"],
 		"description": "Simple, fast access to the latest positive-only news in northwestern Indiana",
 		"url": "https://network.greatnews.life",
-		"cta":"Get connected"
+		"cta": "Get connected"
 	},
 
 	{
@@ -29,12 +29,12 @@
 	},
 
 	{
-		"project": "BLC Website",
-		"location": "Bethlehem Lutheran Church, Chesterton, Indiana",
-		"tags": ["JS", "PHP"],
-		"description": "Connecting the community together with a simple, fast, and accessible site",
-		"url": "https://blcin.com",
-		"cta": "Explore"
+		"project": "Snowfall: An Interactive Composition",
+		"location": "Artist Project",
+		"tags": ["JS", "Data Processing", "Sonification"],
+		"description": "An award-winning data sonification composition about Snowfall in the Upper Peninsula of Michigan",
+		"url": "https://dgrayvold.com/features/snowfallinteractive",
+		"cta": "Feel the chill"
 	},
 
 	{
