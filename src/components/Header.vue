@@ -1,5 +1,5 @@
 <template>
-	<header class="relative h-screen min-h-180 w-full overflow-hidden">
+	<header class="relative h-screen min-h-180 w-full overflow-hidden bg-theme-100">
 		<canvas ref="background-0" id="background-0"></canvas>
 		<canvas ref="background-1" id="background-1"></canvas>
 		<canvas ref="background-2" id="background-2"></canvas>
@@ -212,7 +212,7 @@ header {
 }
 
 header canvas {
-	@apply absolute bottom-0 sm:w-[200vw] lg:w-full h-1/3 -z-1 opacity-100;
+	@apply absolute bottom-0 sm:w-[200vw] lg:w-full h-1/3 z-1 opacity-100;
 }
 
 header::before {
