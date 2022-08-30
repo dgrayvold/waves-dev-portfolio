@@ -6,7 +6,10 @@
 			width="1000"
 			class="absolute top-16 left-0 transform rotate-45"
 		></canvas>
-		<div id="portrait" class="w-[300px] h-[300px] m-[100px] rounded-xl inline-block bg-black" />
+		<div
+			id="portrait"
+			class="w-[300px] h-[300px] ml-[100px] mt-[100px] rounded-xl inline-block bg-black"
+		/>
 	</div>
 </template>
 
@@ -17,7 +20,8 @@ export default {
 		const ctx = c.getContext('2d');
 		const cellSize = 80;
 
-		ctx.fillStyle = 'rgba(7,66,71,0.1)';
+		// ctx.fillStyle = 'rgba(7,66,71,0.1)';
+		ctx.fillStyle = 'black';
 
 		for (let x = 40; x < 1000; x += cellSize) {
 			for (let y = 40; y < 1000; y += cellSize) {
@@ -39,6 +43,14 @@ export default {
 				ctx.fill();
 			}
 		}
+
+		ctx.globalCompositeOperation = 'destination-out';
+		// const gradient = ctx.createLinearGradient(0, 0, 0, 1000);
+		const gradient = ctx.createRadialGradient(500, 500, 0, 500, 500, 500);
+		gradient.addColorStop(0, 'rgba(255, 255, 255, 0.5)');
+		gradient.addColorStop(1, 'rgba(255, 255, 255, 1.0)');
+		ctx.fillStyle = gradient;
+		ctx.fillRect(0, 0, 1000, 1000);
 	},
 };
 </script>

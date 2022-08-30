@@ -8,9 +8,9 @@
 
 	<main ref="main" :class="textClass">
 		<section id="about" ref="initialSection" class="grid grid-cols-2">
-			<Portrait />
+			<Portrait class="relative -top-32" />
 
-			<div class="max-w-128 ml-auto">
+			<div class="max-w-128 ml-auto mr-8">
 				<WavesIcon class="w-8 h-8 mb-0 -ml-0.5 text-theme-800" />
 				<h2 class="mb-4">Who I am</h2>
 
