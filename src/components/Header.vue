@@ -167,7 +167,7 @@ export default {
 		for (let x = 0; x < 4; x++) {
 			const blava = new Blava(this.$refs[`background-${x}`], {
 				gradient: { from: shades[x], to: shades[x] },
-				movementSpeed: 'slow',
+				movementSpeed: '0.04',
 			});
 
 			blavas.push(blava);
@@ -175,9 +175,12 @@ export default {
 
 		this.blavas = blavas;
 
-		window.addEventListener('visibilitychange', function () {
-			this.toggleWavesAnimation(!document.hidden);
-		});
+		window.addEventListener(
+			'visibilitychange',
+			function () {
+				this.toggleWavesAnimation(!document.hidden);
+			}.bind(this),
+		);
 
 		const observer = new IntersectionObserver(
 			entries => {
