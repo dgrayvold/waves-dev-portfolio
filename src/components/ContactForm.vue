@@ -13,34 +13,22 @@
 			text-left text-theme-100
 		"
 	>
-		<label class="block">
-			<span class="block">Name</span>
-			<input
-				name="name"
-				maxlength="64"
-				placeholder="Dempster 'Shark Bait' Keic"
-				class="block w-full"
-			/>
+		<label>
+			<span>Name</span>
+			<input name="name" maxlength="64" placeholder="Dempster 'Shark Bait' Keic" />
 		</label>
 
-		<label class="block">
-			<span class="block">Email</span>
-			<input
-				type="email"
-				name="email"
-				maxlength="96"
-				placeholder="ahoy@matey.org"
-				class="block w-full"
-			/>
+		<label>
+			<span>Email</span>
+			<input type="email" name="email" maxlength="96" placeholder="ahoy@matey.org" />
 		</label>
 
-		<label class="block">
-			<span class="block">Email</span>
+		<label>
+			<span>Message</span>
 			<textarea
 				name="message"
 				maxlength="1000"
 				placeholder="Current careening waveson kelp forecastle plankowner primage first assistant engineer companionway berth harbourmaster."
-				class="block w-full"
 			/>
 		</label>
 
@@ -51,7 +39,7 @@
 <style scoped lang="postcss">
 input,
 textarea {
-	@apply mb-4 resize-y text-theme-100;
+	@apply block w-full mb-4 resize-y text-theme-100;
 	@apply bg-transparent border-transparent border-b-2 border-b-theme-700 transition-colors;
 }
 
@@ -73,16 +61,20 @@ textarea:focus::-moz-placeholder {
 }
 
 input[type='submit'] {
-	@apply bg-theme-600 text-theme-900 rounded px-2 py-0.5 border-none cursor-pointer;
+	@apply bg-theme-600 text-theme-900 rounded px-2 py-0.5 border-none cursor-pointer max-w-28;
 	@apply focus:(bg-theme-850 text-theme-100) hover:(bg-theme-850 text-theme-100);
 }
 
 label {
-	@apply text-theme-700 transition-colors;
+	@apply block text-theme-700 transition-colors;
 }
 
 label:focus-within {
 	@apply text-theme-100;
+}
+
+label span {
+	@apply block;
 }
 
 textarea {
