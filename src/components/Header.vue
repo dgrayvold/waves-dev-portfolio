@@ -37,7 +37,7 @@
 							-translate-x-2
 							transition-all
 							ease-out
-							-z-10
+							-z-[1]
 						"
 						:class="{
 							'top-128': anchorDropped,
