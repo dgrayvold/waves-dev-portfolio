@@ -14,13 +14,18 @@
 				<WavesIcon class="w-8 h-8 mb-0 -ml-0.5 text-theme-800" />
 				<h2 class="mb-4">Who I am</h2>
 
-				<p class="text-2xl">Lorem ipsum dolor sit amet.</p>
-				<p class="text-2xl">
-					Interdum mattis fringilla eleifend semper imperdiet fames mattis purus.
+				<p class="text-2xl mb-4">
+					How did a composer, sound designer, and musician become a developer? By
+					<span class="text-highlight"> going with the flow </span>.
 				</p>
-				<p class="text-2xl">
-					Dictum id tempor odio interdum est aliquam luctus a at. Interdum tempus sapien
-					quam platea molestie nibh non etiam turpis justo.
+				<p class="text-2xl mb-4">
+					I found tech by exploring the limitless possibilities it gives to creative
+					audio, and from there discovered the potential of design and development in
+					storytelling and connecting people.
+				</p>
+				<p class="text-2xl mb-4">
+					Now I <span class="text-highlight">rise with the tides</span> to make a more
+					engaging and helpful world through web and automation technology.
 				</p>
 			</div>
 		</section>
@@ -36,7 +41,7 @@
 			/>
 		</section>
 
-		<section id="contact" class="relative text-center pb-32 overflow-hidden">
+		<section id="contact" class="relative text-center pb-32 overflow-hidden min-h-screen">
 			<h2 class="inline-block">
 				<ShipWheelIcon class="w-10 h-10 mb-8 mx-auto text-theme-700" />
 				<span>Let's set sail together</span>
@@ -225,14 +230,22 @@ h2 {
 }
 
 main > section {
-	@apply mt-0 px-12 py-24 min-h-screen;
+	@apply mt-0 px-12 py-8;
 }
 
 #about {
-	@apply relative pt-8 pb-24;
+	@apply relative;
 }
 
 #projects-list {
 	@apply w-full grid gap-x-8 gap-y-16 justify-center md:grid-cols-[repeat(auto-fit,minmax(300px,1fr))];
+}
+
+.text-highlight {
+	@apply relative inline-block font-bold;
+}
+.text-highlight::after {
+	@apply absolute h-1/3 w-full left-0 bottom-0 -z-1 opacity-50 bg-gradient-to-r from-theme-700 to-theme-900 text-theme-100 rounded;
+	content: '';
 }
 </style>

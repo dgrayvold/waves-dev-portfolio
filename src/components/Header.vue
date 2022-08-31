@@ -167,7 +167,7 @@ export default {
 		for (let x = 0; x < 4; x++) {
 			const blava = new Blava(this.$refs[`background-${x}`], {
 				gradient: { from: shades[x], to: shades[x] },
-				movementSpeed: '0.04',
+				movementSpeed: 0.0009,
 			});
 
 			blavas.push(blava);

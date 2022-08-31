@@ -35,7 +35,7 @@ export default {
 				ctx.arc(
 					position.x + offset.x,
 					position.y + offset.y,
-					Math.random() * 10 + 8,
+					Math.random() * 14 + 4,
 					0,
 					2 * Math.PI,
 					false,
