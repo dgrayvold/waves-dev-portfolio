@@ -19,9 +19,8 @@
 					<span class="text-highlight"> going with the flow </span>.
 				</p>
 				<p class="text-2xl mb-4">
-					I found tech by exploring the limitless possibilities it gives to creative
-					audio, and from there discovered the potential of design and development in
-					storytelling and connecting people.
+					I found tech by exploring its use in creative audio, and from there discovered
+					its endless potential in storytelling and connecting people.
 				</p>
 				<p class="text-2xl mb-4">
 					Now I <span class="text-highlight">rise with the tides</span> to make a more
