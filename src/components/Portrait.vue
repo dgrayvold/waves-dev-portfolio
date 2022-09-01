@@ -3,9 +3,9 @@
 		<canvas
 			ref="canvas"
 			height="1000"
-			width="1000"
-			class="absolute top-16 left-0 transform rotate-45"
-		></canvas>
+			width="800"
+			class="absolute -top-8 left-8 transform scale-75"
+		/>
 		<div
 			id="portrait"
 			class="w-[300px] h-[300px] ml-[100px] mt-[100px] rounded-xl inline-block bg-black"
@@ -23,8 +23,11 @@ export default {
 		// ctx.fillStyle = 'rgba(7,66,71,0.1)';
 		ctx.fillStyle = 'black';
 
-		for (let x = 40; x < 1000; x += cellSize) {
+		for (let x = 40; x < 800; x += cellSize) {
 			for (let y = 40; y < 1000; y += cellSize) {
+				if (Math.random() > 0.7) {
+					continue;
+				}
 				const position = { x: x + cellSize, y: y + cellSize };
 				const offset = {
 					x: -cellSize + Math.random() * 25,
@@ -58,7 +61,7 @@ export default {
 <style scoped lang="postcss">
 canvas {
 	height: 500px;
-	width: 500px;
+	width: 400px;
 }
 #portrait {
 	@apply relative;
