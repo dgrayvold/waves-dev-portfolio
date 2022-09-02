@@ -55,7 +55,7 @@
 				</button>
 
 				<ul class="grid grid-rows-4 gap-2 px-10 justify-start border-l-2 border-theme-800">
-					<ButtonLink href="#about" class="group">
+					<ButtonLink href="#about" class="group" v-bind="$attrs">
 						<template #icon>
 							<WavesIcon
 								class="
@@ -71,7 +71,7 @@
 						<template #cta>About</template>
 					</ButtonLink>
 
-					<ButtonLink href="#projects" class="group">
+					<ButtonLink href="#projects" class="group" v-bind="$attrs">
 						<template #icon>
 							<SailboatIcon
 								class="
@@ -88,7 +88,7 @@
 						<template #cta>Projects</template>
 					</ButtonLink>
 
-					<ButtonLink href="skills" class="group">
+					<ButtonLink href="#skills" class="group" v-bind="$attrs">
 						<template #icon>
 							<LighthouseIcon
 								class="
@@ -104,7 +104,7 @@
 						<template #cta>Skills</template>
 					</ButtonLink>
 
-					<ButtonLink class="group">
+					<ButtonLink href="#contact" class="group" v-bind="$attrs">
 						<template #icon>
 							<ShipWheelIcon
 								class="

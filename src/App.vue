@@ -3,6 +3,7 @@
 		ref="header"
 		@dive="diveIn"
 		@aweigh="anchorDropped = false"
+		@navigate="scrollToSection"
 		:anchorDropped="anchorDropped"
 	/>
 
