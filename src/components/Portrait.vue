@@ -1,10 +1,10 @@
 <template>
-	<div class="relative mx-8 py-16">
+	<div class="relative mx-8 pt-32 pb-16">
 		<canvas
 			ref="canvas"
 			height="1000"
 			width="800"
-			class="absolute -top-8 left-8 transform scale-75"
+			class="absolute -top-32 left-[50px] transform scale-75"
 		/>
 		<div
 			id="portrait"
@@ -48,10 +48,10 @@ export default {
 		}
 
 		ctx.globalCompositeOperation = 'destination-out';
-		// const gradient = ctx.createLinearGradient(0, 0, 0, 1000);
-		const gradient = ctx.createRadialGradient(500, 500, 0, 500, 500, 500);
-		gradient.addColorStop(0, 'rgba(255, 255, 255, 0.5)');
-		gradient.addColorStop(1, 'rgba(255, 255, 255, 1.0)');
+		const gradient = ctx.createLinearGradient(400, 400, 400, 1000);
+		// const gradient = ctx.createRadialGradient(500, 500, 0, 500, 500, 500);
+		gradient.addColorStop(0.3, 'rgba(255, 255, 255, 1)');
+		gradient.addColorStop(1, 'rgba(255, 255, 255, 0.3)');
 		ctx.fillStyle = gradient;
 		ctx.fillRect(0, 0, 1000, 1000);
 	},
