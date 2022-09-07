@@ -26,7 +26,7 @@
 				p="x-2 y-1"
 				@click="selectProject(project)"
 			>
-				<h3 class="text-2xl">
+				<h3 class="text-2xl !font-normal">
 					{{ project.project }}
 				</h3>
 				<p class="text-sm leading-2">{{ project.location }}</p>
@@ -35,7 +35,15 @@
 					<li
 						v-for="tag in project.tags"
 						:key="tag"
-						class="px-1.5 text-theme-900 bg-theme-600 rounded uppercase text-xs"
+						class="
+							px-1.5
+							text-theme-900
+							bg-theme-600
+							rounded
+							uppercase
+							text-xs
+							font-display
+						"
 					>
 						{{ tag }}
 					</li>
@@ -68,7 +76,7 @@
 				"
 			/>
 
-			<p class="text-2xl px-2">{{ activeProject.project }}</p>
+			<p class="text-2xl px-2 font-display">{{ activeProject.project }}</p>
 			<p class="px-2">{{ activeProject.description }}</p>
 
 			<a

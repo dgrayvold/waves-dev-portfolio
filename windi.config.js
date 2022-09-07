@@ -22,6 +22,11 @@ export default defineConfig({
 				},
 			},
 
+			fontFamily: {
+				display: ['Overpass', 'Arial'],
+				text: ['Gentium Book Plus', 'Times New Roman'],
+			},
+
 			keyframes: {
 				boat: {
 					'0%, 100%': { transform: 'translateY(0px) rotateZ(0deg)' },

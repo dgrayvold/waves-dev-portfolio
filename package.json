@@ -8,6 +8,8 @@
 	},
 	"dependencies": {
 		"@cloudflare/pages-plugin-mailchannels": "^0.1.1",
+		"@fontsource/gentium-book-plus": "^4.5.0",
+		"@fontsource/overpass": "^4.5.9",
 		"blava": "^3.0.0",
 		"vue": "3.2.25",
 		"vuex": "4.0.2"

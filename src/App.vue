@@ -224,6 +224,24 @@ export default {
 };
 </script>
 
+<style lang="postcss">
+p {
+	@apply font-text;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	@apply font-display !font-bold;
+}
+
+form * {
+	@apply font-display;
+}
+</style>
+
 <style scoped lang="postcss">
 h2 {
 	@apply text-4xl transition-colors;

@@ -2,6 +2,8 @@ lockfileVersion: 5.4
 
 specifiers:
   '@cloudflare/pages-plugin-mailchannels': ^0.1.1
+  '@fontsource/gentium-book-plus': ^4.5.0
+  '@fontsource/overpass': ^4.5.9
   '@vitejs/plugin-vue': 3.0.3
   '@vue/compiler-sfc': 3.2.19
   '@vue/server-renderer': 3.2.19
@@ -18,6 +20,8 @@ specifiers:
 
 dependencies:
   '@cloudflare/pages-plugin-mailchannels': 0.1.1
+  '@fontsource/gentium-book-plus': 4.5.0
+  '@fontsource/overpass': 4.5.9
   blava: 3.0.0
   vue: 3.2.25
   vuex: 4.0.2_vue@3.2.25
@@ -60,6 +64,14 @@ packages:
 
   /@cloudflare/pages-plugin-mailchannels/0.1.1:
     resolution: {integrity: sha512-lxfPNOYkMfG08z+c+TRqg5r78aQN7yLxPUEVfL61AGdbYBiS3D8I7COIkSaUqO9g2aOp43BLjbEGSr7bWbBqcA==}
+    dev: false
+
+  /@fontsource/gentium-book-plus/4.5.0:
+    resolution: {integrity: sha512-wX2exh/ShGwZS/NPpxRrF3SaT69X3Q9wQSw0MmptIHoGJ9FdrxUTzp6Hk1+oNoTuz7UR+M84peMtxViIvfzYKQ==}
+    dev: false
+
+  /@fontsource/overpass/4.5.9:
+    resolution: {integrity: sha512-77Elez6xGdZrYgl4HE/d4x9FUOKObpMitmOCU/431HXC4ek1hUA7lsm+QcMsHr7Kbc8gxjvl7jUhTlOXNOkPow==}
     dev: false
 
   /@georgedoescode/spline/1.0.1:
