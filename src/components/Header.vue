@@ -5,9 +5,11 @@
 		<canvas ref="background-2" id="background-2"></canvas>
 		<canvas ref="background-3" id="background-3"></canvas>
 
-		<div class="w-192 mx-auto mt-16 p-4 rounded-xl">
-			<h1 class="leading-16 px-8" text="6xl center theme-850">Hi, I'm Daniel Grayvold</h1>
-			<p class="text-center px-8" text="4xl theme-800">
+		<div class="max-w-192 mx-auto mt-16 p-4 rounded-xl">
+			<h1 class="leading-12 lg:leading-16 px-8" text="5xl lg:6xl center theme-850">
+				Hi, I'm Daniel Grayvold
+			</h1>
+			<p class="text-center px-8" text="3xl lg:4xl theme-800">
 				I'm making waves in creative media &amp; tech
 			</p>
 
@@ -15,6 +17,8 @@
 				<button
 					@click="triggerFirstSection"
 					class="
+						hidden
+						sm:block
 						top-0
 						pr-9
 						text-center
@@ -54,7 +58,16 @@
 					</span>
 				</button>
 
-				<ul class="grid grid-rows-4 gap-2 px-10 justify-start border-l-2 border-theme-800">
+				<ul
+					class="
+						grid grid-rows-4
+						gap-2
+						px-10
+						justify-start
+						sm:border-l-2
+						border-theme-800
+					"
+				>
 					<ButtonLink href="#about" class="group" v-bind="$attrs">
 						<template #icon>
 							<WavesIcon
@@ -88,7 +101,7 @@
 						<template #cta>Projects</template>
 					</ButtonLink>
 
-					<ButtonLink href="#skills" class="group" v-bind="$attrs">
+					<ButtonLink href="#other" class="group" v-bind="$attrs">
 						<template #icon>
 							<LighthouseIcon
 								class="
@@ -101,7 +114,7 @@
 								"
 							/>
 						</template>
-						<template #cta>Skills</template>
+						<template #cta>Other Works</template>
 					</ButtonLink>
 
 					<ButtonLink href="#contact" class="group" v-bind="$attrs">
@@ -215,7 +228,7 @@ header {
 }
 
 header canvas {
-	@apply absolute bottom-0 sm:w-[200vw] lg:w-full h-1/3 z-1 opacity-100;
+	@apply absolute bottom-0 w-full h-1/8  lg:h-1/3 z-1 opacity-100;
 }
 
 header::before {
