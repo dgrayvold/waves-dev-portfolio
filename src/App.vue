@@ -30,9 +30,11 @@
 			</div>
 		</section>
 
-		<section id="projects" class="grid grid-cols-2 grid-rows-[1rem,auto] gap-8">
-			<SailboatIcon class="w-10 h-10 !stroke-theme-700 stroke-3 col-span-2" />
-			<h2 class="col-span-2 mb-0">What I've made</h2>
+		<section id="projects">
+			<SailboatIcon class="mx-12 w-10 h-10 !stroke-theme-700 stroke-3 col-span-2" />
+			<h2 class="mx-12 col-span-2 mb-8">What I've made</h2>
+
+			<FishBackground :width="backgroundWidth" :lines="12" class="absolute mt-6" />
 
 			<ProjectsList
 				:projects="projects"
@@ -78,6 +80,8 @@ import ShipWheelIcon from '@/components/Icons/ShipWheelIcon.vue';
 import LighthouseIcon from '@/components/Icons/LighthouseIcon.vue';
 import WavesIcon from '@/components/Icons/WavesIcon.vue';
 import SailboatIcon from '@/components/Icons/SailboatIcon.vue';
+import FishBackground from '@/components/FishBackground.vue';
+import { debounce } from 'lodash-es';
 
 import ui from '@/mixins/ui.js';
 
@@ -94,22 +98,39 @@ export default {
 		SailboatIcon,
 		ShipWheelIcon,
 		AnchorIcon,
+		FishBackground,
 	},
 
 	data() {
 		return {
 			anchorDropped: false,
+
+			/**
+			 * The list of projects to show off
+			 */
 			projects: projects,
+
+			/**
+			 * The currently displayed project
+			 */
 			activeProject: projects[0],
 			backgroundObserver: null,
 			backgroundClass: 'bg-theme-100',
 			textClass: 'theme-900',
 			currentDominantSection: null,
 			currentDominantSectionHeight: null,
+
+			/**
+			 * The width of the background container in pixels
+			 */
+			backgroundWidth: undefined,
 		};
 	},
 
 	mounted() {
+		// Set initial measurement of background width
+		this.backgroundWidth = this.$refs.main.getBoundingClientRect().width;
+
 		// Load project images for later use
 		this.projects.forEach((project, index) => {
 			if (project.image == null) {
@@ -133,6 +154,12 @@ export default {
 		this.$refs.main
 			.querySelectorAll('section')
 			.forEach(section => this.backgroundObserver.observe(section));
+
+		window.addEventListener('resize', this.updateBackgroundWidthMeasurement);
+	},
+
+	beforeUnmount() {
+		window.removeEventListener('resize', this.updateBackgroundWidthMeasurement);
 	},
 
 	methods: {
@@ -143,8 +170,13 @@ export default {
 			ui.smoothScroll(offset, 90);
 		},
 
-		setActiveProject(name) {
-			this.activeProject = this.projects.find(project => project.project == name);
+		/**
+		 * Set the currently active project
+		 *
+		 * @param {Number} activeProjectIndex The index of the project to display
+		 */
+		setActiveProject(activeProjectIndex) {
+			this.activeProject = this.projects[activeProjectIndex];
 		},
 
 		setBackground(entries) {
@@ -218,6 +250,17 @@ export default {
 			this.anchorDropped = true;
 			this.scrollToSection('about');
 		},
+
+		/**
+		 * Update the recorded measurement of page's main content width
+		 */
+		updateBackgroundWidthMeasurement: debounce(
+			function () {
+				this.backgroundWidth = this.$refs.main.getBoundingClientRect().width;
+			},
+			100,
+			{ leading: true },
+		),
 	},
 
 	mixins: [ui],
@@ -253,6 +296,10 @@ main > section {
 
 #about {
 	@apply relative;
+}
+
+#projects {
+	@apply px-0;
 }
 
 #projects-list {
