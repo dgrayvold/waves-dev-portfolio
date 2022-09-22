@@ -307,10 +307,10 @@ main > section {
 }
 
 .text-highlight {
-	@apply relative inline-block font-bold;
+	@apply relative inline-block;
 }
 .text-highlight::after {
-	@apply absolute h-1/3 w-full left-0 bottom-0 -z-1 opacity-50 bg-gradient-to-r from-theme-700 to-theme-900 text-theme-100 rounded;
+	@apply absolute h-1/3 w-full left-0 bottom-0 -z-1 opacity-60 bg-gradient-to-r from-theme-600 to-theme-800 text-theme-100 rounded;
 	content: '';
 }
 </style>
