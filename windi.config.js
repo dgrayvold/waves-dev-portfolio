@@ -13,6 +13,7 @@ export default defineConfig({
 
 			colors: {
 				theme: {
+					950: '#001015',
 					900: '#072227',
 					850: '#074247',
 					800: '#35858b',

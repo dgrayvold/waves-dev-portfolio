@@ -49,7 +49,7 @@
 				<span>Let's set sail together</span>
 			</h2>
 
-			<ContactForm class="bg-theme-900" />
+			<ContactForm class="bg-theme-950" />
 
 			<AnchorIcon
 				class="
