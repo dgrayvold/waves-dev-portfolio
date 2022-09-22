@@ -210,8 +210,17 @@ export default {
 </script>
 
 <style scoped lang="postcss">
+.splide__slide {
+	transform: translateZ(0);
+	position: relative;
+	-webkit-backface-visibility: hidden;
+	backface-visibility: hidden;
+}
+
 .splide__slide img {
 	@apply filter transition-all duration-400;
+
+	filter: grayscale(0%) sepia(0%) brightness(1) hue-rotate(0deg) saturate(1);
 }
 
 .splide__slide:not(.is-active) img {
