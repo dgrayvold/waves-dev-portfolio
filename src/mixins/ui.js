@@ -8,6 +8,13 @@
  * @return {Promise<Boolean>} A Promise that resolves to true upon animation completion
  */
 function smoothScroll(y, frames = 60, scrollingElement) {
+	if (matchMedia('prefers-reduced-motion: reduced').matches) {
+		return new Promise(res => {
+			window.scrollTo(0, y);
+			res();
+		});
+	}
+
 	return new Promise(res => {
 		let curFrame = 0,
 			curPosition = scrollingElement ? scrollingElement.scrollTop : window.pageYOffset,
