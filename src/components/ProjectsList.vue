@@ -218,7 +218,7 @@ export default {
 }
 
 .splide__slide img {
-	@apply filter transition-all duration-400;
+	@apply filter transition-all duration-400 w-full h-full object-cover;
 
 	filter: grayscale(0%) sepia(0%) brightness(1) hue-rotate(0deg) saturate(1);
 }
