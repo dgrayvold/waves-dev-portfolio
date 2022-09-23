@@ -265,8 +265,12 @@ export default {
 					backgroundClass = 'bg-theme-850';
 					textClass = 'text-theme-100';
 					break;
+				case 'other':
+					backgroundClass = 'bg-theme-850';
+					textClass = 'text-theme-100';
+					break;
 				case 'contact':
-					backgroundClass = 'bg-theme-900';
+					backgroundClass = 'bg-theme-950';
 					textClass = 'text-theme-100';
 					break;
 			}
