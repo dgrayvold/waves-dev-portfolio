@@ -134,10 +134,30 @@ export default {
 			 * The currently displayed project
 			 */
 			activeProject: projects[0],
+
+			/**
+			 * The intersection observer for background color reactivity
+			 */
 			backgroundObserver: null,
+
+			/**
+			 * The current color class to apply to the background
+			 */
 			backgroundClass: 'bg-theme-100',
+
+			/**
+			 * The current color class to apply to text elements
+			 */
 			textClass: 'theme-900',
+
+			/**
+			 * The section currently taking up a majority of the viewport
+			 */
 			currentDominantSection: null,
+
+			/**
+			 * The height of the current dominant section
+			 */
 			currentDominantSectionHeight: null,
 
 			/**
