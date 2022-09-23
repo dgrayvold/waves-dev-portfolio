@@ -107,9 +107,9 @@ export default {
 	computed: {
 		canvasDimensions() {
 			return {
-				width: this.width,
+				width: this.width * 2,
 				widthInPixels: `${this.width}px`,
-				height: this.lines * 48,
+				height: this.lines * 48 * 2,
 				heightInPixels: `${this.lines * 48}px`,
 			};
 		},

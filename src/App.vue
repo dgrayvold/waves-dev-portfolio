@@ -8,11 +8,31 @@
 	/>
 
 	<main ref="main" :class="textClass">
-		<section id="about" ref="initialSection" class="grid grid-cols-2">
-			<Portrait class="relative -top-32" />
+		<section id="about" ref="initialSection">
+			<BubbleBackground
+				:width="backgroundWidth"
+				imageUrl="/daniel.png"
+				:playbackDisabled="playbackDisabled"
+				class="absolute left-0 top-0 pt-8"
+			/>
 
-			<div class="max-w-128 ml-auto mr-8">
-				<WavesIcon class="w-8 h-8 mb-0 -ml-0.5 text-theme-800" />
+			<div
+				class="
+					relative
+					max-w-128
+					mx-auto
+					lg:ml-auto lg:mr-8
+					p-4
+					pb-0
+					bg-theme-800
+					text-theme-100
+					z-10
+					min-h-[500px]
+					mt-[400px]
+					lg:mt-0
+				"
+			>
+				<WavesIcon class="w-8 h-8 mb-0 -ml-0.5 text-theme-100" />
 				<h2 class="mb-4">Who I am</h2>
 
 				<p class="text-2xl mb-4">
@@ -72,7 +92,6 @@
 
 <script>
 import Header from '@/components/Header.vue';
-import Portrait from '@/components/Portrait.vue';
 import ProjectsList from '@/components/ProjectsList.vue';
 import ContactForm from '@/components/ContactForm.vue';
 import AnchorIcon from '@/components/Icons/AnchorIcon.vue';
@@ -80,6 +99,7 @@ import ShipWheelIcon from '@/components/Icons/ShipWheelIcon.vue';
 import LighthouseIcon from '@/components/Icons/LighthouseIcon.vue';
 import WavesIcon from '@/components/Icons/WavesIcon.vue';
 import SailboatIcon from '@/components/Icons/SailboatIcon.vue';
+import BubbleBackground from '@/components/BubbleBackground.vue';
 import FishBackground from '@/components/FishBackground.vue';
 import { debounce } from 'lodash-es';
 
@@ -90,7 +110,6 @@ import projects from '/src/projects.json';
 export default {
 	components: {
 		Header,
-		Portrait,
 		ProjectsList,
 		ContactForm,
 		LighthouseIcon,
@@ -98,6 +117,7 @@ export default {
 		SailboatIcon,
 		ShipWheelIcon,
 		AnchorIcon,
+		BubbleBackground,
 		FishBackground,
 	},
 
@@ -124,12 +144,22 @@ export default {
 			 * The width of the background container in pixels
 			 */
 			backgroundWidth: undefined,
+
+			/**
+			 * Whether animations should be enabled
+			 */
+			playbackDisabled: false,
 		};
 	},
 
 	mounted() {
 		// Set initial measurement of background width
 		this.backgroundWidth = this.$refs.main.getBoundingClientRect().width;
+
+		// Set playback based on motion preference
+		if (matchMedia('(prefers-reduced-motion: reduced)').matches) {
+			this.playbackDisabled = true;
+		}
 
 		// Load project images for later use
 		this.projects.forEach((project, index) => {
@@ -291,11 +321,11 @@ h2 {
 }
 
 main > section {
-	@apply mt-0 px-12 py-8;
+	@apply min-h-screen mt-0 px-12 py-8;
 }
 
 #about {
-	@apply relative;
+	@apply relative px-0;
 }
 
 #projects {
