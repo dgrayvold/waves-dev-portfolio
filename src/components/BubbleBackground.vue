@@ -3,21 +3,17 @@
 </template>
 
 <script>
+import animation from '@/mixins/animation.js';
+
 export default {
+	mixins: [animation],
+
 	props: {
 		/**
 		 * The portrait image to reveal with the bubbles
 		 */
 		imageUrl: {
 			type: String,
-		},
-
-		/**
-		 * Whether playback should be possible (e.g. for reduced motion preference)
-		 */
-		playbackDisabled: {
-			type: Boolean,
-			default: false,
 		},
 
 		/**
@@ -45,11 +41,6 @@ export default {
 			 * The portrait to reveal with bubbles
 			 */
 			image: undefined,
-
-			/**
-			 * Whether the background should currently be moving
-			 */
-			playing: true,
 
 			/**
 			 * The collection of bubbles currently rising in the background
@@ -108,10 +99,6 @@ export default {
 		 * Animate bubbles in the background
 		 */
 		animate() {
-			if (this.playbackDisabled || !this.playing) {
-				return;
-			}
-
 			this.ctx.fillStyle = this.fillColor;
 
 			this.ctx.globalCompositeOperation = 'source-over';
@@ -163,7 +150,9 @@ export default {
 
 			this.ctx.fill();
 
-			this.playing ? requestAnimationFrame(this.animate) : null;
+			if (!this.playbackDisabled && this.playing) {
+				requestAnimationFrame(this.animate);
+			}
 		},
 
 		/**
@@ -195,23 +184,6 @@ export default {
 
 				result.src = this.imageUrl;
 			});
-		},
-
-		/**
-		 * Begin playback if playback is enabled
-		 */
-		play() {
-			if (!this.playbackDisabled && !this.playing) {
-				this.playing = true;
-				requestAnimationFrame(this.animate);
-			}
-		},
-
-		/**
-		 * Pause playback
-		 */
-		pause() {
-			this.playing = false;
 		},
 	},
 };

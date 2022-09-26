@@ -1,18 +1,22 @@
 <template>
 	<Header
+		id="header"
 		ref="header"
 		@dive="diveIn"
 		@aweigh="anchorDropped = false"
 		@navigate="scrollToSection"
 		:anchorDropped="anchorDropped"
+		:playbackDisabled="playbackDisabled"
+		:playing="currentDominantSection?.id == 'header'"
 	/>
 
 	<main ref="main" :class="textClass">
-		<section id="about" ref="initialSection">
+		<section id="about">
 			<BubbleBackground
 				:width="backgroundWidth"
 				imageUrl="/daniel.png"
 				:playbackDisabled="playbackDisabled"
+				:playing="currentDominantSection?.id == 'about'"
 				class="absolute left-0 top-0 pt-8"
 			/>
 
@@ -54,7 +58,13 @@
 			<SailboatIcon class="mx-12 w-10 h-10 !stroke-theme-700 stroke-3 col-span-2" />
 			<h2 class="mx-12 col-span-2 mb-8">What I've made</h2>
 
-			<FishBackground :width="backgroundWidth" :lines="12" class="absolute mt-6" />
+			<FishBackground
+				:width="backgroundWidth"
+				:lines="12"
+				:playbackDisabled="playbackDisabled"
+				:playing="currentDominantSection?.id == 'projects'"
+				class="absolute mt-6"
+			/>
 
 			<ProjectsList
 				:projects="projects"
@@ -153,7 +163,7 @@ export default {
 			/**
 			 * The section currently taking up a majority of the viewport
 			 */
-			currentDominantSection: null,
+			currentDominantSection: undefined,
 
 			/**
 			 * The height of the current dominant section
@@ -204,8 +214,17 @@ export default {
 		this.$refs.main
 			.querySelectorAll('section')
 			.forEach(section => this.backgroundObserver.observe(section));
+		this.backgroundObserver.observe(this.$refs.header.$el);
 
 		window.addEventListener('resize', this.updateBackgroundWidthMeasurement);
+
+		// Change playback ability based on window visibility
+		window.addEventListener(
+			'visibilitychange',
+			function () {
+				this.playbackDisabled = document.visibilityState != 'visible';
+			}.bind(this),
+		);
 	},
 
 	beforeUnmount() {
@@ -277,6 +296,7 @@ export default {
 			let textClass;
 
 			switch (this.currentDominantSection.id) {
+				case 'header':
 				case 'about':
 					backgroundClass = 'bg-theme-600';
 					textClass = 'text-theme-900';

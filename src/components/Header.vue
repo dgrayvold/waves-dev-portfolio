@@ -147,7 +147,11 @@ import ShipWheelIcon from '@/components/Icons/ShipWheelIcon.vue';
 import AnchorIcon from '@/components/Icons/AnchorIcon.vue';
 import LighthouseIcon from '@/components/Icons/LighthouseIcon.vue';
 
+import animation from '@/mixins/animation.js';
+
 export default {
+	mixins: [animation],
+
 	components: {
 		ButtonLink,
 		WavesIcon,
@@ -163,6 +167,21 @@ export default {
 		 */
 		anchorDropped: {
 			type: Boolean,
+		},
+
+		/**
+		 * Whether playback should be possible (e.g. for reduced motion preference)
+		 */
+		playbackDisabled: {
+			type: Boolean,
+		},
+
+		/**
+		 * Whether the background is currently animated
+		 */
+		playing: {
+			type: Boolean,
+			default: true,
 		},
 	},
 
@@ -188,19 +207,11 @@ export default {
 
 		this.blavas = blavas;
 
-		window.addEventListener(
-			'visibilitychange',
-			function () {
-				this.toggleWavesAnimation(!document.hidden);
-			}.bind(this),
-		);
-
 		const observer = new IntersectionObserver(
 			entries => {
 				if (entries[0].intersectionRatio >= 0.5) {
 					this.$emit('aweigh');
 				}
-				this.toggleWavesAnimation(entries[0].isIntersecting);
 			},
 			{
 				threshold: [0, 0.5],
@@ -211,12 +222,32 @@ export default {
 	},
 
 	methods: {
+		/**
+		 * Trigger waves playback from mixin
+		 */
+		animate() {
+			this.toggleWavesAnimation(!this.playbackDisabled && this.playing);
+		},
+
 		toggleWavesAnimation(play) {
 			this.blavas.forEach(blava => blava[play ? 'play' : 'pause']());
 		},
 
 		triggerFirstSection() {
 			this.$emit('dive');
+		},
+	},
+
+	watch: {
+		/**
+		 * Ensure animation pauses on playing = false after mixin call
+		 *
+		 * @param {Boolean} newValue The new value of the property
+		 */
+		playing(newValue) {
+			if (!this.playing) {
+				this.toggleWavesAnimation(false);
+			}
 		},
 	},
 };
