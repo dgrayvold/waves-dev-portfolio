@@ -63,7 +63,7 @@
 				:lines="12"
 				:playbackDisabled="playbackDisabled"
 				:playing="currentDominantSection?.id == 'projects'"
-				class="absolute mt-6"
+				class="absolute -mt-8 lg:mt-6"
 			/>
 
 			<ProjectsList

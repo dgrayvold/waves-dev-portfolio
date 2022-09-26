@@ -22,7 +22,7 @@
 				border-theme-700
 				lg:rounded-lg
 				overflow-hidden
-				max-w-164
+				lg:max-w-164
 				mx-auto
 				cursor-pointer
 			"
@@ -39,7 +39,7 @@
 	<div
 		class="
 			relative
-			-mt-8
+			md:-mt-8
 			mx-auto
 			min-h-76
 			w-full
