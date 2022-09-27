@@ -18,11 +18,11 @@
 			:key="project.project"
 			:data-project="project.project"
 			class="
-				lg:border-2
+				md:border-2
 				border-theme-700
-				lg:rounded-lg
+				md:rounded-lg
 				overflow-hidden
-				lg:max-w-164
+				md:max-w-164
 				mx-auto
 				cursor-pointer
 			"
