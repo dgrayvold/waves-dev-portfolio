@@ -56,45 +56,29 @@
 		<ul class="flex gap-4 justify-center items-end">
 			<li v-for="(project, index) in projects" :key="project.project">
 				<button
-					class="mt-1 px-2 py-2 h-10 w-10 rounded outline outline-2 outline-transparent"
-					focus-visible=" outline-theme-700"
+					class="
+						w-4
+						h-4
+						m-2
+						rounded-xl
+						border-2 border-theme-800
+						outline outline-2 outline-transparent
+					"
+					:class="{
+						'bg-theme-100 border-theme-100 focus-visible:outline-theme-800':
+							activeProject.project == projects[index].project,
+						'bg-theme-800 border-theme-800 focus-visible:outline-theme-100':
+							activeProject.project != projects[index].project,
+					}"
 					@click="selectProject(index)"
-				>
-					<svg
-						class="transform rotate-180 fill-theme-800"
-						:class="{
-							'!fill-theme-100': projects[index].project == activeProject.project,
-						}"
-						version="1.1"
-						id="Capa_1"
-						xmlns="http://www.w3.org/2000/svg"
-						xmlns:xlink="http://www.w3.org/1999/xlink"
-						viewBox="0 0 205.859 205.859"
-						style="enable-background: new 0 0 205.859 205.859"
-						xml:space="preserve"
-					>
-						<path
-							d="M202.93,161.481c-3.906-3.904-10.236-3.904-14.143,0l-6.582,6.582l-65.134-65.134l13.517-13.517
-	c3.838,1.797,8.055,2.747,12.419,2.747c7.828,0,15.188-3.049,20.724-8.584l39.198-39.197c1.875-1.876,2.929-4.419,2.929-7.071
-	s-1.054-5.195-2.929-7.071L175.624,2.929C173.748,1.054,171.205,0,168.552,0s-5.195,1.054-7.071,2.929l-39.196,39.198
-	c-5.536,5.535-8.585,12.896-8.585,20.724c0,4.364,0.95,8.582,2.747,12.419l-13.517,13.517L89.412,75.27
-	c1.797-3.838,2.747-8.055,2.747-12.419c0-7.828-3.049-15.188-8.584-20.724L44.378,2.929C42.502,1.054,39.959,0,37.306,0
-	s-5.196,1.054-7.071,2.929L2.929,30.235c-3.905,3.905-3.905,10.237,0,14.143l39.197,39.196c5.536,5.536,12.896,8.585,20.725,8.585
-	c4.364,0,8.581-0.95,12.419-2.747l13.517,13.517l-65.134,65.134l-6.582-6.582c-3.905-3.903-10.237-3.904-14.142,0
-	c-3.905,3.905-3.906,10.237,0,14.143l13.651,13.651c0.001,0.001,0.002,0.002,0.002,0.002s0.002,0.001,0.003,0.002l13.651,13.651
-	c1.953,1.952,4.512,2.929,7.071,2.929c2.559,0,5.119-0.977,7.071-2.929c3.905-3.905,3.906-10.237,0-14.143l-6.582-6.582
-	l65.134-65.134l65.134,65.134l-6.582,6.582c-3.905,3.905-3.905,10.237,0,14.143c1.953,1.952,4.512,2.929,7.071,2.929
-	s5.118-0.977,7.071-2.929l27.307-27.307C206.836,171.719,206.836,165.387,202.93,161.481z"
-						/>
-					</svg>
-				</button>
+				/>
 			</li>
 		</ul>
 		<p class="text-2xl leading-6 font-display font-semibold mt-2">
 			{{ activeProject.project }}
 		</p>
 		<p
-			class="ileading-6 text-xl font-text mb-2 font-semibold"
+			class="leading-2 text-xl font-text mb-4 font-semibold"
 			style="font-variant: all-small-caps"
 		>
 			{{ activeProject.location }}

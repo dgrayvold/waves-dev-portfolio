@@ -306,7 +306,7 @@ export default {
 					textClass = 'text-theme-100';
 					break;
 				case 'other':
-					backgroundClass = 'bg-theme-850';
+					backgroundClass = 'bg-theme-900';
 					textClass = 'text-theme-100';
 					break;
 				case 'contact':
