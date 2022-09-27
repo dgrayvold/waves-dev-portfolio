@@ -17,7 +17,7 @@
 				imageUrl="/daniel.png"
 				:playbackDisabled="playbackDisabled"
 				:playing="currentDominantSection?.id == 'about'"
-				class="absolute left-0 top-0 pt-8"
+				class="absolute left-0 top-0"
 			/>
 
 			<div
@@ -26,14 +26,13 @@
 					max-w-128
 					mx-auto
 					lg:ml-auto lg:mr-8
-					p-4
-					pb-0
+					px-4
+					pt-0
+					pb-4
 					bg-theme-800
 					text-theme-100
 					z-10
 					min-h-[500px]
-					mt-[400px]
-					lg:mt-0
 				"
 			>
 				<WavesIcon class="w-8 h-8 mb-0 -ml-0.5 text-theme-100" />
@@ -369,7 +368,7 @@ main > section {
 }
 
 #about {
-	@apply relative px-0;
+	@apply relative px-0 mb-8 pt-0;
 }
 
 #projects {
