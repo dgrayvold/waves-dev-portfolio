@@ -2,7 +2,10 @@
 	{
 		"project": "Exodus",
 		"location": "GreatNews.Life",
-		"image": "https://cdn.grayvold.me/file/grayvold-me-cdn/developer/images/exodus.jpg",
+		"image": {
+			"jpg": "https://cdn.grayvold.me/file/grayvold-me-cdn/developer/images/exodus.jpg",
+			"webp": "https://cdn.grayvold.me/file/grayvold-me-cdn/developer/images/exodus.webp"
+		},
 		"tags": ["Vue 3", "Vite SSG", "Tailwind/Windi CSS"],
 		"description": "Simple, fast access to the latest positive-only news in northwestern Indiana",
 		"url": "https://network.greatnews.life",
@@ -12,7 +15,10 @@
 	{
 		"project": "GreatNews.Life Corporate Site",
 		"location": "GreatNews.Life",
-		"image": "https://cdn.grayvold.me/file/grayvold-me-cdn/developer/images/gnl.jpg",
+		"image": {
+			"jpg": "https://cdn.grayvold.me/file/grayvold-me-cdn/developer/images/gnl.jpg",
+			"webp": "https://cdn.grayvold.me/file/grayvold-me-cdn/developer/images/gnl.webp"
+		},
 		"tags": ["Nuxt", "Blava", "Tailwind/Windi CSS", "Serverless"],
 		"description": "Rebranded corporate site with a fresh design using modern tools",
 		"url": "https://gnl-corporate-site.netlify.app",
@@ -22,6 +28,10 @@
 	{
 		"project": "Blava",
 		"location": "GreatNews.Life",
+		"image": {
+			"jpg": "https://cdn.grayvold.me/file/grayvold-me-cdn/developer/images/blava.jpg",
+			"webp": "https://cdn.grayvold.me/file/grayvold-me-cdn/developer/images/blava.webp"
+		},
 		"tags": ["JS", "HTML Canvas", "Spline"],
 		"description": "Performant artful blob generator using canvas 📋",
 		"url": "https://blava.greatnews.life",
@@ -31,6 +41,10 @@
 	{
 		"project": "Snowfall: An Interactive Composition",
 		"location": "Artist Project",
+		"image": {
+			"jpg": "https://cdn.grayvold.me/file/grayvold-me-cdn/developer/images/snowfall-interactive.jpg",
+			"webp": "https://cdn.grayvold.me/file/grayvold-me-cdn/developer/images/snowfall-interactive.webp"
+		},
 		"tags": ["JS", "Data Processing", "Sonification"],
 		"description": "An award-winning data sonification composition about Snowfall in the Upper Peninsula of Michigan",
 		"url": "https://dgrayvold.com/features/snowfallinteractive",
@@ -40,7 +54,10 @@
 	{
 		"project": "Dice Roller",
 		"location": "Solo Project",
-		"image": "https://cdn.grayvold.me/file/grayvold-me-cdn/developer/images/dice-roller.jpg",
+		"image": {
+			"jpg": "https://cdn.grayvold.me/file/grayvold-me-cdn/developer/images/dice-roller.jpg",
+			"webp": "https://cdn.grayvold.me/file/grayvold-me-cdn/developer/images/dice-roller.webp"
+		},
 		"tags": ["JS", "Web App"],
 		"description": "A unique group-based take on dice rolling for RPGs",
 		"url": "https://dgrayvold.com/apps/diceroller",
@@ -50,6 +67,10 @@
 	{
 		"project": "Wordy",
 		"location": "Solo Project",
+		"image": {
+			"jpg": "https://cdn.grayvold.me/file/grayvold-me-cdn/developer/images/wordy.jpg",
+			"webp": "https://cdn.grayvold.me/file/grayvold-me-cdn/developer/images/wordy.webp"
+		},
 		"tags": ["Vue 3", "Vuex", "Vite SSG", "Tailwind/Windi CSS"],
 		"description": "A Wordle clone with a fresh coat of paint",
 		"url": "https://wordy.grayvold.me",

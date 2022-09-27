@@ -29,7 +29,10 @@
 			:data-project-index="index"
 			@click="selectProject(index)"
 		>
-			<img v-if="project.loadedImage || project.image" :src="project.image" />
+			<picture v-if="project.image">
+				<source type="image/webp" :srcset="project.image.webp" />
+				<img :src="project.image.jpg" />
+			</picture>
 			<div v-else class="flex flex-col items-center bg-theme-850 w-full h-full">
 				<SailboatIcon class="h-full w-32 mx-auto my-8 stroke-theme-800" />
 			</div>
@@ -202,7 +205,7 @@ export default {
 }
 
 .splide__slide img {
-	@apply filter transition-all duration-400 w-full h-full object-cover;
+	@apply filter transition-all duration-400 w-full object-cover;
 
 	filter: grayscale(0%) sepia(0%) brightness(1) hue-rotate(0deg) saturate(1);
 }
