@@ -112,6 +112,7 @@
 			v-show="activeProject.url != null"
 			:href="activeProject.url"
 			target="_blank"
+			rel="noopener noreferrer nofollow"
 			class="
 				inline-block
 				px-2
