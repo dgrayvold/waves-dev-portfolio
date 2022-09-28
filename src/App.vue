@@ -33,6 +33,8 @@
 					text-theme-100
 					z-10
 					min-h-[500px]
+					top-[400px]
+					lg:top-0
 				"
 			>
 				<WavesIcon class="w-8 h-8 mb-0 -ml-0.5 text-theme-100" />
@@ -369,6 +371,7 @@ main > section {
 
 #about {
 	@apply relative px-0 mb-8 pt-0;
+	@apply mb-[200px] lg:mb-0;
 }
 
 #projects {

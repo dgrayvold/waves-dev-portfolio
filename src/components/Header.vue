@@ -60,7 +60,7 @@
 
 				<ul
 					class="
-						grid grid-rows-4
+						grid grid-rows-[repeat(3,1fr),auto]
 						gap-2
 						px-10
 						justify-start
@@ -68,70 +68,45 @@
 						border-theme-800
 					"
 				>
-					<ButtonLink href="#about" class="group" v-bind="$attrs">
+					<ButtonLink
+						v-for="link in sectionLinks"
+						:key="link.url"
+						:href="link.url"
+						class="group"
+						v-bind="$attrs"
+					>
 						<template #icon>
-							<WavesIcon
-								class="
-									w-[24px]
-									h-[24px]
-									-mt-2
-									-mr-2
-									inline-block
-									group-hover:animate-float
-								"
+							<component
+								:is="link.icon"
+								class="w-[24px] h-[24px] -mt-2 -mr-2 inline-block"
+								:class="link.classes"
 							/>
 						</template>
-						<template #cta>About</template>
+						<template #cta>{{ link.cta }}</template>
 					</ButtonLink>
 
-					<ButtonLink href="#projects" class="group" v-bind="$attrs">
-						<template #icon>
-							<SailboatIcon
+					<div class="flex gap-4 pl-2.5 pt-1">
+						<a
+							v-for="link in externalLinks"
+							:key="link.url"
+							:href="link.url"
+							target="_blank"
+							class="inline-block group w-[20px] h-[20px] rounded transition-colors"
+							:title="link.title"
+						>
+							<component
+								:is="link.icon"
 								class="
-									inline-block
-									w-[24px]
-									h-[24px]
-									-mt-2
-									-mr-2
-									stroke-current stroke-4
-									group-hover:animate-boat
+									w-full
+									h-full
+									text-theme-800
+									transition-colors
+									group-hover:text-theme-950
+									focus:text-theme-950
 								"
 							/>
-						</template>
-						<template #cta>Projects</template>
-					</ButtonLink>
-
-					<ButtonLink href="#other" class="group" v-bind="$attrs">
-						<template #icon>
-							<LighthouseIcon
-								class="
-									inline-block
-									w-[24px]
-									h-[24px]
-									-mt-2
-									-mr-2
-									group-hover:animate-lighthouse
-								"
-							/>
-						</template>
-						<template #cta>Other Works</template>
-					</ButtonLink>
-
-					<ButtonLink href="#contact" class="group" v-bind="$attrs">
-						<template #icon>
-							<ShipWheelIcon
-								class="
-									inline-block
-									w-[24px]
-									h-[24px]
-									-mt-2
-									-mr-2
-									group-hover:animate-turn
-								"
-							/>
-						</template>
-						<template #cta>Contact</template>
-					</ButtonLink>
+						</a>
+					</div>
 				</ul>
 			</nav>
 		</div>
@@ -147,6 +122,10 @@ import ShipWheelIcon from '@/components/Icons/ShipWheelIcon.vue';
 import AnchorIcon from '@/components/Icons/AnchorIcon.vue';
 import LighthouseIcon from '@/components/Icons/LighthouseIcon.vue';
 
+import GithubIcon from '~icons/akar-icons/github-fill';
+import MusicIcon from '~icons/fontisto/music-note';
+import CameraIcon from '~icons/ant-design/camera-filled';
+
 import animation from '@/mixins/animation.js';
 
 export default {
@@ -159,6 +138,9 @@ export default {
 		ShipWheelIcon,
 		AnchorIcon,
 		LighthouseIcon,
+		GithubIcon,
+		MusicIcon,
+		CameraIcon,
 	},
 
 	props: {
@@ -187,7 +169,61 @@ export default {
 
 	data() {
 		return {
+			/**
+			 * The Blava instances making up the background waves
+			 */
 			blavas: [],
+
+			/**
+			 * Links to internal sections
+			 */
+			sectionLinks: [
+				{
+					url: '#about',
+					icon: 'waves-icon',
+					cta: 'About',
+					classes: 'group-hover:animate-float',
+				},
+				{
+					url: '#projects',
+					icon: 'sailboat-icon',
+					cta: 'Projects',
+					classes: 'group-hover:animate-boat stroke-4',
+				},
+				// {
+				// 	url: '#other',
+				// 	icon: 'lighthouse-icon',
+				// 	cta: 'Other Works',
+				// 	classes: 'group-hover:animate-lighthouse',
+				// },
+				{
+					url: '#contact',
+					icon: 'ship-wheel-icon',
+					cta: 'Contact',
+					classes: 'group-hover:animate-turn',
+				},
+			],
+
+			/**
+			 * Links to external sites
+			 */
+			externalLinks: [
+				{
+					icon: 'github-icon',
+					url: 'https://github.com/dgrayvold',
+					title: 'View my GitHub profile',
+				},
+				{
+					icon: 'music-icon',
+					url: 'https://dgrayvold.com',
+					title: 'Check out my audio work',
+				},
+				{
+					icon: 'camera-icon',
+					url: 'https://dgrayvold.com/photography',
+					title: 'Gaze at my photography',
+				},
+			],
 		};
 	},
 
