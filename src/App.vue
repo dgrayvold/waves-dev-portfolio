@@ -14,7 +14,7 @@
 		<section id="about">
 			<BubbleBackground
 				:width="backgroundWidth"
-				imageUrl="/daniel.png"
+				imageUrl="https://cdn.grayvold.me/file/grayvold-me-cdn/developer/images/daniel.png"
 				:playbackDisabled="playbackDisabled"
 				:playing="currentDominantSection?.id == 'about'"
 				class="absolute left-0 top-0"
