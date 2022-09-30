@@ -91,7 +91,11 @@ export default {
 			this.bubbles.push(this.generateBubble());
 		}
 
-		requestAnimationFrame(this.animate);
+		if (this.animationFrameRequestId !== null) {
+			cancelAnimationFrame(this.animationFrameRequestId);
+		}
+
+		this.animationFrameRequestId = requestAnimationFrame(this.animate);
 	},
 
 	methods: {
@@ -99,6 +103,10 @@ export default {
 		 * Animate bubbles in the background
 		 */
 		animate() {
+			if (this.animationFrameRequestId !== null) {
+				cancelAnimationFrame(this.animationFrameRequestId);
+			}
+
 			this.ctx.fillStyle = this.fillColor;
 
 			this.ctx.globalCompositeOperation = 'source-over';
@@ -151,7 +159,7 @@ export default {
 			this.ctx.fill();
 
 			if (!this.playbackDisabled && this.playing) {
-				requestAnimationFrame(this.animate);
+				this.animationFrameRequestId = requestAnimationFrame(this.animate);
 			}
 		},
 

@@ -20,6 +20,16 @@ export default {
 		},
 	},
 
+	data() {
+		return {
+			/**
+			 * The current requestAnimationFrame ID for canceling if restarting animation while
+			 * it is currently playing
+			 */
+			animationFrameRequestId: null,
+		};
+	},
+
 	watch: {
 		/**
 		 * React to changes in playback enabling/disabling
@@ -28,7 +38,10 @@ export default {
 		 */
 		playbackDisabled(newValue) {
 			if (!newValue && this.playing) {
-				requestAnimationFrame(this.animate);
+				if (this.animationFrameRequestId !== null) {
+					cancelAnimationFrame(this.animationFrameRequestId);
+				}
+				this.animationFrameRequestId = requestAnimationFrame(this.animate);
 			}
 		},
 
@@ -39,7 +52,10 @@ export default {
 		 */
 		playing(newValue) {
 			if (newValue && !this.playbackDisabled) {
-				requestAnimationFrame(this.animate);
+				if (this.animationFrameRequestId !== null) {
+					cancelAnimationFrame(this.animationFrameRequestId);
+				}
+				this.animationFrameRequestId = requestAnimationFrame(this.animate);
 			}
 		},
 	},

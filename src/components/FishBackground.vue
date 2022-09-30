@@ -95,7 +95,10 @@ export default {
 		this.pathData = new Path2D(this.iconPath);
 
 		// Run at least once to make background visible even if not currently animated
-		requestAnimationFrame(this.animate);
+		if (this.animationFrameRequestId !== null) {
+			cancelAnimationFrame(this.animationFrameRequestId);
+		}
+		this.animationFrameRequestId = requestAnimationFrame(this.animate);
 	},
 
 	methods: {
@@ -103,6 +106,9 @@ export default {
 		 * Smoothly scroll the fish in the background
 		 */
 		animate() {
+			if (this.animationFrameRequestId !== null) {
+				cancelAnimationFrame(this.animationFrameRequestId);
+			}
 			this.ctx.resetTransform();
 			this.ctx.clearRect(
 				0,
@@ -130,7 +136,10 @@ export default {
 			this.offset = this.offset == this.iconSize ? 0 : this.offset + 0.125;
 
 			if (!this.playbackDisabled && this.playing) {
-				requestAnimationFrame(this.animate);
+				if (this.animationFrameRequestId !== null) {
+					cancelAnimationFrame(this.animationFrameRequestId);
+				}
+				this.animationFrameRequestId = requestAnimationFrame(this.animate);
 			}
 		},
 	},
