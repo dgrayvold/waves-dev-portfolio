@@ -206,12 +206,12 @@ export default {
 }
 
 .splide__slide img {
-	@apply filter transition-all duration-400 w-full object-cover;
+	@apply filter transition-all duration-400 w-full object-cover transform translate-z-0;
 
 	filter: grayscale(0%) sepia(0%) brightness(1) hue-rotate(0deg) saturate(1);
 }
 
 .splide__slide:not(.is-active) img {
-	filter: grayscale(100%) sepia(100%) brightness(0.4) hue-rotate(120deg) saturate(3);
+	filter: grayscale(100%) sepia(100%) brightness(0.2) hue-rotate(120deg) saturate(5);
 }
 </style>
