@@ -17,25 +17,11 @@
 				imageUrl="https://cdn.grayvold.me/file/grayvold-me-cdn/developer/images/daniel.png"
 				:playbackDisabled="playbackDisabled"
 				:playing="currentDominantSection?.id == 'about'"
-				class="absolute left-0 top-0"
+				class="mt-8 lg:mt-0 lg:absolute left-0 top-0"
 			/>
 
 			<div
-				class="
-					relative
-					max-w-128
-					mx-auto
-					lg:ml-auto lg:mr-8
-					px-4
-					pt-0
-					pb-4
-					bg-theme-800
-					text-theme-100
-					z-10
-					min-h-[500px]
-					top-[400px]
-					lg:top-0
-				"
+				class="relative max-w-128 mx-auto lg:ml-auto lg:mr-8 px-4 pt-0 pb-4 lg:bg-theme-800 lg:text-theme-100 z-10 min-h-[500px]"
 			>
 				<WavesIcon class="w-8 h-8 mb-0 -ml-0.5 text-theme-100" />
 				<h2 class="mb-4">Who I am</h2>
@@ -83,17 +69,7 @@
 			<ContactForm class="bg-theme-950" />
 
 			<AnchorIcon
-				class="
-					absolute
-					h-64
-					w-64
-					text-theme-850
-					-bottom-16
-					right-8
-					transform
-					-rotate-30
-					-z-1
-				"
+				class="absolute h-64 w-64 text-theme-850 -bottom-16 right-8 transform -rotate-30 -z-1"
 			/>
 		</section>
 	</main>
@@ -356,7 +332,6 @@ main > section {
 
 #about {
 	@apply relative px-0 mb-8 pt-0;
-	@apply mb-[200px] lg:mb-0;
 }
 
 #projects {

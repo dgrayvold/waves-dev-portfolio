@@ -204,7 +204,5 @@ canvas {
 
 	width: v-bind('canvasDimensions.widthInPixels');
 	height: v-bind('canvasDimensions.heightInPixels');
-
-	@apply absolute top-0;
 }
 </style>
