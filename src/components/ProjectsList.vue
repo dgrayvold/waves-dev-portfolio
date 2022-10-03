@@ -18,12 +18,15 @@
 			:key="project.project"
 			:data-project="project.project"
 			class="
+				border-t-2 border-b-2
 				md:border-2
 				border-theme-700
 				md:rounded-lg
 				overflow-hidden
 				md:max-w-164
 				mx-auto
+				mb-2
+				md:mb-0
 				cursor-pointer
 			"
 			:data-project-index="index"
