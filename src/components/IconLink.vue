@@ -1,11 +1,13 @@
 <template>
-	<a :href="href" @click="triggerNavigation">
-		<button class="pl-2 pr-4 rounded-xl text-theme-800 uppercase transition-colors">
-			<slot name="icon">
-				<ShipWheelIcon class="inline-block w-[24px] h-[24px] -mt-2 -mr-2" />
-			</slot>
-			<span class="pl-4 text-xl"> <slot name="cta">Go</slot> </span>
-		</button>
+	<a
+		:href="href"
+		@click="triggerNavigation"
+		class="pl-2 pr-4 rounded-xl text-theme-800 uppercase transition-colors"
+	>
+		<slot name="icon">
+			<ShipWheelIcon class="inline-block w-[24px] h-[24px] -mt-2 -mr-2" />
+		</slot>
+		<span class="pl-4 text-xl"> <slot name="cta">Go</slot> </span>
 	</a>
 </template>
 

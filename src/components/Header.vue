@@ -16,33 +16,11 @@
 			<nav class="flex justify-center mt-14 px-4 text-theme-900">
 				<button
 					@click="triggerFirstSection"
-					class="
-						hidden
-						sm:block
-						top-0
-						pr-9
-						text-center
-						transition-colors
-						text-theme-800
-						hover:text-theme-900
-					"
+					class="hidden sm:block top-0 pr-9 text-center transition-colors text-theme-800 hover:text-theme-900"
 				>
 					<AnchorIcon
 						id="dive-icon"
-						class="
-							relative
-							w-28
-							h-28
-							top-0
-							transform
-							origin-center
-							mx-auto
-							-rotate-45
-							-translate-x-2
-							transition-all
-							ease-out
-							-z-[1]
-						"
+						class="relative w-28 h-28 top-0 transform origin-center mx-auto -rotate-45 -translate-x-2 transition-all ease-out -z-[1]"
 						:class="{
 							'top-128': anchorDropped,
 						}"
@@ -59,16 +37,9 @@
 				</button>
 
 				<ul
-					class="
-						grid grid-rows-[repeat(3,1fr),auto]
-						gap-2
-						px-10
-						justify-start
-						sm:border-l-2
-						border-theme-800
-					"
+					class="grid grid-rows-[repeat(3,1fr),auto] gap-2 px-10 justify-start sm:border-l-2 border-theme-800"
 				>
-					<ButtonLink
+					<IconLink
 						v-for="link in sectionLinks"
 						:key="link.url"
 						:href="link.url"
@@ -83,7 +54,7 @@
 							/>
 						</template>
 						<template #cta>{{ link.cta }}</template>
-					</ButtonLink>
+					</IconLink>
 
 					<div class="flex gap-4 pl-2.5 pt-1">
 						<a
@@ -96,14 +67,7 @@
 						>
 							<component
 								:is="link.icon"
-								class="
-									w-full
-									h-full
-									text-theme-800
-									transition-colors
-									group-hover:text-theme-950
-									focus:text-theme-950
-								"
+								class="w-full h-full text-theme-800 transition-colors group-hover:text-theme-950 focus:text-theme-950"
 							/>
 						</a>
 					</div>
@@ -115,7 +79,7 @@
 
 <script>
 import { Blava } from 'blava';
-import ButtonLink from '@/components/ButtonLink.vue';
+import IconLink from '@/components/IconLink.vue';
 import WavesIcon from '@/components/Icons/WavesIcon.vue';
 import SailboatIcon from '@/components/Icons/SailboatIcon.vue';
 import ShipWheelIcon from '@/components/Icons/ShipWheelIcon.vue';
@@ -132,7 +96,7 @@ export default {
 	mixins: [animation],
 
 	components: {
-		ButtonLink,
+		IconLink,
 		WavesIcon,
 		SailboatIcon,
 		ShipWheelIcon,
