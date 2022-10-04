@@ -49,7 +49,8 @@
 			mx-auto
 			min-h-76
 			w-full
-			max-w-[500px]
+			max-w-[90%]
+			md:max-w-[500px]
 			px-4
 			bg-gradient-to-r
 			from-theme-900
@@ -65,7 +66,7 @@
 					class="
 						w-4
 						h-4
-						m-2
+						m-3
 						rounded-xl
 						border-2 border-theme-800
 						outline outline-2 outline-transparent
@@ -90,7 +91,7 @@
 			{{ activeProject.location }}
 		</p>
 
-		<ul class="flex gap-2 my-0 mb-6">
+		<ul class="flex flex-wrap gap-2 my-0 mb-6">
 			<li
 				v-for="tag in activeProject.tags"
 				:key="tag"
@@ -103,6 +104,7 @@
 					uppercase
 					text-xs
 					font-display
+					font-700
 				"
 			>
 				{{ tag }}

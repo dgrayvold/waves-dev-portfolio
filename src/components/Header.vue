@@ -37,7 +37,7 @@
 				</button>
 
 				<ul
-					class="grid grid-rows-[repeat(3,1fr),auto] gap-2 px-10 justify-start sm:border-l-2 border-theme-800"
+					class="grid grid-rows-[repeat(3,1fr),auto] gap-3 -mt-4 lg:gap-2 px-10 justify-start sm:border-l-2 border-theme-800"
 				>
 					<IconLink
 						v-for="link in sectionLinks"
@@ -56,13 +56,13 @@
 						<template #cta>{{ link.cta }}</template>
 					</IconLink>
 
-					<div class="flex gap-4 pl-2.5 pt-1">
+					<div class="flex gap-6 pl-2.5">
 						<a
 							v-for="link in externalLinks"
 							:key="link.url"
 							:href="link.url"
 							target="_blank"
-							class="inline-block group w-[20px] h-[20px] rounded transition-colors"
+							class="inline-block group w-6 h-6 rounded transition-colors"
 							:title="link.title"
 						>
 							<component
@@ -259,7 +259,7 @@ header {
 }
 
 header canvas {
-	@apply absolute bottom-0 w-full h-1/8  lg:h-1/3 z-1 opacity-100;
+	@apply absolute bottom-0 w-full h-1/4  lg:h-1/3 z-1 opacity-100;
 }
 
 header::before {

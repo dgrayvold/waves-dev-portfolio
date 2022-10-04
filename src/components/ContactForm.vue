@@ -40,7 +40,7 @@
 input,
 textarea {
 	@apply block w-full mb-4 resize-y text-theme-100;
-	@apply bg-transparent border-transparent border-b-2 border-b-theme-700 transition-colors;
+	@apply bg-transparent border-transparent border-b-2 border-b-theme-700 rounded-none transition-colors;
 }
 
 input::placeholder,
@@ -78,6 +78,6 @@ label span {
 }
 
 textarea {
-	@apply min-h-32 !border-theme-700  !border-2 rounded px-1 pt-1 leading-5;
+	@apply min-h-32 !border-theme-700  !border-2 rounded px-1 pt-1 leading-5 resize-y;
 }
 </style>

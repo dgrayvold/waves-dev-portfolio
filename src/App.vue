@@ -23,12 +23,12 @@
 			<div
 				class="relative max-w-128 mx-auto lg:ml-auto lg:mr-8 px-4 pt-0 pb-4 lg:bg-theme-800 lg:text-theme-100 z-10 min-h-[500px]"
 			>
-				<WavesIcon class="w-8 h-8 mb-0 -ml-0.5 text-theme-100" />
+				<WavesIcon class="w-8 h-8 mb-0 -ml-0.5 text-theme-900" />
 				<h2 class="mb-4">Who I am</h2>
 
 				<p class="text-2xl mb-4">
 					How did a composer, sound designer, and musician become a developer? By
-					<span class="text-highlight"> going with the flow </span>.
+					<span class="text-highlight"> going with the flow.</span>
 				</p>
 				<p class="text-2xl mb-4">
 					I found tech by exploring its use in creative audio, and from there discovered
@@ -327,11 +327,15 @@ h2 {
 }
 
 main > section {
-	@apply min-h-screen mt-0 px-12 py-8;
+	@apply min-h-[600px] mt-0 px-12 py-8;
 }
 
 #about {
 	@apply relative px-0 mb-8 pt-0;
+}
+
+#contact {
+	@apply min-h-screen;
 }
 
 #projects {
