@@ -57,7 +57,7 @@ export default {
 			/**
 			 * The biggest random radius a bubble can be (before adding size modifier)
 			 */
-			maxSize: 30,
+			maxSize: 50,
 
 			/**
 			 * A minimum size always added to the bubble's size to ensure they aren't too small
@@ -147,9 +147,9 @@ export default {
 			this.bubbles.forEach(bubble => {
 				this.ctx.moveTo(bubble.position.x, bubble.position.y);
 				this.ctx.arc(
-					bubble.position.x,
-					bubble.position.y,
-					bubble.size * 2,
+					Math.floor(bubble.position.x),
+					Math.floor(bubble.position.y),
+					Math.floor(bubble.size * 2),
 					0,
 					2 * Math.PI,
 					false,
