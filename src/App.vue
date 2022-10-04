@@ -21,22 +21,49 @@
 			/>
 
 			<div
-				class="relative max-w-128 mx-auto lg:ml-auto lg:mr-8 px-4 pt-0 pb-4 lg:bg-theme-800 lg:text-theme-100 z-10 min-h-[500px]"
+				id="about-text"
+				class="
+					relative
+					max-w-128
+					mx-auto
+					lg:ml-auto lg:mr-8
+					px-4
+					pt-0
+					pb-2
+					lg:bg-theme-800 lg:text-theme-100
+					z-10
+					min-h-[500px]
+				"
 			>
-				<WavesIcon class="w-8 h-8 mb-0 -ml-0.5 text-theme-900" />
+				<WavesIcon class="w-8 h-8 mb-0 -ml-0.5 text-theme-900 lg:text-theme-100" />
 				<h2 class="mb-4">Who I am</h2>
 
-				<p class="text-2xl mb-4">
-					How did a composer, sound designer, and musician become a developer? By
-					<span class="text-highlight"> going with the flow.</span>
+				<p>
+					A
+					<a
+						href="https://dgrayvold.com"
+						alt="Check out my audio work"
+						class="text-highlight"
+					>
+						composer, sound designer, and musician
+					</a>
+					who followed the currents to find the endless potential of tech in storytelling
+					and communication.
 				</p>
-				<p class="text-2xl mb-4">
-					I found tech by exploring its use in creative audio, and from there discovered
-					its endless potential in storytelling and connecting people.
+				<p>
+					I took up development to create innovative art sailing on the ebb and flow of
+					life in an ocean of digital content.
 				</p>
-				<p class="text-2xl mb-4">
-					Now I <span class="text-highlight">rise with the tides</span> to make a more
-					engaging and helpful world through web and automation technology.
+				<p>
+					Now I rise with the tides to make a more engaging world through web and
+					automation technology as the senior developer at
+					<a
+						class="text-highlight"
+						href="https://greatnews.life"
+						rel="noopener noreferrer nofollow"
+					>
+						GreatNews.Life.
+					</a>
 				</p>
 			</div>
 		</section>
@@ -69,7 +96,17 @@
 			<ContactForm class="bg-theme-950" />
 
 			<AnchorIcon
-				class="absolute h-64 w-64 text-theme-850 -bottom-16 right-8 transform -rotate-30 -z-1"
+				class="
+					absolute
+					h-64
+					w-64
+					text-theme-850
+					-bottom-16
+					right-8
+					transform
+					-rotate-30
+					-z-1
+				"
 			/>
 		</section>
 	</main>
@@ -334,6 +371,10 @@ main > section {
 	@apply relative px-0 mb-8 pt-0;
 }
 
+#about-text p {
+	@apply text-2xl mb-4;
+}
+
 #contact {
 	@apply min-h-screen;
 }
@@ -347,10 +388,18 @@ main > section {
 }
 
 .text-highlight {
-	@apply relative inline-block;
+	font-variant: all-small-caps;
+
+	@apply font-bold bg-gradient-to-r from-theme-800 to-theme-600 lg:from-theme-100 lg:to-theme-700 bg-no-repeat to-transparent;
+
+	background-size: 100% 0.25rem;
+	background-position: left 90%;
 }
+
+/*
 .text-highlight::after {
-	@apply absolute h-1/3 w-full left-0 bottom-0 -z-1 opacity-60 bg-gradient-to-r from-theme-600 to-theme-800 text-theme-100 rounded;
+	@apply hidden sm:block absolute h-1/6 w-full left-0 bottom-0.5 -z-1 opacity-70 bg-gradient-to-r from-theme-600 to-theme-800 text-theme-100 rounded;
 	content: '';
 }
+*/
 </style>
