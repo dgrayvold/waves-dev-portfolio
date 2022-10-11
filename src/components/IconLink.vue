@@ -2,17 +2,17 @@
 	<a
 		:href="href"
 		@click="triggerNavigation"
-		class="pl-2 pr-4 rounded-xl text-theme-800 uppercase transition-colors"
+		class="pl-2 pr-4 rounded-xl text-theme-800 uppercase transition-colors grid grid-cols-[24px,auto] items-center"
 	>
 		<slot name="icon">
-			<ShipWheelIcon class="inline-block w-[24px] h-[24px] -mt-2 -mr-2" />
+			<ShipWheelIcon class="inline-block w-[24px] h-[24px]" />
 		</slot>
-		<span class="pl-4 text-xl"> <slot name="cta">Go</slot> </span>
+		<span class="inline-block h-6 pl-2 text-xl"> <slot name="cta">Go</slot> </span>
 	</a>
 </template>
 
 <script>
-import ShipWheelIcon from '@/components/Icons/ShipWheelIcon.vue';
+import ShipWheelIcon from '~icons/mdi/ship-wheel.vue';
 
 export default {
 	components: {
@@ -25,6 +25,8 @@ export default {
 			default: '/',
 		},
 	},
+
+	emits: ['navigate'],
 
 	methods: {
 		triggerNavigation(event) {

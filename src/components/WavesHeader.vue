@@ -1,9 +1,9 @@
 <template>
 	<header class="relative h-screen min-h-180 w-full overflow-hidden bg-theme-100">
-		<canvas ref="background-0" id="background-0"></canvas>
-		<canvas ref="background-1" id="background-1"></canvas>
-		<canvas ref="background-2" id="background-2"></canvas>
-		<canvas ref="background-3" id="background-3"></canvas>
+		<canvas ref="background-0" id="background-0" />
+		<canvas ref="background-1" id="background-1" />
+		<canvas ref="background-2" id="background-2" />
+		<canvas ref="background-3" id="background-3" />
 
 		<div class="max-w-192 mx-auto mt-16 p-4 rounded-xl">
 			<h1 class="leading-12 lg:leading-16 px-8" text="5xl lg:6xl center theme-850">
@@ -20,7 +20,7 @@
 				>
 					<AnchorIcon
 						id="dive-icon"
-						class="relative w-28 h-28 top-0 transform origin-center mx-auto -rotate-45 -translate-x-2 transition-all ease-out -z-[1]"
+						class="block relative w-28 h-28 top-0 transform origin-center mx-auto -rotate-45 -translate-x-2 transition-all ease-out -z-[1]"
 						:class="{
 							'top-128': anchorDropped,
 						}"
@@ -49,14 +49,14 @@
 						<template #icon>
 							<component
 								:is="link.icon"
-								class="w-[24px] h-[24px] -mt-2 -mr-2 inline-block"
+								class="w-[24px] h-[24px] inline-block"
 								:class="link.classes"
 							/>
 						</template>
-						<template #cta>{{ link.cta }}</template>
+						<template #cta> {{ link.cta }} </template>
 					</IconLink>
 
-					<div class="flex gap-6 pl-2.5">
+					<div class="flex gap-6 pl-2.5 mt-2">
 						<a
 							v-for="link in externalLinks"
 							:key="link.url"
@@ -80,11 +80,10 @@
 <script>
 import { Blava } from 'blava';
 import IconLink from '@/components/IconLink.vue';
-import WavesIcon from '@/components/Icons/WavesIcon.vue';
-import SailboatIcon from '@/components/Icons/SailboatIcon.vue';
-import ShipWheelIcon from '@/components/Icons/ShipWheelIcon.vue';
-import AnchorIcon from '@/components/Icons/AnchorIcon.vue';
-import LighthouseIcon from '@/components/Icons/LighthouseIcon.vue';
+import WavesIcon from '~icons/iconoir/sea-waves.vue';
+import SailboatIcon from '~icons/icon-park-outline/sailboat-one.vue';
+import ShipWheelIcon from '~icons/mdi/ship-wheel.vue';
+import AnchorIcon from '~icons/mdi/anchor';
 
 import GithubIcon from '~icons/akar-icons/github-fill';
 import MusicIcon from '~icons/fontisto/music-note';
@@ -101,11 +100,12 @@ export default {
 		SailboatIcon,
 		ShipWheelIcon,
 		AnchorIcon,
-		LighthouseIcon,
 		GithubIcon,
 		MusicIcon,
 		CameraIcon,
 	},
+
+	emits: ['aweigh', 'dive'],
 
 	props: {
 		/**
@@ -146,20 +146,14 @@ export default {
 					url: '#about',
 					icon: 'waves-icon',
 					cta: 'About',
-					classes: 'group-hover:animate-float',
+					classes: 'group-hover:animate-float waves-icon',
 				},
 				{
 					url: '#projects',
 					icon: 'sailboat-icon',
 					cta: 'Projects',
-					classes: 'group-hover:animate-boat stroke-4',
+					classes: 'group-hover:animate-boat sailboat-icon-thicker',
 				},
-				// {
-				// 	url: '#other',
-				// 	icon: 'lighthouse-icon',
-				// 	cta: 'Other Works',
-				// 	classes: 'group-hover:animate-lighthouse',
-				// },
 				{
 					url: '#contact',
 					icon: 'ship-wheel-icon',
@@ -241,10 +235,8 @@ export default {
 	watch: {
 		/**
 		 * Ensure animation pauses on playing = false after mixin call
-		 *
-		 * @param {Boolean} newValue The new value of the property
 		 */
-		playing(newValue) {
+		playing() {
 			if (!this.playing) {
 				this.toggleWavesAnimation(false);
 			}

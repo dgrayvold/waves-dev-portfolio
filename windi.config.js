@@ -24,7 +24,7 @@ export default defineConfig({
 			},
 
 			fontFamily: {
-				display: ['Overpass', 'Arial'],
+				display: ['OverpassVariable', 'Arial'],
 				text: ['Gentium Book Plus', 'Times New Roman'],
 			},
 

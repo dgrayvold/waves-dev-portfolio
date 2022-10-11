@@ -17,18 +17,7 @@
 			v-for="(project, index) in projects"
 			:key="project.project"
 			:data-project="project.project"
-			class="
-				border-t-2 border-b-2
-				md:border-2
-				border-theme-700
-				md:rounded-lg
-				overflow-hidden
-				md:max-w-164
-				mx-auto
-				mb-2
-				md:mb-0
-				cursor-pointer
-			"
+			class="border-t-2 border-b-2 md:border-2 border-theme-700 md:rounded-lg overflow-hidden md:max-w-164 mx-auto mb-2 md:mb-0 cursor-pointer"
 			:data-project-index="index"
 			@click="selectProject(index)"
 		>
@@ -37,40 +26,18 @@
 				<img :src="project.image.jpg" />
 			</picture>
 			<div v-else class="flex flex-col items-center bg-theme-850 w-full h-full">
-				<SailboatIcon class="h-full w-32 mx-auto my-8 stroke-theme-800" />
+				<SailboatIcon class="sailboat-icon h-full w-24 mx-auto my-8 text-theme-800" />
 			</div>
 		</SplideSlide>
 	</Splide>
 
 	<div
-		class="
-			relative
-			md:-mt-8
-			mx-auto
-			min-h-76
-			w-full
-			max-w-[90%]
-			md:max-w-[500px]
-			px-4
-			bg-gradient-to-r
-			from-theme-900
-			to-theme-900 to-opacity-90
-			border-2 border-theme-700
-			rounded-lg
-			z-10
-		"
+		class="relative md:-mt-8 mx-auto min-h-76 w-full max-w-[90%] md:max-w-[500px] px-4 bg-gradient-to-r from-theme-900 to-theme-900 to-opacity-90 border-2 border-theme-700 rounded-lg z-10"
 	>
 		<ul class="flex gap-4 justify-center items-end">
 			<li v-for="(project, index) in projects" :key="project.project">
 				<button
-					class="
-						w-4
-						h-4
-						m-3
-						rounded-xl
-						border-2 border-theme-800
-						outline outline-2 outline-transparent
-					"
+					class="w-4 h-4 m-3 rounded-xl border-2 border-theme-800 outline outline-2 outline-transparent"
 					:class="{
 						'bg-theme-100 border-theme-100 focus-visible:outline-theme-800':
 							activeProject.project == projects[index].project,
@@ -95,17 +62,7 @@
 			<li
 				v-for="tag in activeProject.tags"
 				:key="tag"
-				class="
-					px-1.5
-					pt-0.5
-					text-theme-900
-					bg-theme-600
-					rounded
-					uppercase
-					text-xs
-					font-display
-					font-700
-				"
+				class="px-1.5 pt-0.5 text-theme-900 bg-theme-600 rounded uppercase text-xs font-display font-700"
 			>
 				{{ tag }}
 			</li>
@@ -118,24 +75,7 @@
 			:href="activeProject.url"
 			target="_blank"
 			rel="noopener noreferrer nofollow"
-			class="
-				inline-block
-				px-2
-				pb-1
-				mt-4
-				mb-4
-				rounded
-				bg-theme-700
-				text-theme-900
-				self-start
-				hover:bg-theme-900
-				focus-visible:bg-theme-900
-				hover:text-theme-100
-				focus-visible:text-theme-100
-				outline outline-2 outline-transparent
-				hover:outline-theme-100
-				focus-visible:outline-theme-100
-			"
+			class="inline-block px-2 pb-1 mt-4 mb-4 rounded bg-theme-700 text-theme-900 self-start hover:bg-theme-900 focus-visible:bg-theme-900 hover:text-theme-100 focus-visible:text-theme-100 outline outline-2 outline-transparent hover:outline-theme-100 focus-visible:outline-theme-100"
 		>
 			<span class="leading-4 align-middle pr-1">
 				{{ activeProject.cta ?? 'Go' }}
@@ -149,7 +89,7 @@
 import { Splide, SplideSlide } from '@splidejs/vue-splide';
 import '@splidejs/vue-splide/css';
 
-import SailboatIcon from '@/components/Icons/SailboatIcon.vue';
+import SailboatIcon from '~icons/icon-park-outline/sailboat-one.vue';
 
 export default {
 	components: {
@@ -192,6 +132,7 @@ export default {
 
 		/**
 		 * Select the project from the overall Splide instance
+		 *
 		 * @param {Splide} splide The Splide instance
 		 * @param {SplideSlide} slide The newly active Splide slide
 		 */

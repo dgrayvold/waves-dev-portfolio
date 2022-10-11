@@ -14,6 +14,7 @@ export default {
 		 */
 		imageUrl: {
 			type: String,
+			default: null,
 		},
 
 		/**

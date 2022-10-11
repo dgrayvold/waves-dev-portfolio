@@ -1,0 +1,20 @@
+{
+	"parser": "vue-eslint-parser",
+	"extends": [
+	  "eslint:recommended",
+	  "plugin:vue/vue3-strongly-recommended",
+	  "prettier"
+	],
+	"rules": {
+		"vue/html-indent": ["error", "tab"],
+		"vue/html-self-closing": ["error", {
+			"html": {
+			  "void": "always",
+			  "normal": "always",
+			  "component": "always"
+			},
+			"svg": "always",
+			"math": "always"
+		  }]
+	}
+  }

@@ -1,12 +1,12 @@
 <template>
-	<Header
+	<WavesHeader
 		id="header"
 		ref="header"
 		@dive="diveIn"
 		@aweigh="anchorDropped = false"
 		@navigate="scrollToSection"
-		:anchorDropped="anchorDropped"
-		:playbackDisabled="playbackDisabled"
+		:anchor-dropped="anchorDropped"
+		:playback-disabled="playbackDisabled"
 		:playing="currentDominantSection?.id == 'header'"
 	/>
 
@@ -14,29 +14,20 @@
 		<section id="about">
 			<BubbleBackground
 				:width="backgroundWidth"
-				imageUrl="https://cdn.grayvold.me/file/grayvold-me-cdn/developer/images/daniel.png"
-				:playbackDisabled="playbackDisabled"
+				image-url="https://cdn.grayvold.me/file/grayvold-me-cdn/developer/images/daniel.png"
+				:playback-disabled="playbackDisabled"
 				:playing="currentDominantSection?.id == 'about'"
 				class="mt-8 lg:mt-0 lg:absolute left-0 top-0"
 			/>
 
 			<div
 				id="about-text"
-				class="
-					relative
-					max-w-128
-					mx-auto
-					lg:ml-auto lg:mr-8
-					px-4
-					pt-0
-					pb-2
-					lg:bg-theme-800 lg:text-theme-100
-					z-10
-					min-h-[500px]
-				"
+				class="relative max-w-128 mx-auto lg:ml-auto lg:mr-8 px-4 pt-0 pb-2 lg:bg-theme-800 lg:text-theme-100 z-10 min-h-[500px]"
 			>
-				<WavesIcon class="w-8 h-8 mb-0 -ml-0.5 text-theme-900 lg:text-theme-100" />
-				<h2 class="mb-4">Who I am</h2>
+				<WavesIcon
+					class="waves-icon w-8 h-8 mb-0 -ml-0.5 text-theme-900 lg:text-theme-100"
+				/>
+				<h2 class="-mt-2 mb-4">Who I am</h2>
 
 				<p>
 					A
@@ -69,44 +60,34 @@
 		</section>
 
 		<section id="projects">
-			<SailboatIcon class="mx-12 w-10 h-10 !stroke-theme-700 stroke-3 col-span-2" />
+			<SailboatIcon class="sailboat-icon mx-12 w-10 h-10 !stroke-theme-700 col-span-2" />
 			<h2 class="mx-12 col-span-2 mb-8">What I've made</h2>
 
 			<FishBackground
 				:width="backgroundWidth"
 				:lines="12"
-				:playbackDisabled="playbackDisabled"
+				:playback-disabled="playbackDisabled"
 				:playing="currentDominantSection?.id == 'projects'"
 				class="absolute -mt-8 lg:mt-6"
 			/>
 
 			<ProjectsList
 				:projects="projects"
-				:activeProject="activeProject"
+				:active-project="activeProject"
 				@select="setActiveProject"
 			/>
 		</section>
 
 		<section id="contact" class="relative text-center pb-32 overflow-hidden min-h-screen">
-			<h2 class="inline-block">
-				<ShipWheelIcon class="w-10 h-10 mb-8 mx-auto text-theme-700" />
+			<ShipWheelIcon class="block w-10 h-10 mt-32 mb-8 mx-auto text-theme-700" />
+			<h2>
 				<span>Let's set sail together</span>
 			</h2>
 
 			<ContactForm class="bg-theme-950" />
 
 			<AnchorIcon
-				class="
-					absolute
-					h-64
-					w-64
-					text-theme-850
-					-bottom-16
-					right-8
-					transform
-					-rotate-30
-					-z-1
-				"
+				class="absolute h-64 w-64 text-theme-850 -bottom-16 right-8 transform -rotate-30 -z-1"
 			/>
 		</section>
 	</main>
@@ -115,28 +96,24 @@
 </template>
 
 <script>
-import Header from '@/components/Header.vue';
+import WavesHeader from '@/components/WavesHeader.vue';
 import ProjectsList from '@/components/ProjectsList.vue';
 import ContactForm from '@/components/ContactForm.vue';
-import AnchorIcon from '@/components/Icons/AnchorIcon.vue';
-import ShipWheelIcon from '@/components/Icons/ShipWheelIcon.vue';
-import LighthouseIcon from '@/components/Icons/LighthouseIcon.vue';
-import WavesIcon from '@/components/Icons/WavesIcon.vue';
-import SailboatIcon from '@/components/Icons/SailboatIcon.vue';
+import AnchorIcon from '~icons/mdi/anchor';
+import ShipWheelIcon from '~icons/mdi/ship-wheel.vue';
+import WavesIcon from '~icons/iconoir/sea-waves.vue';
+import SailboatIcon from '~icons/icon-park-outline/sailboat-one.vue';
 import BubbleBackground from '@/components/BubbleBackground.vue';
 import FishBackground from '@/components/FishBackground.vue';
 import { debounce } from 'lodash-es';
 
 import ui from '@/mixins/ui.js';
 
-import projects from '/src/projects.json';
-
 export default {
 	components: {
-		Header,
+		WavesHeader,
 		ProjectsList,
 		ContactForm,
-		LighthouseIcon,
 		WavesIcon,
 		SailboatIcon,
 		ShipWheelIcon,
@@ -152,12 +129,12 @@ export default {
 			/**
 			 * The list of projects to show off
 			 */
-			projects: projects,
+			projects: [],
 
 			/**
 			 * The currently displayed project
 			 */
-			activeProject: projects[0],
+			activeProject: undefined,
 
 			/**
 			 * The intersection observer for background color reactivity
@@ -196,7 +173,12 @@ export default {
 		};
 	},
 
-	mounted() {
+	async mounted() {
+		this.projects = await fetch('https://cdn.grayvold.me/developer/data/projects.json').then(
+			response => response.json(),
+		);
+		this.activeProject = this.projects[0];
+
 		// Set initial measurement of background width
 		this.backgroundWidth = this.$refs.main.getBoundingClientRect().width;
 
@@ -356,6 +338,19 @@ h6 {
 form * {
 	@apply font-display;
 }
+
+.sailboat-icon path {
+	@apply stroke-3;
+}
+
+.sailboat-icon-thicker path {
+	@apply stroke-4;
+}
+
+/* Alter the waves icon stroke-width */
+.waves-icon path {
+	stroke-width: 2;
+}
 </style>
 
 <style scoped lang="postcss">
@@ -395,11 +390,4 @@ main > section {
 	background-size: 100% 0.25rem;
 	background-position: left 90%;
 }
-
-/*
-.text-highlight::after {
-	@apply hidden sm:block absolute h-1/6 w-full left-0 bottom-0.5 -z-1 opacity-70 bg-gradient-to-r from-theme-600 to-theme-800 text-theme-100 rounded;
-	content: '';
-}
-*/
 </style>
