@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import ShipWheelIcon from '~icons/mdi/ship-wheel.vue';
+import ShipWheelIcon from '~icons/mdi/ship-wheel';
 
 export default {
 	components: {

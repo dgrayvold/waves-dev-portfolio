@@ -80,9 +80,9 @@
 <script>
 import { Blava } from 'blava';
 import IconLink from '@/components/IconLink.vue';
-import WavesIcon from '~icons/iconoir/sea-waves.vue';
-import SailboatIcon from '~icons/icon-park-outline/sailboat-one.vue';
-import ShipWheelIcon from '~icons/mdi/ship-wheel.vue';
+import WavesIcon from '~icons/iconoir/sea-waves';
+import SailboatIcon from '~icons/icon-park-outline/sailboat-one';
+import ShipWheelIcon from '~icons/mdi/ship-wheel';
 import AnchorIcon from '~icons/mdi/anchor';
 
 import GithubIcon from '~icons/akar-icons/github-fill';

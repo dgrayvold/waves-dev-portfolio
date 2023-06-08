@@ -89,7 +89,7 @@
 import { Splide, SplideSlide } from '@splidejs/vue-splide';
 import '@splidejs/vue-splide/css';
 
-import SailboatIcon from '~icons/icon-park-outline/sailboat-one.vue';
+import SailboatIcon from '~icons/icon-park-outline/sailboat-one';
 
 export default {
 	components: {
