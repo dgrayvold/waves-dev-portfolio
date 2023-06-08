@@ -7,27 +7,26 @@
 		"serve": "vite preview"
 	},
 	"dependencies": {
-		"@cloudflare/pages-plugin-mailchannels": "^0.1.1",
-		"@fontsource/gentium-book-plus": "^4.5.0",
-		"@fontsource/overpass": "^4.5.9",
+		"@cloudflare/pages-plugin-mailchannels": "^0.1.2",
+		"@fontsource-variable/overpass": "^5.0.2",
+		"@fontsource/gentium-book-plus": "^5.0.2",
 		"@splidejs/vue-splide": "^0.6.12",
 		"blava": "^3.0.0",
 		"lodash-es": "^4.17.21",
-		"vue": "3.2.40",
-		"vuex": "4.0.2"
+		"vue": "3.3.4"
 	},
 	"devDependencies": {
-		"@iconify/json": "^2.1.116",
-		"@vitejs/plugin-vue": "3.1.0",
-		"@vue/compiler-sfc": "3.2.40",
-		"@vue/server-renderer": "3.2.40",
-		"eslint": "^8.25.0",
-		"eslint-config-prettier": "^8.5.0",
-		"eslint-plugin-vue": "^9.6.0",
-		"prettier": "2.7.1",
-		"unplugin-icons": "^0.14.11",
-		"vite": "3.1.4",
-		"vite-plugin-windicss": "1.8.8",
+		"@iconify/json": "^2.2.75",
+		"@vitejs/plugin-vue": "4.2.3",
+		"@vue/compiler-sfc": "3.3.4",
+		"@vue/server-renderer": "3.3.4",
+		"eslint": "^8.42.0",
+		"eslint-config-prettier": "^8.8.0",
+		"eslint-plugin-vue": "^9.14.1",
+		"prettier": "2.8.8",
+		"unplugin-icons": "^0.16.3",
+		"vite": "4.3.9",
+		"vite-plugin-windicss": "1.9.0",
 		"windicss": "3.5.6"
 	}
 }

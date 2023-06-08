@@ -4,7 +4,7 @@ import 'virtual:windi.css';
 
 import '@fontsource/gentium-book-plus/400.css';
 import '@fontsource/gentium-book-plus/700.css';
-import '@fontsource/overpass/variable.css';
+import '@fontsource-variable/overpass';
 
 const app = createApp(App);
 
