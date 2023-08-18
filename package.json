@@ -8,25 +8,25 @@
 	},
 	"dependencies": {
 		"@cloudflare/pages-plugin-mailchannels": "^0.1.2",
-		"@fontsource-variable/overpass": "^5.0.2",
-		"@fontsource/gentium-book-plus": "^5.0.2",
+		"@fontsource-variable/overpass": "^5.0.9",
+		"@fontsource/gentium-book-plus": "^5.0.8",
 		"@splidejs/vue-splide": "^0.6.12",
 		"blava": "^3.0.0",
 		"lodash-es": "^4.17.21",
 		"vue": "3.3.4"
 	},
 	"devDependencies": {
-		"@iconify/json": "^2.2.75",
-		"@vitejs/plugin-vue": "4.2.3",
+		"@iconify/json": "^2.2.103",
+		"@vitejs/plugin-vue": "4.3.1",
 		"@vue/compiler-sfc": "3.3.4",
 		"@vue/server-renderer": "3.3.4",
-		"eslint": "^8.42.0",
-		"eslint-config-prettier": "^8.8.0",
-		"eslint-plugin-vue": "^9.14.1",
+		"eslint": "^8.47.0",
+		"eslint-config-prettier": "^9.0.0",
+		"eslint-plugin-vue": "^9.17.0",
 		"prettier": "2.8.8",
-		"unplugin-icons": "^0.16.3",
-		"vite": "4.3.9",
-		"vite-plugin-windicss": "1.9.0",
+		"unplugin-icons": "^0.16.5",
+		"vite": "4.4.9",
+		"vite-plugin-windicss": "1.9.1",
 		"windicss": "3.5.6"
 	}
 }
