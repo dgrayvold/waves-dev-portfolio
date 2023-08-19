@@ -20,7 +20,7 @@
 				>
 					<AnchorIcon
 						id="dive-icon"
-						class="block relative w-28 h-28 top-0 transform origin-center mx-auto -rotate-45 -translate-x-2 transition-all ease-out -z-[1]"
+						class="block relative w-28 h-28 top-0 transform origin-center mx-auto -rotate-45 -translate-x-2 transition-all ease-out"
 						:class="{
 							'top-128': anchorDropped,
 						}"
