@@ -2,12 +2,12 @@
 	<a
 		:href="href"
 		@click="triggerNavigation"
-		class="pl-2 pr-4 rounded-xl text-theme-800 uppercase transition-colors grid grid-cols-[24px,auto] items-center"
+		class="flex pl-2 pr-4 rounded-xl text-theme-800 uppercase transition-colors grid grid-cols-[24px,auto] items-center"
 	>
 		<slot name="icon">
-			<ShipWheelIcon class="inline-block w-[24px] h-[24px]" />
+			<ShipWheelIcon class="w-[24px] h-[24px]" />
 		</slot>
-		<span class="inline-block h-6 pl-2 text-xl"> <slot name="cta">Go</slot> </span>
+		<span class="h-6 pl-2 text-xl"> <slot name="cta">Go</slot> </span>
 	</a>
 </template>
 

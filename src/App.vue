@@ -27,7 +27,7 @@
 				<WavesIcon
 					class="waves-icon w-8 h-8 mb-0 -ml-0.5 text-theme-900 lg:text-theme-100"
 				/>
-				<h2 class="-mt-2 mb-4">Who I am</h2>
+				<h2 class="mb-4">Who I am</h2>
 
 				<p>
 					A
@@ -60,7 +60,7 @@
 		</section>
 
 		<section id="projects">
-			<SailboatIcon class="sailboat-icon mx-12 w-10 h-10 !stroke-theme-700 col-span-2" />
+			<SailboatIcon class="sailboat-icon mb-2 mx-12 w-10 h-10 !stroke-theme-700 col-span-2" />
 			<h2 class="mx-12 col-span-2 mb-8">What I've made</h2>
 
 			<FishBackground
