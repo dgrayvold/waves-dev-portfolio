@@ -212,7 +212,7 @@ form,
 
 input,
 textarea {
-	@apply block w-full mb-4 resize-y bg-transparent text-theme-100;
+	@apply block w-full mb-4 resize-y bg-transparent text-theme-100 outline-none;
 	@apply border-transparent border-b-2 border-b-theme-700 rounded-none transition-colors;
 }
 
