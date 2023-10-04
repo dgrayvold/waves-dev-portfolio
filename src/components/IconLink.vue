@@ -7,34 +7,34 @@
 		<slot name="icon">
 			<ShipWheelIcon class="w-[24px] h-[24px]" />
 		</slot>
-		<span class="h-6 pl-2 text-xl"> <slot name="cta">Go</slot> </span>
+
+		<span class="h-6 pl-2 text-xl">
+			<slot name="cta">Go</slot>
+		</span>
 	</a>
 </template>
 
-<script>
+<script setup>
 import ShipWheelIcon from '~icons/mdi/ship-wheel';
 
-export default {
-	components: {
-		ShipWheelIcon,
+defineProps({
+	href: {
+		type: String,
+		default: '/',
 	},
+});
 
-	props: {
-		href: {
-			type: String,
-			default: '/',
-		},
-	},
+const emit = defineEmits(['navigate']);
 
-	emits: ['navigate'],
-
-	methods: {
-		triggerNavigation(event) {
-			event.preventDefault();
-			this.$emit('navigate', event.currentTarget.href.match(/#(.+)/)[1]);
-		},
-	},
-};
+/**
+ * Scroll to associated section on the page
+ *
+ * @param {MouseEvent} event
+ */
+function triggerNavigation(event) {
+	event.preventDefault();
+	emit('navigate', event.currentTarget.href.match(/#(.+)/)[1]);
+}
 </script>
 
 <style scoped lang="postcss">

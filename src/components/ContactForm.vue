@@ -41,8 +41,6 @@
 		<input type="submit" value="Send" @click="submitContactForm" :disabled="!formComplete" />
 
 		<output v-if="submissionError" class="text-theme-600"> {{ submissionError }} </output>
-
-		<div ref="turnstile" data-callback="onTurnstileCallback" />
 	</form>
 
 	<div v-else-if="formSubmissionInProgress" id="submission-loading">
@@ -55,91 +53,177 @@
 			Thanks for your interest! I'll get back to you as soon as I can.
 		</p>
 	</div>
+
+	<div ref="turnstile" data-callback="onTurnstileCallback" />
 </template>
 
-<script>
+<script setup>
+import { ref, reactive, onMounted } from 'vue';
 import { debounce } from 'lodash-es';
 import WavesIcon from '~icons/iconoir/sea-waves';
 
+/**
+ * The form element
+ */
+const form = ref();
+
+/**
+ * The Turnstile element
+ */
+const turnstile = ref();
+
+/**
+ * Whether the form's content is fit for submission
+ */
+const formComplete = ref(false);
+
+/**
+ * Whether the form as completed is being submitted for sending
+ */
+const formSubmissionInProgress = ref(false);
+
+/**
+ * Whether the form was submitted and confirmation of submission was received
+ */
+const submissionComplete = ref(false);
+
+/**
+ * Any error to display about the form's submission
+ */
+const submissionError = ref(undefined);
+
+/**
+ * The data of the form
+ */
+const formData = reactive({
+	name: '',
+	email: '',
+	message: '',
+});
+
+/**
+ * The ID of the rendered Turnstile widget
+ */
+const turnstileId = ref(undefined);
+
+/**
+ * A setInterval ID for the Turnstile refreshing function
+ */
+const turnstileInterval = ref(undefined);
+
+/**
+ * Get Turnstile token set up for possible contact form submission
+ */
+function initializeTurnstile() {
+	const id = window.turnstile.render(turnstile.value, {
+		sitekey: import.meta.env.VITE_TURNSTILE_KEY,
+	});
+
+	if (id !== undefined) {
+		turnstileId.value = id;
+	}
+
+	turnstileInterval.value = setInterval(refreshTurnstile, 1000 * 60 * 4.5);
+}
+
+/**
+ * Refresh Turnstile token when it's nearing expiration
+ */
+function refreshTurnstile() {
+	if (turnstileId.value == undefined) {
+		clearInterval(turnstileInterval.value);
+		initializeTurnstile();
+		return;
+	}
+
+	turnstileId.value = window.turnstile.reset(turnstileId.value);
+}
+
+/**
+ * Gather contact form data and submit
+ *
+ * @param {Event} event The triggering event
+ */
+async function submitContactForm(event) {
+	event.preventDefault();
+	formSubmissionInProgress.value = true;
+
+	const requestData = new FormData(form.value);
+
+	requestData.append('token', window.turnstile.getResponse(turnstileId.value));
+
+	const response = await fetch('/send-contact-email', {
+		method: 'POST',
+		body: requestData,
+	});
+
+	formSubmissionInProgress.value = false;
+
+	if (!response.ok || Math.floor(response.status / 100) !== 2) {
+		const message =
+			((await response.json())?.message ?? 'Sorry, something went wrong') +
+			`. Please try again in a few minutes`;
+
+		submissionError.value = message;
+		refreshTurnstile();
+		return;
+	}
+
+	submissionComplete.value = true;
+}
+
+/**
+ * Set disabled attribute on submit button depending on form completion status
+ */
+const updateFormCompletionStatus = debounce(
+	function () {
+		// Null out the submission error as user is attempting to fix
+		submissionError.value = null;
+
+		if (Object.values(formData).find(value => value == '') == undefined) {
+			formComplete.value = true;
+		} else {
+			formComplete.value = false;
+		}
+	},
+	200,
+	{ leading: true, trailing: true },
+);
+
+onMounted(() => {
+	window.onTurnstileLoad = initializeTurnstile;
+});
+</script>
+
+<script>
 export default {
-	components: {
-		WavesIcon,
-	},
-
-	data() {
-		return {
-			/**
-			 * Whether the form's content is fit for submission
-			 */
-			formComplete: false,
-
-			/**
-			 * Whether the form as completed is being submitted for sending
-			 */
-			formSubmissionInProgress: false,
-
-			/**
-			 * Whether the form was submitted and confirmation of submission was received
-			 */
-			submissionComplete: false,
-
-			/**
-			 * Any error to display about the form's submission
-			 */
-			submissionError: undefined,
-
-			/**
-			 * The data of the form
-			 */
-			formData: {
-				name: '',
-				email: '',
-				message: '',
-			},
-
-			/**
-			 * The ID of the rendered Turnstile widget
-			 */
-			turnstileId: undefined,
-
-			/**
-			 * A setInterval ID for the Turnstile refreshing function
-			 */
-			turnstileInterval: undefined,
-		};
-	},
-
-	mounted() {
-		window.onTurnstileLoad = this.initializeTurnstile;
-	},
-
 	methods: {
 		/**
 		 * Get Turnstile token set up for possible contact form submission
 		 */
 		initializeTurnstile() {
-			const id = window.turnstile.render(this.$refs.turnstile, {
+			const id = window.turnstile.render(turnstile.value, {
 				sitekey: import.meta.env.VITE_TURNSTILE_KEY,
 			});
 
 			if (id !== undefined) {
-				this.turnstileId = id;
+				turnstileId.value = id;
 			}
 
-			this.turnstileInterval = setInterval(this.refreshTurnstile, 1000 * 60 * 4.5);
+			turnstileInterval.value = setInterval(refreshTurnstile, 1000 * 60 * 4.5);
 		},
 
 		/**
 		 * Refresh Turnstile token when it's nearing expiration
 		 */
 		refreshTurnstile() {
-			if (this.turnstileId == undefined) {
-				clearInterval(this.turnstileInterval);
-				this.initializeTurnstile();
+			if (turnstileId.value == undefined) {
+				clearInterval(turnstileInterval.value);
+				initializeTurnstile();
 				return;
 			}
 
-			this.turnstileId = window.turnstile.reset(this.turnstileId);
+			turnstileId.value = window.turnstile.reset(turnstileId.value);
 		},
 
 		/**
@@ -149,30 +233,30 @@ export default {
 		 */
 		async submitContactForm(event) {
 			event.preventDefault();
-			this.formSubmissionInProgress = true;
+			formSubmissionInProgress.value = true;
 
-			const requestData = new FormData(this.$refs.form);
+			const requestData = new FormData(form.value);
 
-			requestData.append('token', window.turnstile.getResponse(this.turnstileId));
+			requestData.append('token', window.turnstile.getResponse(turnstileId.value));
 
 			const response = await fetch('/send-contact-email', {
 				method: 'POST',
 				body: requestData,
 			});
 
-			this.formSubmissionInProgress = false;
+			formSubmissionInProgress.value = false;
 
 			if (!response.ok || Math.floor(response.status / 100) !== 2) {
 				const message =
 					((await response.json())?.message ?? 'Sorry, something went wrong') +
 					`. Please try again in a few minutes`;
 
-				this.submissionError = message;
-				this.refreshTurnstile();
+				submissionError.value = message;
+				refreshTurnstile();
 				return;
 			}
 
-			this.submissionComplete = true;
+			submissionComplete.value = true;
 		},
 
 		/**
@@ -181,12 +265,12 @@ export default {
 		updateFormCompletionStatus: debounce(
 			function () {
 				// Null out the submission error as user is attempting to fix
-				this.submissionError = null;
+				submissionError.value = null;
 
-				if (Object.values(this.formData).find(value => value == '') == undefined) {
-					this.formComplete = true;
+				if (Object.values(formData).find(value => value == '') == undefined) {
+					formComplete.value = true;
 				} else {
-					this.formComplete = false;
+					formComplete.value = false;
 				}
 			},
 			200,
