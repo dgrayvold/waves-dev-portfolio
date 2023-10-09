@@ -2,200 +2,182 @@
 	<canvas ref="canvas" :width="canvasDimensions.width" :height="canvasDimensions.height" />
 </template>
 
-<script>
-import animation from '@/mixins/animation.js';
+<script setup>
+import { computed, onMounted, ref } from 'vue';
+import { useAnimation } from '@/composables/animation';
 
-export default {
-	mixins: [animation],
-
-	props: {
-		/**
-		 * The portrait image to reveal with the bubbles
-		 */
-		imageUrl: {
-			type: String,
-			default: null,
-		},
-
-		/**
-		 * The width of the container to set the canvas width with
-		 */
-		width: {
-			type: Number,
-			default: 1000,
-		},
+const props = defineProps({
+	/**
+	 * The portrait image to reveal with the bubbles
+	 */
+	imageUrl: {
+		type: String,
+		default: null,
 	},
 
-	data() {
-		return {
-			/**
-			 * The canvas
-			 */
-			c: undefined,
-
-			/**
-			 * The canvas context
-			 */
-			ctx: undefined,
-
-			/**
-			 * The portrait to reveal with bubbles
-			 */
-			image: undefined,
-
-			/**
-			 * The collection of bubbles currently rising in the background
-			 */
-			bubbles: [],
-
-			count: 200,
-
-			/**
-			 * The bubble color
-			 */
-			fillColor: undefined,
-
-			/**
-			 * The biggest random radius a bubble can be (before adding size modifier)
-			 */
-			maxSize: 50,
-
-			/**
-			 * A minimum size always added to the bubble's size to ensure they aren't too small
-			 */
-			sizeModifier: 10,
-		};
+	/**
+	 * The width of the container to set the canvas width with
+	 */
+	width: {
+		type: Number,
+		default: 1000,
 	},
+});
 
-	computed: {
-		/**
-		 * The sizes and style declarations for the canvas
-		 */
-		canvasDimensions() {
-			return {
-				width: this.width * 2,
-				widthInPixels: `${this.width}px`,
-				height: 500 * 2,
-				heightInPixels: `${500}px`,
-			};
-		},
-	},
+/**
+ * The canvas element
+ */
+const canvas = ref();
 
-	async mounted() {
-		this.image = await this.loadImage();
-		this.c = this.$refs.canvas;
-		this.ctx = this.c.getContext('2d');
+/**
+ * The canvas
+ */
+const c = ref(undefined);
 
-		this.fillColor = getComputedStyle(this.c).color;
+/**
+ * The canvas context
+ */
+const ctx = ref(undefined);
 
-		for (let x = 0; x < this.count; x++) {
-			this.bubbles.push(this.generateBubble());
+/**
+ * The portrait to reveal with bubbles
+ */
+const image = ref(undefined);
+
+/**
+ * The collection of bubbles currently rising in the background
+ */
+const bubbles = ref([]);
+
+/**
+ * The maximum amount of bubbles that should be visible at a time
+ */
+const count = ref(200);
+
+/**
+ * The bubble color
+ */
+const fillColor = ref(undefined);
+
+/**
+ * The biggest random radius a bubble can be (before adding size modifier)
+ */
+const maxSize = ref(50);
+
+/**
+ * A minimum size always added to the bubble's size to ensure they aren't too small
+ */
+const sizeModifier = ref(10);
+
+/**
+ * The sizes and style declarations for the canvas
+ */
+const canvasDimensions = computed(() => {
+	return {
+		width: props.width * 2,
+		widthInPixels: `${props.width}px`,
+		height: 500 * 2,
+		heightInPixels: `${500}px`,
+	};
+});
+
+const { registerAnimationFunction } = useAnimation();
+
+registerAnimationFunction('about', animate);
+
+onMounted(async () => {
+	image.value = await loadImage();
+	c.value = canvas.value;
+	ctx.value = c.value.getContext('2d');
+
+	fillColor.value = getComputedStyle(c.value).color;
+
+	for (let x = 0; x < count.value; x++) {
+		bubbles.value.push(generateBubble());
+	}
+});
+
+/**
+ * Animate bubbles in the background
+ */
+function animate() {
+	ctx.value.fillStyle = fillColor.value;
+
+	ctx.value.globalCompositeOperation = 'source-over';
+
+	ctx.value.clearRect(0, 0, canvasDimensions.value.width * 2, canvasDimensions.value.height * 2);
+
+	ctx.value.globalCompositeOperation = 'destination-atop';
+	ctx.value.globalAlpha = 1;
+	ctx.value.drawImage(
+		image.value,
+		props.width >= 1024 ? 0 : props.width / 2 - 250,
+		0,
+		1000,
+		1000,
+	);
+
+	ctx.value.globalAlpha = 0.9;
+
+	// Replace bubbles that have passed visibility & adjust position based on speed
+	for (let index = 0; index < bubbles.value.length; index++) {
+		const bubble = bubbles.value[index];
+
+		if (bubble.position.y < bubble.size * -2) {
+			bubbles.value[index] = generateBubble();
+		} else {
+			bubble.position.y -= bubble.speed;
 		}
+	}
 
-		if (this.animationFrameRequestId !== null) {
-			cancelAnimationFrame(this.animationFrameRequestId);
-		}
+	ctx.value.beginPath();
 
-		this.animationFrameRequestId = requestAnimationFrame(this.animate);
-	},
+	// Draw bubble
+	bubbles.value.forEach(bubble => {
+		ctx.value.moveTo(bubble.position.x, bubble.position.y);
+		ctx.value.arc(
+			Math.floor(bubble.position.x),
+			Math.floor(bubble.position.y),
+			Math.floor(bubble.size * 2),
+			0,
+			2 * Math.PI,
+			false,
+		);
+	});
 
-	methods: {
-		/**
-		 * Animate bubbles in the background
-		 */
-		animate() {
-			if (this.animationFrameRequestId !== null) {
-				cancelAnimationFrame(this.animationFrameRequestId);
-			}
+	ctx.value.fill();
+}
 
-			this.ctx.fillStyle = this.fillColor;
+/**
+ * Generate a bubble to rise up in the background
+ *
+ * @return Object The bubble data
+ */
+function generateBubble() {
+	const size = Math.random() * maxSize.value + sizeModifier.value;
 
-			this.ctx.globalCompositeOperation = 'source-over';
-
-			this.ctx.clearRect(
-				0,
-				0,
-				this.canvasDimensions.width * 2,
-				this.canvasDimensions.height * 2,
-			);
-
-			this.ctx.globalCompositeOperation = 'destination-atop';
-			this.ctx.globalAlpha = 1;
-			this.ctx.drawImage(
-				this.image,
-				this.width >= 1024 ? 0 : this.width / 2 - 250,
-				0,
-				1000,
-				1000,
-			);
-
-			this.ctx.globalAlpha = 0.9;
-
-			// Replace bubbles that have passed visibility & adjust position based on speed
-			for (let index = 0; index < this.bubbles.length; index++) {
-				const bubble = this.bubbles[index];
-
-				if (bubble.position.y < bubble.size * -2) {
-					this.bubbles[index] = this.generateBubble();
-				} else {
-					bubble.position.y -= bubble.speed;
-				}
-			}
-
-			this.ctx.beginPath();
-
-			// Draw bubble
-			this.bubbles.forEach(bubble => {
-				this.ctx.moveTo(bubble.position.x, bubble.position.y);
-				this.ctx.arc(
-					Math.floor(bubble.position.x),
-					Math.floor(bubble.position.y),
-					Math.floor(bubble.size * 2),
-					0,
-					2 * Math.PI,
-					false,
-				);
-			});
-
-			this.ctx.fill();
-
-			if (!this.playbackDisabled && this.playing) {
-				this.animationFrameRequestId = requestAnimationFrame(this.animate);
-			}
+	return {
+		position: {
+			x: Math.random() * canvasDimensions.value.width,
+			y: canvasDimensions.value.height + size + Math.random() * 1000,
 		},
+		speed: Math.random() * 5 + 2,
+		size: size,
+	};
+}
 
-		/**
-		 * Generate a bubble to rise up in the background
-		 *
-		 * @return Object The bubble data
-		 */
-		generateBubble() {
-			const size = Math.random() * this.maxSize + this.sizeModifier;
+/**
+ * Get image data to draw on canvas
+ */
+function loadImage() {
+	return new Promise(resolve => {
+		const result = new Image();
 
-			return {
-				position: {
-					x: Math.random() * this.canvasDimensions.width,
-					y: this.canvasDimensions.height + size + Math.random() * 1000,
-				},
-				speed: Math.random() * 5 + 2,
-				size: size,
-			};
-		},
+		result.onload = resolve(result);
 
-		/**
-		 * Get image data to draw on canvas
-		 */
-		loadImage() {
-			return new Promise(resolve => {
-				const result = new Image();
-
-				result.onload = resolve(result);
-
-				result.src = this.imageUrl;
-			});
-		},
-	},
-};
+		result.src = props.imageUrl;
+	});
+}
 </script>
 
 <style lang="postcss" scoped>

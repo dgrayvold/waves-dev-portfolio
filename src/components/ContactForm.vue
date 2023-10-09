@@ -3,6 +3,7 @@
 		v-if="!submissionComplete && !formSubmissionInProgress"
 		ref="form"
 		@input="updateFormCompletionStatus"
+		:class="elementClasses"
 	>
 		<label>
 			<span>Name</span>
@@ -61,6 +62,14 @@
 import { ref, reactive, onMounted } from 'vue';
 import { debounce } from 'lodash-es';
 import WavesIcon from '~icons/iconoir/sea-waves';
+
+defineProps({
+	// Any class names to append to the form element
+	elementClasses: {
+		type: String,
+		default: '',
+	},
+});
 
 /**
  * The form element
@@ -193,91 +202,6 @@ const updateFormCompletionStatus = debounce(
 onMounted(() => {
 	window.onTurnstileLoad = initializeTurnstile;
 });
-</script>
-
-<script>
-export default {
-	methods: {
-		/**
-		 * Get Turnstile token set up for possible contact form submission
-		 */
-		initializeTurnstile() {
-			const id = window.turnstile.render(turnstile.value, {
-				sitekey: import.meta.env.VITE_TURNSTILE_KEY,
-			});
-
-			if (id !== undefined) {
-				turnstileId.value = id;
-			}
-
-			turnstileInterval.value = setInterval(refreshTurnstile, 1000 * 60 * 4.5);
-		},
-
-		/**
-		 * Refresh Turnstile token when it's nearing expiration
-		 */
-		refreshTurnstile() {
-			if (turnstileId.value == undefined) {
-				clearInterval(turnstileInterval.value);
-				initializeTurnstile();
-				return;
-			}
-
-			turnstileId.value = window.turnstile.reset(turnstileId.value);
-		},
-
-		/**
-		 * Gather contact form data and submit
-		 *
-		 * @param {Event} event The triggering event
-		 */
-		async submitContactForm(event) {
-			event.preventDefault();
-			formSubmissionInProgress.value = true;
-
-			const requestData = new FormData(form.value);
-
-			requestData.append('token', window.turnstile.getResponse(turnstileId.value));
-
-			const response = await fetch('/send-contact-email', {
-				method: 'POST',
-				body: requestData,
-			});
-
-			formSubmissionInProgress.value = false;
-
-			if (!response.ok || Math.floor(response.status / 100) !== 2) {
-				const message =
-					((await response.json())?.message ?? 'Sorry, something went wrong') +
-					`. Please try again in a few minutes`;
-
-				submissionError.value = message;
-				refreshTurnstile();
-				return;
-			}
-
-			submissionComplete.value = true;
-		},
-
-		/**
-		 * Set disabled attribute on submit button depending on form completion status
-		 */
-		updateFormCompletionStatus: debounce(
-			function () {
-				// Null out the submission error as user is attempting to fix
-				submissionError.value = null;
-
-				if (Object.values(formData).find(value => value == '') == undefined) {
-					formComplete.value = true;
-				} else {
-					formComplete.value = false;
-				}
-			},
-			200,
-			{ leading: true, trailing: true },
-		),
-	},
-};
 </script>
 
 <style lang="postcss">

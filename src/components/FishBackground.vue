@@ -9,141 +9,121 @@
 	</div>
 </template>
 
-<script>
+<script setup>
+import { computed, onMounted, ref } from 'vue';
 import IconFishOne from '~icons/icon-park/fish-one';
+import { useAnimation } from '@/composables/animation';
 
-import animation from '@/mixins/animation.js';
+const { registerAnimationFunction } = useAnimation();
 
-export default {
-	mixins: [animation],
-	components: {
-		IconFishOne,
+const props = defineProps({
+	/**
+	 * The number of lines of fish to generate
+	 */
+	lines: {
+		type: Number,
+		default: 5,
 	},
 
-	props: {
-		/**
-		 * The number of lines of fish to generate
-		 */
-		lines: {
-			type: Number,
-			default: 5,
-		},
-
-		/**
-		 * The width of the container (probably window) for calculating fish count
-		 */
-		width: {
-			type: Number,
-			default: 100,
-		},
+	/**
+	 * The width of the container (probably window) for calculating fish count
+	 */
+	width: {
+		type: Number,
+		default: 100,
 	},
+});
 
-	data() {
-		return {
-			/**
-			 * The canvas
-			 */
-			c: undefined,
+/**
+ * The canvas
+ */
+const c = ref(undefined);
 
-			/**
-			 * The canvas context
-			 */
-			ctx: undefined,
+/**
+ * The canvas context
+ */
+const ctx = ref(undefined);
 
-			/**
-			 * The SVG path data of the icon to draw
-			 */
-			pathData: undefined,
+/**
+ * The SVG path data of the icon to draw
+ */
+const pathData = ref(undefined);
 
-			/**
-			 * The size of the icon in use, usually taken from viewBox SVG attribute
-			 */
-			iconSize: 48,
+/**
+ * The size of the icon in use, usually taken from viewBox SVG attribute
+ */
+const iconSize = ref(48);
 
-			/**
-			 * The offset each fish is drawn in the animation loop
-			 */
-			offset: 0,
-		};
-	},
+/**
+ * The offset each fish is drawn in the animation loop
+ */
+const offset = ref(0);
 
-	computed: {
-		/**
-		 * Measurements of the canvas for drawing
-		 */
-		canvasDimensions() {
-			return {
-				width: this.width,
-				widthInPixels: `${this.width}px`,
-				height: this.lines * 48,
-				heightInPixels: `${this.lines * 48}px`,
-			};
-		},
+const icon = ref();
 
-		fishCount() {
-			return Math.ceil(this.width / (2.25 * 16));
-		},
+const fishCanvas = ref();
 
-		iconPath() {
-			return this.$refs.icon.$el.querySelector('path').getAttribute('d');
-		},
-	},
+/**
+ * Measurements of the canvas for drawing
+ */
+const canvasDimensions = computed(() => {
+	return {
+		width: props.width,
+		widthInPixels: `${props.width}px`,
+		height: props.lines * 48,
+		heightInPixels: `${props.lines * 48}px`,
+	};
+});
 
-	mounted() {
-		this.c = this.$refs.fishCanvas;
-		this.ctx = this.c.getContext('2d');
-		this.pathData = new Path2D(this.iconPath);
+/**
+ * How many fish need to be visible to cover the full width of the animated area
+ */
+const fishCount = computed(() => {
+	return Math.ceil(props.width / (2.25 * 16));
+});
 
-		// Run at least once to make background visible even if not currently animated
-		if (this.animationFrameRequestId !== null) {
-			cancelAnimationFrame(this.animationFrameRequestId);
-		}
-		this.animationFrameRequestId = requestAnimationFrame(this.animate);
-	},
+/**
+ * SVG path data of the fish icon
+ */
+const iconPath = computed(() => {
+	return icon.value.$el.querySelector('path').getAttribute('d');
+});
 
-	methods: {
-		/**
-		 * Smoothly scroll the fish in the background
-		 */
-		animate() {
-			if (this.animationFrameRequestId !== null) {
-				cancelAnimationFrame(this.animationFrameRequestId);
-			}
-			this.ctx.resetTransform();
-			this.ctx.clearRect(
-				0,
-				0,
-				this.canvasDimensions.width * 2,
-				this.canvasDimensions.height * 2,
+window.x = animate;
+
+/**
+ * Smoothly scroll the fish in the background
+ */
+function animate() {
+	ctx.value.resetTransform();
+	ctx.value.clearRect(0, 0, canvasDimensions.value.width * 2, canvasDimensions.value.height * 2);
+	ctx.value.beginPath();
+	ctx.value.fillStyle = getComputedStyle(c.value).color;
+
+	for (let x = -1; x < fishCount.value; x++) {
+		for (let y = 0; y < props.lines; y++) {
+			const flip = y % 2 == 1;
+
+			ctx.value.resetTransform();
+			ctx.value.scale((flip ? -1 : 1) * 2, 2);
+			ctx.value.translate(
+				(flip ? -1 : 1) * x * iconSize.value + offset.value,
+				y * iconSize.value,
 			);
-			this.ctx.beginPath();
-			this.ctx.fillStyle = getComputedStyle(this.c).color;
+			ctx.value.fill(pathData.value);
+		}
+	}
 
-			for (let x = -1; x < this.fishCount; x++) {
-				for (let y = 0; y < this.lines; y++) {
-					const flip = y % 2 == 1;
+	offset.value = offset.value == iconSize.value ? 0 : offset.value + 0.125;
+}
 
-					this.ctx.resetTransform();
-					this.ctx.scale((flip ? -1 : 1) * 2, 2);
-					this.ctx.translate(
-						(flip ? -1 : 1) * x * this.iconSize + this.offset,
-						y * this.iconSize,
-					);
-					this.ctx.fill(this.pathData);
-				}
-			}
+onMounted(() => {
+	c.value = fishCanvas.value;
+	ctx.value = c.value.getContext('2d');
+	pathData.value = new Path2D(iconPath.value);
 
-			this.offset = this.offset == this.iconSize ? 0 : this.offset + 0.125;
-
-			if (!this.playbackDisabled && this.playing) {
-				if (this.animationFrameRequestId !== null) {
-					cancelAnimationFrame(this.animationFrameRequestId);
-				}
-				this.animationFrameRequestId = requestAnimationFrame(this.animate);
-			}
-		},
-	},
-};
+	registerAnimationFunction('projects', animate);
+});
 </script>
 
 <style scoped lang="postcss">

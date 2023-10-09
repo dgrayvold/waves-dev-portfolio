@@ -6,8 +6,6 @@
 		@aweigh="anchorDropped = false"
 		@navigate="scrollToSection"
 		:anchor-dropped="anchorDropped"
-		:playback-disabled="playbackDisabled"
-		:playing="currentDominantSection?.id == 'header'"
 	/>
 
 	<main ref="main" :class="textClass">
@@ -15,8 +13,6 @@
 			<BubbleBackground
 				:width="backgroundWidth"
 				image-url="https://cdn.grayvold.me/file/grayvold-me-cdn/developer/images/daniel.png"
-				:playback-disabled="playbackDisabled"
-				:playing="currentDominantSection?.id == 'about'"
 				class="mt-8 lg:mt-0 lg:absolute left-0 top-0"
 			/>
 
@@ -63,13 +59,7 @@
 			<SailboatIcon class="sailboat-icon mb-2 mx-12 w-10 h-10 !stroke-theme-700 col-span-2" />
 			<h2 class="mx-12 col-span-2 mb-8">What I've made</h2>
 
-			<FishBackground
-				:width="backgroundWidth"
-				:lines="12"
-				:playback-disabled="playbackDisabled"
-				:playing="currentDominantSection?.id == 'projects'"
-				class="absolute -mt-8 lg:mt-6"
-			/>
+			<FishBackground :width="backgroundWidth" :lines="12" class="absolute -mt-8 lg:mt-6" />
 
 			<ProjectsList
 				:projects="projects"
@@ -84,7 +74,7 @@
 				<span>Let's set sail together</span>
 			</h2>
 
-			<ContactForm class="bg-theme-950" />
+			<ContactForm element-classes="bg-theme-950" />
 
 			<AnchorIcon
 				class="absolute h-64 w-64 text-theme-850 -bottom-16 right-8 transform -rotate-30 -z-1"
@@ -95,7 +85,10 @@
 	<div class="fixed inset-0 -z-10 transition-colors duration-700" :class="backgroundClass" />
 </template>
 
-<script>
+<script setup>
+import { onBeforeUnmount, onMounted, ref } from 'vue';
+import BubbleBackground from '@/components/BubbleBackground.vue';
+import FishBackground from '@/components/FishBackground.vue';
 import WavesHeader from '@/components/WavesHeader.vue';
 import ProjectsList from '@/components/ProjectsList.vue';
 import ContactForm from '@/components/ContactForm.vue';
@@ -103,229 +96,226 @@ import AnchorIcon from '~icons/mdi/anchor';
 import ShipWheelIcon from '~icons/mdi/ship-wheel';
 import WavesIcon from '~icons/iconoir/sea-waves';
 import SailboatIcon from '~icons/icon-park-outline/sailboat-one';
-import BubbleBackground from '@/components/BubbleBackground.vue';
-import FishBackground from '@/components/FishBackground.vue';
 import { debounce } from 'lodash-es';
 
-import ui from '@/mixins/ui.js';
+import { useAnimation } from '@/composables/animation';
+import { useUi } from '@/composables/ui';
 
-export default {
-	components: {
-		WavesHeader,
-		ProjectsList,
-		ContactForm,
-		WavesIcon,
-		SailboatIcon,
-		ShipWheelIcon,
-		AnchorIcon,
-		BubbleBackground,
-		FishBackground,
+const { setActiveSection, setPlaybackDisabled } = useAnimation();
+const { smoothScroll } = useUi();
+
+/**
+ * Whether the anchor icon in the header is visible or dropped into the sea
+ */
+const anchorDropped = ref(false);
+
+/**
+ * The list of projects to show off
+ */
+const projects = ref([]);
+
+/**
+ * The currently displayed project
+ */
+const activeProject = ref();
+
+/**
+ * The app header element
+ */
+const header = ref();
+
+/**
+ * The app main element
+ */
+const main = ref();
+
+/**
+ * The intersection observer for background color reactivity
+ */
+const backgroundObserver = ref();
+
+/**
+ * The section currently taking up a majority of the viewport
+ */
+const currentDominantSection = ref();
+
+/**
+ * The height of the current dominant section
+ */
+const currentDominantSectionHeight = ref(null);
+
+/**
+ * The width of the background container in pixels
+ */
+const backgroundWidth = ref();
+
+/**
+ * The current color class to apply to the background
+ */
+const backgroundClass = ref('bg-theme-100');
+
+/**
+ * The current color class to apply to text elements
+ */
+const textClass = ref('text-theme-900');
+
+/**
+ * Specially animate a scroll to the first section of the portfolio
+ */
+function diveIn() {
+	anchorDropped.value = true;
+
+	scrollToSection('about');
+}
+
+/**
+ * Update the recorded measurement of page's main content width
+ */
+const updateBackgroundWidthMeasurement = debounce(
+	function () {
+		backgroundWidth.value = main.value.getBoundingClientRect().width;
 	},
+	100,
+	{ leading: true },
+);
 
-	data() {
-		return {
-			anchorDropped: false,
+/**
+ * Set the background color of the page based on the section currently dominating the screen space
+ *
+ * @param {IntersectionObserverEntry[]} entries The entries to process
+ */
+function setBackground(entries) {
+	let latestDominantSection;
+	let latestDominantSectionHeight;
 
-			/**
-			 * The list of projects to show off
-			 */
-			projects: [],
+	// Update the current dominant section height if it changed
+	const updatedCurrentDominantSection = entries.find(entry => {
+		return entry.target == currentDominantSection.value;
+	});
 
-			/**
-			 * The currently displayed project
-			 */
-			activeProject: undefined,
+	if (updatedCurrentDominantSection) {
+		currentDominantSectionHeight.value = updatedCurrentDominantSection.intersectionRect.height;
+	}
 
-			/**
-			 * The intersection observer for background color reactivity
-			 */
-			backgroundObserver: null,
-
-			/**
-			 * The current color class to apply to the background
-			 */
-			backgroundClass: 'bg-theme-100',
-
-			/**
-			 * The current color class to apply to text elements
-			 */
-			textClass: 'theme-900',
-
-			/**
-			 * The section currently taking up a majority of the viewport
-			 */
-			currentDominantSection: undefined,
-
-			/**
-			 * The height of the current dominant section
-			 */
-			currentDominantSectionHeight: null,
-
-			/**
-			 * The width of the background container in pixels
-			 */
-			backgroundWidth: undefined,
-
-			/**
-			 * Whether animations should be enabled
-			 */
-			playbackDisabled: false,
-		};
-	},
-
-	async mounted() {
-		this.projects = await fetch('https://cdn.grayvold.me/developer/data/projects.json').then(
-			response => response.json(),
-		);
-		this.activeProject = this.projects[0];
-
-		// Set initial measurement of background width
-		this.backgroundWidth = this.$refs.main.getBoundingClientRect().width;
-
-		// Set playback based on motion preference
-		if (matchMedia('(prefers-reduced-motion: reduced)').matches) {
-			this.playbackDisabled = true;
+	// Find the intersection height of the dominant section in the current set of entries
+	entries.forEach(entry => {
+		if (!entry.isIntersecting) {
+			return;
 		}
 
-		// Set up background style reactivity
-		this.backgroundObserver = new IntersectionObserver(this.setBackground, {
-			threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1],
-		});
+		if (
+			latestDominantSection == null ||
+			latestDominantSectionHeight < entry.intersectionRect.height
+		) {
+			latestDominantSection = entry.target;
+			latestDominantSectionHeight = entry.intersectionRect.height;
+			return;
+		}
+	});
 
-		this.$refs.main
-			.querySelectorAll('section')
-			.forEach(section => this.backgroundObserver.observe(section));
-		this.backgroundObserver.observe(this.$refs.header.$el);
+	// Update the record for current dominant section if changed…
+	if (
+		currentDominantSection.value != latestDominantSection &&
+		currentDominantSectionHeight.value < latestDominantSectionHeight
+	) {
+		setActiveSection(latestDominantSection.id);
+		currentDominantSection.value = latestDominantSection;
+		currentDominantSectionHeight.value = latestDominantSectionHeight;
+	}
+	// …or stop if not
+	else {
+		return;
+	}
 
-		window.addEventListener('resize', this.updateBackgroundWidthMeasurement);
+	// Update color classes if dominant section changed
+	switch (currentDominantSection.value.id) {
+		case 'header':
+		case 'about':
+			backgroundClass.value = 'bg-theme-600';
+			textClass.value = 'text-theme-900';
+			break;
+		case 'projects':
+			backgroundClass.value = 'bg-theme-850';
+			textClass.value = 'text-theme-100';
+			break;
+		case 'other':
+			backgroundClass.value = 'bg-theme-900';
+			textClass.value = 'text-theme-100';
+			break;
+		case 'contact':
+			backgroundClass.value = 'bg-theme-950';
+			textClass.value = 'text-theme-100';
+			break;
+	}
+}
 
-		// Change playback ability based on window visibility
-		window.addEventListener(
-			'visibilitychange',
-			function () {
-				this.playbackDisabled = document.visibilityState != 'visible';
-			}.bind(this),
-		);
-	},
+/**
+ * Set the currently active project
+ *
+ * @param {Number} activeProjectIndex The index of the project to display
+ */
+function setActiveProject(activeProjectIndex) {
+	activeProject.value = projects.value[activeProjectIndex];
+}
 
-	beforeUnmount() {
-		window.removeEventListener('resize', this.updateBackgroundWidthMeasurement);
-	},
+/**
+ * Smoothly scroll to a section of the portfolio
+ *
+ * @param {String} id The ID of the section to scroll to
+ */
+async function scrollToSection(id) {
+	const element = document.querySelector(`#${id}`);
+	const offset = element.getBoundingClientRect().top;
 
-	methods: {
-		async scrollToSection(id) {
-			const element = document.querySelector(`#${id}`);
-			const offset = element.getBoundingClientRect().top;
+	setPlaybackDisabled(true);
 
-			ui.smoothScroll(offset, 90);
-		},
+	return smoothScroll(offset, 90).then(() => setPlaybackDisabled(false));
+}
 
-		/**
-		 * Set the currently active project
-		 *
-		 * @param {Number} activeProjectIndex The index of the project to display
-		 */
-		setActiveProject(activeProjectIndex) {
-			this.activeProject = this.projects[activeProjectIndex];
-		},
+onMounted(async () => {
+	projects.value = await fetch('https://cdn.grayvold.me/developer/data/projects.json').then(
+		response => response.json(),
+	);
 
-		setBackground(entries) {
-			let latestDominantSection;
-			let latestDominantSectionHeight;
+	activeProject.value = projects.value[0];
 
-			// Update the current dominant section height if it changed
-			const updatedCurrentDominantSection = entries.find(
-				entry => entry.target == this.currentDominantSection,
-			);
+	const mediaQuery = matchMedia('(prefers-reduced-motion: reduce)');
 
-			if (updatedCurrentDominantSection) {
-				this.currentDominantSectionHeight =
-					updatedCurrentDominantSection.intersectionRect.height;
-			}
+	setPlaybackDisabled(mediaQuery.matches);
 
-			// Find the intersection height of the dominant section in the current set of entries
-			entries.forEach(entry => {
-				if (!entry.isIntersecting) {
-					return;
-				}
+	mediaQuery.addEventListener('change', () => setPlaybackDisabled(mediaQuery.matches));
 
-				if (
-					latestDominantSection == null ||
-					latestDominantSectionHeight < entry.intersectionRect.height
-				) {
-					latestDominantSection = entry.target;
-					latestDominantSectionHeight = entry.intersectionRect.height;
-					return;
-				}
-			});
+	// Set initial background width measurement
+	backgroundWidth.value = main.value.getBoundingClientRect().width;
 
-			// Update the record for current dominant section if changed…
-			if (
-				this.currentDominantSection != latestDominantSection &&
-				this.currentDominantSectionHeight < latestDominantSectionHeight
-			) {
-				this.currentDominantSection = latestDominantSection;
-				this.currentDominantSectionHeight = latestDominantSectionHeight;
-			}
-			// …or stop if not
-			else {
-				return;
-			}
+	window.addEventListener('resize', updateBackgroundWidthMeasurement);
 
-			// Update background classes if dominant section changed
-			let backgroundClass;
-			let textClass;
+	// Change playback ability based on window visibility
+	window.addEventListener('visibilitychange', function () {
+		setPlaybackDisabled(document.visibilityState != 'visible');
+	});
 
-			switch (this.currentDominantSection.id) {
-				case 'header':
-				case 'about':
-					backgroundClass = 'bg-theme-600';
-					textClass = 'text-theme-900';
-					break;
-				case 'projects':
-					backgroundClass = 'bg-theme-850';
-					textClass = 'text-theme-100';
-					break;
-				case 'other':
-					backgroundClass = 'bg-theme-900';
-					textClass = 'text-theme-100';
-					break;
-				case 'contact':
-					backgroundClass = 'bg-theme-950';
-					textClass = 'text-theme-100';
-					break;
-			}
+	// Set up background style reactivity
+	backgroundObserver.value = new IntersectionObserver(setBackground, {
+		threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1],
+	});
 
-			this.backgroundClass = backgroundClass;
-			this.textClass = textClass;
-		},
+	main.value
+		.querySelectorAll('section')
+		.forEach(section => backgroundObserver.value.observe(section));
+	backgroundObserver.value.observe(header.value.$el);
+});
 
-		diveIn() {
-			this.$refs.header.toggleWavesAnimation();
-			this.anchorDropped = true;
-			this.scrollToSection('about');
-		},
-
-		/**
-		 * Update the recorded measurement of page's main content width
-		 */
-		updateBackgroundWidthMeasurement: debounce(
-			function () {
-				this.backgroundWidth = this.$refs.main.getBoundingClientRect().width;
-			},
-			100,
-			{ leading: true },
-		),
-	},
-
-	mixins: [ui],
-};
+onBeforeUnmount(() => {
+	window.removeEventListener('resize', updateBackgroundWidthMeasurement);
+});
 </script>
 
 <style lang="postcss">
 p {
 	@apply font-text;
 }
+
 h1,
 h2,
 h3,

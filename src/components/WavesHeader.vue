@@ -1,9 +1,11 @@
 <template>
-	<header class="relative h-screen min-h-180 w-full overflow-hidden bg-theme-100">
-		<canvas ref="background-0" id="background-0" />
-		<canvas ref="background-1" id="background-1" />
-		<canvas ref="background-2" id="background-2" />
-		<canvas ref="background-3" id="background-3" />
+	<header ref="root" class="relative h-screen min-h-180 w-full overflow-hidden bg-theme-100">
+		<canvas
+			v-for="(_, index) in 4"
+			:key="index"
+			ref="blavaCanvasElements"
+			:id="`background-${index}`"
+		/>
 
 		<div class="max-w-192 mx-auto mt-16 p-4 rounded-xl">
 			<h1 class="leading-12 lg:leading-16 px-8" text="5xl lg:6xl center theme-850">
@@ -15,7 +17,7 @@
 
 			<nav class="flex justify-center mt-14 px-4 text-theme-900">
 				<button
-					@click="triggerFirstSection"
+					@click="() => emit('dive')"
 					class="hidden sm:block top-0 pr-9 text-center transition-colors text-theme-800 hover:text-theme-900"
 				>
 					<AnchorIcon
@@ -77,172 +79,144 @@
 	</header>
 </template>
 
-<script>
+<script setup>
+import { markRaw, onMounted, ref } from 'vue';
 import { Blava } from 'blava';
 import IconLink from '@/components/IconLink.vue';
 import WavesIcon from '~icons/iconoir/sea-waves';
 import SailboatIcon from '~icons/icon-park-outline/sailboat-one';
 import ShipWheelIcon from '~icons/mdi/ship-wheel';
 import AnchorIcon from '~icons/mdi/anchor';
-
 import GithubIcon from '~icons/akar-icons/github-fill';
 import MusicIcon from '~icons/fontisto/music-note';
 import CameraIcon from '~icons/ant-design/camera-filled';
+import { useAnimation } from '@/composables/animation';
 
-import animation from '@/mixins/animation.js';
-
-export default {
-	mixins: [animation],
-
-	components: {
-		IconLink,
-		WavesIcon,
-		SailboatIcon,
-		ShipWheelIcon,
-		AnchorIcon,
-		GithubIcon,
-		MusicIcon,
-		CameraIcon,
+defineProps({
+	/**
+	 * Whether the anchor icon should be in its initial or dropped position
+	 */
+	anchorDropped: {
+		type: Boolean,
 	},
 
-	emits: ['aweigh', 'dive'],
-
-	props: {
-		/**
-		 * Whether the anchor icon should be in its initial or dropped position
-		 */
-		anchorDropped: {
-			type: Boolean,
-		},
-
-		/**
-		 * Whether playback should be possible (e.g. for reduced motion preference)
-		 */
-		playbackDisabled: {
-			type: Boolean,
-		},
-
-		/**
-		 * Whether the background is currently animated
-		 */
-		playing: {
-			type: Boolean,
-			default: true,
-		},
+	/**
+	 * Whether playback should be possible (e.g. for reduced motion preference)
+	 */
+	playbackDisabled: {
+		type: Boolean,
 	},
 
-	data() {
-		return {
-			/**
-			 * The Blava instances making up the background waves
-			 */
-			blavas: [],
-
-			/**
-			 * Links to internal sections
-			 */
-			sectionLinks: [
-				{
-					url: '#about',
-					icon: 'waves-icon',
-					cta: 'About',
-					classes: 'group-hover:animate-float waves-icon',
-				},
-				{
-					url: '#projects',
-					icon: 'sailboat-icon',
-					cta: 'Projects',
-					classes: 'group-hover:animate-boat sailboat-icon-thicker',
-				},
-				{
-					url: '#contact',
-					icon: 'ship-wheel-icon',
-					cta: 'Contact',
-					classes: 'group-hover:animate-turn',
-				},
-			],
-
-			/**
-			 * Links to external sites
-			 */
-			externalLinks: [
-				{
-					icon: 'github-icon',
-					url: 'https://github.com/dgrayvold',
-					title: 'View my GitHub profile',
-				},
-				{
-					icon: 'music-icon',
-					url: 'https://dgrayvold.com',
-					title: 'Check out my audio work',
-				},
-				{
-					icon: 'camera-icon',
-					url: 'https://dgrayvold.com/photography',
-					title: 'Gaze at my photography',
-				},
-			],
-		};
+	/**
+	 * Whether the background is currently animated
+	 */
+	playing: {
+		type: Boolean,
+		default: true,
 	},
+});
 
-	mounted() {
-		// Create blavas and manage animation based on visibility
-		const shades = ['#072227', '#35858b', '#4fbdba', '#aefeff'];
-		const blavas = [];
+const emit = defineEmits(['aweigh', 'dive']);
 
-		for (let x = 0; x < 4; x++) {
-			const blava = new Blava(this.$refs[`background-${x}`], {
-				gradient: { from: shades[x], to: shades[x] },
-				movementSpeed: 0.0009,
-			});
+const { registerAnimationFunction } = useAnimation();
 
-			blavas.push(blava);
-		}
+/**
+ * The header HTML element
+ */
+const root = ref();
 
-		this.blavas = blavas;
-
-		const observer = new IntersectionObserver(
-			entries => {
-				if (entries[0].intersectionRatio >= 0.5) {
-					this.$emit('aweigh');
-				}
-			},
-			{
-				threshold: [0, 0.5],
-			},
-		);
-
-		observer.observe(this.$el);
+/**
+ * Links to internal sections
+ */
+const sectionLinks = ref([
+	{
+		url: '#about',
+		icon: markRaw(WavesIcon),
+		cta: 'About',
+		classes: 'group-hover:animate-float waves-icon',
 	},
-
-	methods: {
-		/**
-		 * Trigger waves playback from mixin
-		 */
-		animate() {
-			this.toggleWavesAnimation(!this.playbackDisabled && this.playing);
-		},
-
-		toggleWavesAnimation(play) {
-			this.blavas.forEach(blava => blava[play ? 'play' : 'pause']());
-		},
-
-		triggerFirstSection() {
-			this.$emit('dive');
-		},
+	{
+		url: '#projects',
+		icon: markRaw(SailboatIcon),
+		cta: 'Projects',
+		classes: 'group-hover:animate-boat sailboat-icon-thicker',
 	},
+	{
+		url: '#contact',
+		icon: markRaw(ShipWheelIcon),
+		cta: 'Contact',
+		classes: 'group-hover:animate-turn',
+	},
+]);
 
-	watch: {
-		/**
-		 * Ensure animation pauses on playing = false after mixin call
-		 */
-		playing() {
-			if (!this.playing) {
-				this.toggleWavesAnimation(false);
+/**
+ * Links to external sites
+ */
+const externalLinks = ref([
+	{
+		icon: markRaw(GithubIcon),
+		url: 'https://github.com/dgrayvold',
+		title: 'View my GitHub profile',
+	},
+	{
+		icon: markRaw(MusicIcon),
+		url: 'https://dgrayvold.com',
+		title: 'Check out my audio work',
+	},
+	{
+		icon: markRaw(CameraIcon),
+		url: 'https://dgrayvold.com/photography',
+		title: 'Gaze at my photography',
+	},
+]);
+
+/**
+ * The canvas elements for the blavas
+ */
+const blavaCanvasElements = ref([]);
+
+/**
+ * The Blava instances making up the background waves
+ */
+const blavaInstances = ref([]);
+
+registerAnimationFunction('header', animate);
+
+onMounted(() => {
+	// Create blavas and manage animation based on visibility
+	const shades = ['#072227', '#35858b', '#4fbdba', '#aefeff'];
+
+	for (let index = 0; index < 4; index++) {
+		const blava = new Blava(blavaCanvasElements.value[index], {
+			gradient: { from: shades[index], to: shades[index] },
+			movementSpeed: 0.0009,
+		});
+
+		blavaInstances.value.push(blava);
+	}
+
+	const observer = new IntersectionObserver(
+		entries => {
+			if (entries[0].intersectionRatio >= 0.5) {
+				emit('aweigh');
 			}
 		},
-	},
-};
+		{
+			threshold: [0, 0.5],
+		},
+	);
+
+	observer.observe(root.value);
+});
+
+/**
+ * Handle waves animation playback state
+ *
+ * @param {Boolean} isPlaying Whether animation is active
+ */
+function animate(isPlaying) {
+	blavaInstances.value.forEach(blava => blava[isPlaying ? 'play' : 'pause']());
+}
 </script>
 
 <style scoped lang="postcss">

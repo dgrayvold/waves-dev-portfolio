@@ -85,62 +85,58 @@
 	</div>
 </template>
 
-<script>
+<script setup>
+import { ref } from 'vue';
 import { Splide, SplideSlide } from '@splidejs/vue-splide';
 import '@splidejs/vue-splide/css';
 
 import SailboatIcon from '~icons/icon-park-outline/sailboat-one';
 
-export default {
-	components: {
-		Splide,
-		SplideSlide,
-		SailboatIcon,
+defineProps({
+	/**
+	 * The project currently displayed
+	 */
+	activeProject: {
+		type: Object,
+		default: () => ({}),
 	},
 
-	props: {
-		/**
-		 * The project currently displayed
-		 */
-		activeProject: {
-			type: Object,
-			default: () => ({}),
-		},
-
-		/**
-		 * All of the projects available to view
-		 */
-		projects: {
-			type: Array,
-			default: () => [],
-		},
+	/**
+	 * All of the projects available to view
+	 */
+	projects: {
+		type: Array,
+		default: () => [],
 	},
+});
 
-	emits: ['select'],
+/**
+ * The Splide slideshow container
+ */
+const splide = ref();
 
-	methods: {
-		/**
-		 * Select a project by its index in the projects list
-		 *
-		 * @param {Number} index The index of the project to select
-		 */
-		selectProject(index) {
-			this.$emit('select', index);
+const emit = defineEmits(['select']);
 
-			this.$refs.splide.go(index);
-		},
+/**
+ * Select a project by its index in the projects list
+ *
+ * @param {Number} index The index of the project to select
+ */
+function selectProject(index) {
+	emit('select', index);
 
-		/**
-		 * Select the project from the overall Splide instance
-		 *
-		 * @param {Splide} splide The Splide instance
-		 * @param {SplideSlide} slide The newly active Splide slide
-		 */
-		selectProjectFromSplide(splide, slide) {
-			this.selectProject(slide.slide.dataset.projectIndex);
-		},
-	},
-};
+	splide.value.go(index);
+}
+
+/**
+ * Select the project from the overall Splide instance
+ *
+ * @param {Splide} splide The Splide instance
+ * @param {SplideSlide} slide The newly active Splide slide
+ */
+function selectProjectFromSplide(splide, slide) {
+	selectProject(slide.slide.dataset.projectIndex);
+}
 </script>
 
 <style scoped lang="postcss">
