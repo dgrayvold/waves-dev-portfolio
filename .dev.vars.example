@@ -2,7 +2,7 @@
 CONTACT_EMAIL="name@example.com"
 # The from email (usually a noreply@example.com)
 FROM_EMAIL="noreply@example.com"
-# The SendGrid API key to send the contact form email with
-SENDGRID_API_KEY="api_key_here"
 # The secret key for server-side CloudFlare Turnstile verification
 TURNSTILE_SECRET_KEY="secret_key_here"
+# Resend API key for email sending
+RESEND_KEY="re_J1XfkG63_BS5aEod19J8cvD8RkehjuqKS"

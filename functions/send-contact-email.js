@@ -24,39 +24,33 @@ export async function onRequestPost({ request, env }) {
 		});
 	}
 
-	// Send email
 	const body =
 		`You have a new contact form submission from ` +
 		requestBody.get('name').toString().slice(0, 128) +
 		` (${requestBody.get('email').toString().slice(0, 128)}). The message is: \n\n` +
 		requestBody.get('message').toString().slice(0, 1000);
-	const response = await fetch('https://api.sendgrid.com/v3/mail/send', {
+
+	const response = await fetch('https://api.resend.com/emails', {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
-			Authorization: `Bearer ${env.SENDGRID_API_KEY}`,
+			Authorization: `Bearer ${env.RESEND_KEY}`,
 		},
 		body: JSON.stringify({
-			personalizations: [
-				{
-					to: [{ email: env.CONTACT_EMAIL }],
-				},
-			],
-			from: { email: env.FROM_EMAIL },
+			from: `NoReply <${env.FROM_EMAIL}>`,
+			to: [env.CONTACT_EMAIL],
 			subject: 'Dev Portfolio Contact Form Submission',
-			content: [
-				{
-					type: 'text/plain',
-					value: body,
-				},
-			],
+			text: body,
 		}),
 	});
 
-	return new Response(JSON.stringify({ message: 'Form submitted' }), {
-		headers: { 'Content-Type': 'application/json' },
-		status: response.ok ? 202 : 400,
-	});
+	return new Response(
+		JSON.stringify({ message: 'Form submitted', data: await response.json() }),
+		{
+			headers: { 'Content-Type': 'application/json' },
+			status: response.ok ? 202 : 400,
+		},
+	);
 }
 
 /**
