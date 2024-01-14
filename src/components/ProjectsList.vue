@@ -23,7 +23,7 @@
 		>
 			<picture v-if="project.image" :title="project.project">
 				<source type="image/webp" :srcset="project.image.webp" />
-				<img :src="project.image.jpg" />
+				<img :src="project.image.jpg" alt="Project image thumbnail" />
 			</picture>
 
 			<div v-else class="flex flex-col items-center bg-theme-850 w-full h-full">

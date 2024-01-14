@@ -51,21 +51,23 @@
 						</IconLink>
 					</li>
 
-					<ul class="flex gap-6 pl-2.5 mt-2">
-						<li v-for="link in externalLinks" :key="link.url">
-							<a
-								:href="link.url"
-								target="_blank"
-								class="inline-block group w-6 h-6 rounded transition-colors"
-								:title="link.title"
-							>
-								<i
-									class="inline-block w-full h-full text-theme-800 transition-colors group-hover:text-theme-950 focus:text-theme-950"
-									:class="link.classes"
-								/>
-							</a>
-						</li>
-					</ul>
+					<li>
+						<ul class="flex gap-6 pl-2.5 mt-2">
+							<li v-for="link in externalLinks" :key="link.url">
+								<a
+									:href="link.url"
+									target="_blank"
+									class="inline-block group w-6 h-6 rounded transition-colors"
+									:title="link.title"
+								>
+									<i
+										class="inline-block w-full h-full text-theme-800 transition-colors group-hover:text-theme-950 focus:text-theme-950"
+										:class="link.classes"
+									/>
+								</a>
+							</li>
+						</ul>
+					</li>
 				</ul>
 			</nav>
 		</div>
