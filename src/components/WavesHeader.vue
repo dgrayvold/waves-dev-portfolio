@@ -19,6 +19,7 @@
 				<button
 					@click="() => emit('dive')"
 					class="hidden sm:block top-0 pr-9 text-center transition-colors text-theme-800 hover:text-theme-900"
+					aria-label="Go to main content"
 				>
 					<i
 						id="dive-icon"
@@ -39,36 +40,32 @@
 				</button>
 
 				<ul
-					class="grid grid-rows-[repeat(3,1fr),auto] gap-3 -mt-4 lg:gap-2 px-10 justify-start sm:border-l-2 border-theme-800"
+					class="grid grid-rows-[repeat(3,1fr),auto] gap-3 lg:gap-2 px-10 justify-start sm:border-l-2 border-theme-800"
 				>
-					<IconLink
-						v-for="link in sectionLinks"
-						:key="link.url"
-						:href="link.url"
-						class="group"
-						v-bind="$attrs"
-					>
-						<template #icon>
-							<i class="inline-block w-24px h-24px" :class="link.classes" />
-						</template>
-						<template #cta> {{ link.cta }} </template>
-					</IconLink>
+					<li v-for="link in sectionLinks" :key="link.url">
+						<IconLink :href="link.url" class="group" v-bind="$attrs">
+							<template #icon>
+								<i class="inline-block w-24px h-24px" :class="link.classes" />
+							</template>
+							<template #cta> {{ link.cta }} </template>
+						</IconLink>
+					</li>
 
-					<div class="flex gap-6 pl-2.5 mt-2">
-						<a
-							v-for="link in externalLinks"
-							:key="link.url"
-							:href="link.url"
-							target="_blank"
-							class="inline-block group w-6 h-6 rounded transition-colors"
-							:title="link.title"
-						>
-							<i
-								class="inline-block w-full h-full text-theme-800 transition-colors group-hover:text-theme-950 focus:text-theme-950"
-								:class="link.classes"
-							/>
-						</a>
-					</div>
+					<ul class="flex gap-6 pl-2.5 mt-2">
+						<li v-for="link in externalLinks" :key="link.url">
+							<a
+								:href="link.url"
+								target="_blank"
+								class="inline-block group w-6 h-6 rounded transition-colors"
+								:title="link.title"
+							>
+								<i
+									class="inline-block w-full h-full text-theme-800 transition-colors group-hover:text-theme-950 focus:text-theme-950"
+									:class="link.classes"
+								/>
+							</a>
+						</li>
+					</ul>
 				</ul>
 			</nav>
 		</div>

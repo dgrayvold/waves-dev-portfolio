@@ -21,10 +21,11 @@
 			:data-project-index="index"
 			@click="selectProject(index)"
 		>
-			<picture v-if="project.image">
+			<picture v-if="project.image" :title="project.project">
 				<source type="image/webp" :srcset="project.image.webp" />
 				<img :src="project.image.jpg" />
 			</picture>
+
 			<div v-else class="flex flex-col items-center bg-theme-850 w-full h-full">
 				<i
 					class="i-icon-park-outline-sailboat-one inline-block h-full w-24 mx-auto my-8 text-theme-800"
@@ -47,6 +48,7 @@
 							activeProject?.project != projects[index].project,
 					}"
 					@click="selectProject(index)"
+					:aria-label="project.project"
 				/>
 			</li>
 		</ul>

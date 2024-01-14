@@ -1,6 +1,5 @@
 <template>
 	<WavesHeader
-		id="header"
 		ref="header"
 		@dive="diveIn"
 		@aweigh="anchorDropped = false"
