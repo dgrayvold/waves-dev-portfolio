@@ -39,13 +39,22 @@
 			/>
 		</label>
 
-		<input type="submit" value="Send" @click="submitContactForm" :disabled="!formComplete" />
+		<input
+			type="submit"
+			value="Send"
+			@click.prevent="submitContactForm"
+			:disabled="!formComplete"
+		/>
+
+		<VueTurnstile ref="turnstileWidget" :site-key="turnstileKey" v-model="turnstileToken" />
 
 		<output v-if="submissionError" class="text-theme-600"> {{ submissionError }} </output>
 	</form>
 
 	<div v-else-if="formSubmissionInProgress" id="submission-loading">
-		<WavesIcon class="waves-icon waves-icon-animated block mx-auto my-8 w-8 h-8" />
+		<i
+			class="i-iconoir-sea-waves waves-icon text-theme-600 animate-float block mx-auto my-8 w-8 h-8"
+		/>
 	</div>
 
 	<div v-else id="submission-confirmation">
@@ -58,10 +67,10 @@
 	<div ref="turnstile" data-callback="onTurnstileCallback" />
 </template>
 
-<script setup>
-import { ref, reactive, onMounted } from 'vue';
+<script setup lang="ts">
+import { ref, reactive } from 'vue';
 import { debounce } from 'lodash-es';
-import WavesIcon from '~icons/iconoir/sea-waves';
+import VueTurnstile from 'vue-turnstile';
 
 defineProps({
 	// Any class names to append to the form element
@@ -71,15 +80,17 @@ defineProps({
 	},
 });
 
+const turnstileKey = ref(import.meta.env.VITE_TURNSTILE_KEY);
+
 /**
  * The form element
  */
-const form = ref();
+const form = ref<HTMLFormElement>();
 
 /**
  * The Turnstile element
  */
-const turnstile = ref();
+const turnstile = ref<HTMLDivElement>();
 
 /**
  * Whether the form's content is fit for submission
@@ -99,7 +110,7 @@ const submissionComplete = ref(false);
 /**
  * Any error to display about the form's submission
  */
-const submissionError = ref(undefined);
+const submissionError = ref<string>();
 
 /**
  * The data of the form
@@ -110,56 +121,21 @@ const formData = reactive({
 	message: '',
 });
 
-/**
- * The ID of the rendered Turnstile widget
- */
-const turnstileId = ref(undefined);
+const turnstileToken = ref('');
 
-/**
- * A setInterval ID for the Turnstile refreshing function
- */
-const turnstileInterval = ref(undefined);
-
-/**
- * Get Turnstile token set up for possible contact form submission
- */
-function initializeTurnstile() {
-	const id = window.turnstile.render(turnstile.value, {
-		sitekey: import.meta.env.VITE_TURNSTILE_KEY,
-	});
-
-	if (id !== undefined) {
-		turnstileId.value = id;
-	}
-
-	turnstileInterval.value = setInterval(refreshTurnstile, 1000 * 60 * 4.5);
-}
-
-/**
- * Refresh Turnstile token when it's nearing expiration
- */
-function refreshTurnstile() {
-	if (turnstileId.value == undefined) {
-		clearInterval(turnstileInterval.value);
-		initializeTurnstile();
-		return;
-	}
-
-	turnstileId.value = window.turnstile.reset(turnstileId.value);
-}
+const turnstileWidget = ref<InstanceType<typeof VueTurnstile>>();
 
 /**
  * Gather contact form data and submit
  *
  * @param {Event} event The triggering event
  */
-async function submitContactForm(event) {
-	event.preventDefault();
+async function submitContactForm() {
 	formSubmissionInProgress.value = true;
 
 	const requestData = new FormData(form.value);
 
-	requestData.append('token', window.turnstile.getResponse(turnstileId.value));
+	requestData.append('token', turnstileToken.value);
 
 	const response = await fetch('/send-contact-email', {
 		method: 'POST',
@@ -174,7 +150,8 @@ async function submitContactForm(event) {
 			`. Please try again in a few minutes`;
 
 		submissionError.value = message;
-		refreshTurnstile();
+		// refreshTurnstile();
+		turnstileWidget.value?.reset();
 		return;
 	}
 
@@ -187,7 +164,7 @@ async function submitContactForm(event) {
 const updateFormCompletionStatus = debounce(
 	function () {
 		// Null out the submission error as user is attempting to fix
-		submissionError.value = null;
+		submissionError.value = undefined;
 
 		if (Object.values(formData).find(value => value == '') == undefined) {
 			formComplete.value = true;
@@ -198,17 +175,7 @@ const updateFormCompletionStatus = debounce(
 	200,
 	{ leading: true, trailing: true },
 );
-
-onMounted(() => {
-	window.onTurnstileLoad = initializeTurnstile;
-});
 </script>
-
-<style lang="postcss">
-.waves-icon-animated {
-	@apply text-theme-600 animate-float;
-}
-</style>
 
 <style scoped lang="postcss">
 form,

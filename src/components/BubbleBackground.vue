@@ -2,52 +2,67 @@
 	<canvas ref="canvas" :width="canvasDimensions.width" :height="canvasDimensions.height" />
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { computed, onMounted, ref } from 'vue';
 import { useAnimation } from '@/composables/animation';
 
-const props = defineProps({
+/**
+ * A representation of a bubble shown on the animated background
+ */
+interface Bubble {
 	/**
-	 * The portrait image to reveal with the bubbles
+	 * The coordinates of the center of the bubble
 	 */
-	imageUrl: {
-		type: String,
-		default: null,
-	},
+	position: {
+		x: number;
+		y: number;
+	};
 
 	/**
-	 * The width of the container to set the canvas width with
+	 * How quickly the bubble rises
 	 */
-	width: {
-		type: Number,
-		default: 1000,
-	},
-});
+	speed: number;
+
+	/**
+	 * How big the bubble is
+	 */
+	size: number;
+}
+
+const props = withDefaults(
+	defineProps<{
+		/**
+		 * The portrait image to reveal with the bubbles
+		 */
+		imageUrl?: string;
+
+		/**
+		 * The width of the container to set the canvas width with
+		 */
+		width?: number;
+	}>(),
+	{ imageUrl: '', width: 1000 },
+);
 
 /**
  * The canvas element
  */
-const canvas = ref();
-
-/**
- * The canvas
- */
-const c = ref(undefined);
+const canvas = ref<HTMLCanvasElement>();
 
 /**
  * The canvas context
  */
-const ctx = ref(undefined);
+const ctx = ref<CanvasRenderingContext2D>();
 
 /**
  * The portrait to reveal with bubbles
  */
-const image = ref(undefined);
+const image = ref<HTMLImageElement>();
 
 /**
  * The collection of bubbles currently rising in the background
  */
-const bubbles = ref([]);
+const bubbles = ref<Bubble[]>([]);
 
 /**
  * The maximum amount of bubbles that should be visible at a time
@@ -57,7 +72,7 @@ const count = ref(200);
 /**
  * The bubble color
  */
-const fillColor = ref(undefined);
+const fillColor = ref('');
 
 /**
  * The biggest random radius a bubble can be (before adding size modifier)
@@ -87,10 +102,9 @@ registerAnimationFunction('about', animate);
 
 onMounted(async () => {
 	image.value = await loadImage();
-	c.value = canvas.value;
-	ctx.value = c.value.getContext('2d');
+	ctx.value = canvas.value!.getContext('2d')!;
 
-	fillColor.value = getComputedStyle(c.value).color;
+	fillColor.value = getComputedStyle(canvas.value!).color;
 
 	for (let x = 0; x < count.value; x++) {
 		bubbles.value.push(generateBubble());
@@ -101,6 +115,10 @@ onMounted(async () => {
  * Animate bubbles in the background
  */
 function animate() {
+	if (!ctx.value || !image.value) {
+		return;
+	}
+
 	ctx.value.fillStyle = fillColor.value;
 
 	ctx.value.globalCompositeOperation = 'source-over';
@@ -109,6 +127,7 @@ function animate() {
 
 	ctx.value.globalCompositeOperation = 'destination-atop';
 	ctx.value.globalAlpha = 1;
+
 	ctx.value.drawImage(
 		image.value,
 		props.width >= 1024 ? 0 : props.width / 2 - 250,
@@ -134,8 +153,8 @@ function animate() {
 
 	// Draw bubble
 	bubbles.value.forEach(bubble => {
-		ctx.value.moveTo(bubble.position.x, bubble.position.y);
-		ctx.value.arc(
+		ctx.value?.moveTo(bubble.position.x, bubble.position.y);
+		ctx.value?.arc(
 			Math.floor(bubble.position.x),
 			Math.floor(bubble.position.y),
 			Math.floor(bubble.size * 2),
@@ -153,7 +172,7 @@ function animate() {
  *
  * @return Object The bubble data
  */
-function generateBubble() {
+function generateBubble(): Bubble {
 	const size = Math.random() * maxSize.value + sizeModifier.value;
 
 	return {
@@ -169,11 +188,11 @@ function generateBubble() {
 /**
  * Get image data to draw on canvas
  */
-function loadImage() {
+function loadImage(): Promise<HTMLImageElement> {
 	return new Promise(resolve => {
 		const result = new Image();
 
-		result.onload = resolve(result);
+		result.onload = () => resolve(result);
 
 		result.src = props.imageUrl;
 	});

@@ -20,9 +20,10 @@
 				id="about-text"
 				class="relative max-w-128 mx-auto lg:ml-auto lg:mr-8 px-4 pt-0 pb-2 lg:bg-theme-800 lg:text-theme-100 z-10 min-h-[500px]"
 			>
-				<WavesIcon
-					class="waves-icon w-8 h-8 mb-0 -ml-0.5 text-theme-900 lg:text-theme-100"
+				<i
+					class="i-iconoir-sea-waves waves-icon block w-8 h-8 pt-12 mb-0 -ml-0.5 text-theme-900 lg:text-theme-100"
 				/>
+
 				<h2 class="mb-4">Who I am</h2>
 
 				<p>
@@ -56,7 +57,9 @@
 		</section>
 
 		<section id="projects">
-			<SailboatIcon class="sailboat-icon mb-2 mx-12 w-10 h-10 !stroke-theme-700 col-span-2" />
+			<i
+				class="i-icon-park-outline-sailboat-one sailboat-icon block mb-2 mx-12 w-10 h-10 !stroke-theme-700 col-span-2"
+			/>
 			<h2 class="mx-12 col-span-2 mb-8">What I've made</h2>
 
 			<FishBackground :width="backgroundWidth" :lines="12" class="absolute -mt-8 lg:mt-6" />
@@ -69,15 +72,16 @@
 		</section>
 
 		<section id="contact" class="relative text-center pb-32 overflow-hidden min-h-screen">
-			<ShipWheelIcon class="block w-10 h-10 mt-32 mb-8 mx-auto text-theme-700" />
+			<i class="i-mdi-ship-wheel block w-10 h-10 mt-32 mb-8 mx-auto text-theme-700" />
+
 			<h2>
 				<span>Let's set sail together</span>
 			</h2>
 
 			<ContactForm element-classes="bg-theme-950" />
 
-			<AnchorIcon
-				class="absolute h-64 w-64 text-theme-850 -bottom-16 right-8 transform -rotate-30 -z-1"
+			<i
+				class="i-mdi-anchor absolute h-64 w-64 text-theme-850 -bottom-16 right-8 transform -rotate-30 -z-1"
 			/>
 		</section>
 	</main>
@@ -85,18 +89,16 @@
 	<div class="fixed inset-0 -z-10 transition-colors duration-700" :class="backgroundClass" />
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { onBeforeUnmount, onMounted, ref } from 'vue';
 import BubbleBackground from '@/components/BubbleBackground.vue';
 import FishBackground from '@/components/FishBackground.vue';
 import WavesHeader from '@/components/WavesHeader.vue';
 import ProjectsList from '@/components/ProjectsList.vue';
 import ContactForm from '@/components/ContactForm.vue';
-import AnchorIcon from '~icons/mdi/anchor';
-import ShipWheelIcon from '~icons/mdi/ship-wheel';
-import WavesIcon from '~icons/iconoir/sea-waves';
-import SailboatIcon from '~icons/icon-park-outline/sailboat-one';
 import { debounce } from 'lodash-es';
+
+import type { Project } from '@/types/types';
 
 import { useAnimation } from '@/composables/animation';
 import { useUi } from '@/composables/ui';
@@ -112,7 +114,7 @@ const anchorDropped = ref(false);
 /**
  * The list of projects to show off
  */
-const projects = ref([]);
+const projects = ref<Project[]>([]);
 
 /**
  * The currently displayed project
@@ -122,12 +124,12 @@ const activeProject = ref();
 /**
  * The app header element
  */
-const header = ref();
+const header = ref<InstanceType<typeof WavesHeader>>();
 
 /**
  * The app main element
  */
-const main = ref();
+const main = ref<HTMLElement>();
 
 /**
  * The intersection observer for background color reactivity
@@ -137,17 +139,17 @@ const backgroundObserver = ref();
 /**
  * The section currently taking up a majority of the viewport
  */
-const currentDominantSection = ref();
+const currentDominantSection = ref<HTMLElement>();
 
 /**
  * The height of the current dominant section
  */
-const currentDominantSectionHeight = ref(null);
+const currentDominantSectionHeight = ref<number>(0);
 
 /**
  * The width of the background container in pixels
  */
-const backgroundWidth = ref();
+const backgroundWidth = ref<number>();
 
 /**
  * The current color class to apply to the background
@@ -173,7 +175,7 @@ function diveIn() {
  */
 const updateBackgroundWidthMeasurement = debounce(
 	function () {
-		backgroundWidth.value = main.value.getBoundingClientRect().width;
+		backgroundWidth.value = main.value?.getBoundingClientRect().width;
 	},
 	100,
 	{ leading: true },
@@ -184,13 +186,13 @@ const updateBackgroundWidthMeasurement = debounce(
  *
  * @param {IntersectionObserverEntry[]} entries The entries to process
  */
-function setBackground(entries) {
-	let latestDominantSection;
-	let latestDominantSectionHeight;
+function setBackground(entries: IntersectionObserverEntry[]) {
+	let latestDominantSection: HTMLElement | undefined;
+	let latestDominantSectionHeight: number = 0;
 
 	// Update the current dominant section height if it changed
 	const updatedCurrentDominantSection = entries.find(entry => {
-		return entry.target == currentDominantSection.value;
+		return entry.target === currentDominantSection.value;
 	});
 
 	if (updatedCurrentDominantSection) {
@@ -203,11 +205,8 @@ function setBackground(entries) {
 			return;
 		}
 
-		if (
-			latestDominantSection == null ||
-			latestDominantSectionHeight < entry.intersectionRect.height
-		) {
-			latestDominantSection = entry.target;
+		if (!latestDominantSection || latestDominantSectionHeight < entry.intersectionRect.height) {
+			latestDominantSection = entry.target as HTMLElement;
 			latestDominantSectionHeight = entry.intersectionRect.height;
 			return;
 		}
@@ -215,10 +214,11 @@ function setBackground(entries) {
 
 	// Update the record for current dominant section if changed…
 	if (
-		currentDominantSection.value != latestDominantSection &&
+		latestDominantSection &&
+		currentDominantSection.value !== latestDominantSection &&
 		currentDominantSectionHeight.value < latestDominantSectionHeight
 	) {
-		setActiveSection(latestDominantSection.id);
+		setActiveSection(latestDominantSection?.id);
 		currentDominantSection.value = latestDominantSection;
 		currentDominantSectionHeight.value = latestDominantSectionHeight;
 	}
@@ -228,7 +228,7 @@ function setBackground(entries) {
 	}
 
 	// Update color classes if dominant section changed
-	switch (currentDominantSection.value.id) {
+	switch (currentDominantSection.value?.id) {
 		case 'header':
 		case 'about':
 			backgroundClass.value = 'bg-theme-600';
@@ -252,20 +252,20 @@ function setBackground(entries) {
 /**
  * Set the currently active project
  *
- * @param {Number} activeProjectIndex The index of the project to display
+ * @param activeProjectIndex The index of the project to display
  */
-function setActiveProject(activeProjectIndex) {
+function setActiveProject(activeProjectIndex: number) {
 	activeProject.value = projects.value[activeProjectIndex];
 }
 
 /**
  * Smoothly scroll to a section of the portfolio
  *
- * @param {String} id The ID of the section to scroll to
+ * @param id The ID of the section to scroll to
  */
-async function scrollToSection(id) {
+async function scrollToSection(id: string) {
 	const element = document.querySelector(`#${id}`);
-	const offset = element.getBoundingClientRect().top;
+	const offset = element?.getBoundingClientRect().top ?? 0;
 
 	setPlaybackDisabled(true);
 
@@ -286,7 +286,7 @@ onMounted(async () => {
 	mediaQuery.addEventListener('change', () => setPlaybackDisabled(mediaQuery.matches));
 
 	// Set initial background width measurement
-	backgroundWidth.value = main.value.getBoundingClientRect().width;
+	backgroundWidth.value = main.value?.getBoundingClientRect().width;
 
 	window.addEventListener('resize', updateBackgroundWidthMeasurement);
 
@@ -301,9 +301,10 @@ onMounted(async () => {
 	});
 
 	main.value
-		.querySelectorAll('section')
+		?.querySelectorAll('section')
 		.forEach(section => backgroundObserver.value.observe(section));
-	backgroundObserver.value.observe(header.value.$el);
+
+	backgroundObserver.value.observe(header.value?.$el);
 });
 
 onBeforeUnmount(() => {
@@ -312,6 +313,8 @@ onBeforeUnmount(() => {
 </script>
 
 <style lang="postcss">
+@import '/public/animations.css';
+
 p {
 	@apply font-text;
 }

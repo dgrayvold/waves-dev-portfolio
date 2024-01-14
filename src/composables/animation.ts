@@ -13,7 +13,7 @@ const animationFunctions = reactive(new Map());
 /**
  * The name of the section currently active
  */
-const currentSection = ref();
+const currentSection = ref<string>();
 
 /**
  * The animation function of the current active section
@@ -23,16 +23,16 @@ const currentAnimationFunction = computed(() => {
 });
 
 /**
- * The current requestAnimationFrame ID for canceling if restarting animation while it is
- * currently playing
+ * The current requestAnimationFrame ID for canceling if restarting animation while it is currently
+ * playing
  */
-const animationFrameRequestId = ref(null);
+const animationFrameRequestId = ref<number>();
 
 /**
  * Run an animation loop
  */
 function runAnimation() {
-	if (animationFrameRequestId.value !== null) {
+	if (animationFrameRequestId.value) {
 		cancelAnimationFrame(animationFrameRequestId.value);
 	}
 
@@ -49,7 +49,7 @@ function runAnimation() {
  * @param {Boolean} isDisabled The new value of the property
  */
 watch(playbackDisabled, isDisabled => {
-	if (animationFrameRequestId.value !== null) {
+	if (animationFrameRequestId.value) {
 		cancelAnimationFrame(animationFrameRequestId.value);
 	}
 
@@ -78,10 +78,10 @@ export function useAnimation() {
 	/**
 	 * Add a function to the animation list for a particular section
 	 *
-	 * @param {String} id The name of the section in which the animation plays
-	 * @param {Function} animationFunction The function to run when active
+	 * @param id The name of the section in which the animation plays
+	 * @param animationFunction The function to run when active
 	 */
-	function registerAnimationFunction(id, animationFunction) {
+	function registerAnimationFunction(id: string, animationFunction: () => void) {
 		const idValue = toValue(id);
 
 		if (idValue && animationFunction) {
@@ -92,18 +92,18 @@ export function useAnimation() {
 	/**
 	 * Set the currently active section
 	 *
-	 * @param {String} id The name of the section that is now active
+	 * @param id The name of the section that is now active
 	 */
-	function setActiveSection(id) {
+	function setActiveSection(id: string) {
 		currentSection.value = id;
 	}
 
 	/**
 	 * Manually set playback as enabled or disabled
 	 *
-	 * @param {Boolean} disabled True to disable playback or false to enable it
+	 * @param disabled True to disable playback or false to enable it
 	 */
-	function setPlaybackDisabled(disabled) {
+	function setPlaybackDisabled(disabled: boolean) {
 		playbackDisabled.value = disabled;
 	}
 

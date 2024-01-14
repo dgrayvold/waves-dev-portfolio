@@ -1,9 +1,21 @@
 {
 	"parser": "vue-eslint-parser",
+	"parserOptions": {
+		"parser": "@typescript-eslint/parser",
+		"sourceType": "module"
+	},
+	"plugins": ["@typescript-eslint"],
 	"env": {
 		"node": true
 	},
-	"extends": ["eslint:recommended", "plugin:vue/vue3-strongly-recommended", "prettier"],
+	"ignorePatterns": ["**/dist/*"],
+	"extends": [
+		"eslint:recommended",
+		"plugin:@typescript-eslint/eslint-recommended",
+		"plugin:@typescript-eslint/recommended",
+		"plugin:vue/vue3-strongly-recommended",
+		"prettier"
+	],
 	"rules": {
 		"vue/html-indent": ["error", "tab"],
 		"vue/html-self-closing": [

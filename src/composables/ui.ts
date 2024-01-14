@@ -2,30 +2,31 @@ export function useUi() {
 	/**
 	 * Smoothly scroll to given position in document or element or end if the chosen coordinate is greater
 	 *
-	 * @param {Number}            y                  The y coordinate to scroll to
-	 * @param {Number}            [frames=60]        The number of frames to run the animation
-	 * @param {Element}           [scrollingElement] The element to scroll within
+	 * @param y The y coordinate to scroll to
+	 * @param frames The number of frames to run the animation
+	 * @param scrollingElement The element to scroll within, if any; defaults to viewport if none supplied
 	 *
-	 * @return {Promise<Boolean>} A Promise that resolves to true upon animation completion
+	 * @return A Promise that resolves to true upon animation completion
 	 */
-	function smoothScroll(y, frames = 60, scrollingElement) {
+	function smoothScroll(y: number, frames = 60, scrollingElement?: HTMLElement): Promise<true> {
 		if (matchMedia('prefers-reduced-motion: reduced').matches) {
 			return new Promise(res => {
 				window.scrollTo(0, y);
-				res();
+				res(true);
 			});
 		}
 
 		return new Promise(res => {
-			let curFrame = 0,
-				curPosition = scrollingElement ? scrollingElement.scrollTop : window.pageYOffset,
-				documentMaxEndPosition = scrollingElement
-					? scrollingElement.scrollHeight
-					: document.body.offsetHeight - window.innerHeight,
-				endPosition = y > documentMaxEndPosition ? documentMaxEndPosition : y,
-				totalFrames = frames,
-				curVelocity = 0,
-				maxVelocity = ((endPosition - curPosition) / totalFrames) * 2;
+			let curFrame = 0;
+			let curPosition = scrollingElement ? scrollingElement.scrollTop : window.scrollY;
+			let curVelocity = 0;
+
+			const documentMaxEndPosition = scrollingElement
+				? scrollingElement.scrollHeight
+				: document.body.offsetHeight - window.innerHeight;
+			const endPosition = y > documentMaxEndPosition ? documentMaxEndPosition : y;
+			const totalFrames = frames;
+			const maxVelocity = ((endPosition - curPosition) / totalFrames) * 2;
 
 			requestAnimationFrame(scrollRamp);
 

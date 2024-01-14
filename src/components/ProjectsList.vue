@@ -26,7 +26,9 @@
 				<img :src="project.image.jpg" />
 			</picture>
 			<div v-else class="flex flex-col items-center bg-theme-850 w-full h-full">
-				<SailboatIcon class="sailboat-icon h-full w-24 mx-auto my-8 text-theme-800" />
+				<i
+					class="i-icon-park-outline-sailboat-one inline-block h-full w-24 mx-auto my-8 text-theme-800"
+				/>
 			</div>
 		</SplideSlide>
 	</Splide>
@@ -40,27 +42,27 @@
 					class="w-4 h-4 m-3 rounded-xl border-2 border-theme-800 outline outline-2 outline-transparent"
 					:class="{
 						'bg-theme-100 border-theme-100 focus-visible:outline-theme-800':
-							activeProject.project == projects[index].project,
+							activeProject?.project == projects[index].project,
 						'bg-theme-800 border-theme-800 focus-visible:outline-theme-100':
-							activeProject.project != projects[index].project,
+							activeProject?.project != projects[index].project,
 					}"
 					@click="selectProject(index)"
 				/>
 			</li>
 		</ul>
 		<p class="text-2xl leading-6 font-display font-semibold mt-2">
-			{{ activeProject.project }}
+			{{ activeProject?.project }}
 		</p>
 		<p
 			class="leading-2 text-xl font-text mb-4 font-semibold"
 			style="font-variant: all-small-caps"
 		>
-			{{ activeProject.location }}
+			{{ activeProject?.location }}
 		</p>
 
 		<ul class="flex flex-wrap gap-2 my-0 mb-6">
 			<li
-				v-for="tag in activeProject.tags"
+				v-for="tag in activeProject?.tags"
 				:key="tag"
 				class="px-1.5 pt-0.5 text-theme-900 bg-theme-600 rounded uppercase text-xs font-display font-700"
 			>
@@ -68,47 +70,47 @@
 			</li>
 		</ul>
 
-		<p class="font-text text-lg leading-5">{{ activeProject.description }}</p>
+		<p class="font-text text-lg leading-5">{{ activeProject?.description }}</p>
 
 		<a
-			v-show="activeProject.url != null"
-			:href="activeProject.url"
+			v-show="activeProject?.url != null"
+			:href="activeProject?.url"
 			target="_blank"
 			rel="noopener noreferrer nofollow"
 			class="inline-block px-2 pb-1 mt-4 mb-4 rounded bg-theme-700 text-theme-900 self-start hover:bg-theme-900 focus-visible:bg-theme-900 hover:text-theme-100 focus-visible:text-theme-100 outline outline-2 outline-transparent hover:outline-theme-100 focus-visible:outline-theme-100"
 		>
 			<span class="leading-4 align-middle pr-1">
-				{{ activeProject.cta ?? 'Go' }}
+				{{ activeProject?.cta ?? 'Go' }}
 			</span>
 			<SailboatIcon class="inline-block align-middle h-4 stroke-4 transition-all transform" />
 		</a>
 	</div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue';
 import { Splide, SplideSlide } from '@splidejs/vue-splide';
 import '@splidejs/vue-splide/css';
 
-import SailboatIcon from '~icons/icon-park-outline/sailboat-one';
+import type { Project } from '@/types/types';
 
-defineProps({
-	/**
-	 * The project currently displayed
-	 */
-	activeProject: {
-		type: Object,
-		default: () => ({}),
-	},
+withDefaults(
+	defineProps<{
+		/**
+		 * The project currently displayed
+		 */
+		activeProject?: Project;
 
-	/**
-	 * All of the projects available to view
-	 */
-	projects: {
-		type: Array,
-		default: () => [],
+		/**
+		 * All of the projects available to view
+		 */
+		projects: Project[];
+	}>(),
+	{
+		activeProject: undefined,
+		projects: () => [] as Project[],
 	},
-});
+);
 
 /**
  * The Splide slideshow container
@@ -120,9 +122,9 @@ const emit = defineEmits(['select']);
 /**
  * Select a project by its index in the projects list
  *
- * @param {Number} index The index of the project to select
+ * @param index The index of the project to select
  */
-function selectProject(index) {
+function selectProject(index: number) {
 	emit('select', index);
 
 	splide.value.go(index);
@@ -131,10 +133,10 @@ function selectProject(index) {
 /**
  * Select the project from the overall Splide instance
  *
- * @param {Splide} splide The Splide instance
- * @param {SplideSlide} slide The newly active Splide slide
+ * @param splide The Splide instance
+ * @param slide The newly active Splide slide
  */
-function selectProjectFromSplide(splide, slide) {
+function selectProjectFromSplide(_: typeof Splide, slide: typeof SplideSlide) {
 	selectProject(slide.slide.dataset.projectIndex);
 }
 </script>

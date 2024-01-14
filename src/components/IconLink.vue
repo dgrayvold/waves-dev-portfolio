@@ -5,7 +5,7 @@
 		class="flex pl-2 pr-4 rounded-xl text-theme-800 uppercase transition-colors grid grid-cols-[24px,auto] items-center"
 	>
 		<slot name="icon">
-			<ShipWheelIcon class="w-[24px] h-[24px]" />
+			<i class="i-mdi-ship-wheel inline-block w-6 h-6" />
 		</slot>
 
 		<span class="h-6 pl-2 text-xl">
@@ -14,9 +14,7 @@
 	</a>
 </template>
 
-<script setup>
-import ShipWheelIcon from '~icons/mdi/ship-wheel';
-
+<script setup lang="ts">
 defineProps({
 	href: {
 		type: String,
@@ -29,11 +27,11 @@ const emit = defineEmits(['navigate']);
 /**
  * Scroll to associated section on the page
  *
- * @param {MouseEvent} event
+ * @param event
  */
-function triggerNavigation(event) {
+function triggerNavigation(event: MouseEvent) {
 	event.preventDefault();
-	emit('navigate', event.currentTarget.href.match(/#(.+)/)[1]);
+	emit('navigate', (event.currentTarget as HTMLAnchorElement)?.href?.match(/#(.+)/)?.[1]);
 }
 </script>
 

@@ -20,9 +20,9 @@
 					@click="() => emit('dive')"
 					class="hidden sm:block top-0 pr-9 text-center transition-colors text-theme-800 hover:text-theme-900"
 				>
-					<AnchorIcon
+					<i
 						id="dive-icon"
-						class="block relative w-28 h-28 top-0 transform origin-center mx-auto -rotate-45 -translate-x-2 transition-all ease-out"
+						class="i-mdi-anchor block relative w-28 h-28 top-0 transform origin-center mx-auto -rotate-45 -translate-x-2 transition-all ease-out"
 						:class="{
 							'top-128': anchorDropped,
 						}"
@@ -49,11 +49,7 @@
 						v-bind="$attrs"
 					>
 						<template #icon>
-							<component
-								:is="link.icon"
-								class="w-[24px] h-[24px] inline-block"
-								:class="link.classes"
-							/>
+							<i class="inline-block w-24px h-24px" :class="link.classes" />
 						</template>
 						<template #cta> {{ link.cta }} </template>
 					</IconLink>
@@ -67,9 +63,9 @@
 							class="inline-block group w-6 h-6 rounded transition-colors"
 							:title="link.title"
 						>
-							<component
-								:is="link.icon"
-								class="w-full h-full text-theme-800 transition-colors group-hover:text-theme-950 focus:text-theme-950"
+							<i
+								class="inline-block w-full h-full text-theme-800 transition-colors group-hover:text-theme-950 focus:text-theme-950"
+								:class="link.classes"
 							/>
 						</a>
 					</div>
@@ -79,17 +75,10 @@
 	</header>
 </template>
 
-<script setup>
-import { markRaw, onMounted, ref } from 'vue';
+<script setup lang="ts">
+import { onMounted, ref } from 'vue';
 import { Blava } from 'blava';
 import IconLink from '@/components/IconLink.vue';
-import WavesIcon from '~icons/iconoir/sea-waves';
-import SailboatIcon from '~icons/icon-park-outline/sailboat-one';
-import ShipWheelIcon from '~icons/mdi/ship-wheel';
-import AnchorIcon from '~icons/mdi/anchor';
-import GithubIcon from '~icons/akar-icons/github-fill';
-import MusicIcon from '~icons/fontisto/music-note';
-import CameraIcon from '~icons/ant-design/camera-filled';
 import { useAnimation } from '@/composables/animation';
 
 defineProps({
@@ -131,21 +120,18 @@ const root = ref();
 const sectionLinks = ref([
 	{
 		url: '#about',
-		icon: markRaw(WavesIcon),
 		cta: 'About',
-		classes: 'group-hover:animate-float waves-icon',
+		classes: 'i-iconoir-sea-waves group-hover:animate-float waves-icon',
 	},
 	{
 		url: '#projects',
-		icon: markRaw(SailboatIcon),
 		cta: 'Projects',
-		classes: 'group-hover:animate-boat sailboat-icon-thicker',
+		classes: 'i-icon-park-outline-sailboat-one group-hover:animate-boat sailboat-icon-thicker',
 	},
 	{
 		url: '#contact',
-		icon: markRaw(ShipWheelIcon),
 		cta: 'Contact',
-		classes: 'group-hover:animate-turn',
+		classes: 'i-mdi-ship-wheel stroke-128 group-hover:animate-turn',
 	},
 ]);
 
@@ -154,19 +140,19 @@ const sectionLinks = ref([
  */
 const externalLinks = ref([
 	{
-		icon: markRaw(GithubIcon),
 		url: 'https://github.com/dgrayvold',
 		title: 'View my GitHub profile',
+		classes: 'i-akar-icons-github-fill',
 	},
 	{
-		icon: markRaw(MusicIcon),
 		url: 'https://dgrayvold.com',
 		title: 'Check out my audio work',
+		classes: 'i-fontisto-music-note',
 	},
 	{
-		icon: markRaw(CameraIcon),
 		url: 'https://dgrayvold.com/photography',
 		title: 'Gaze at my photography',
+		classes: 'i-ant-design-camera-filled',
 	},
 ]);
 
@@ -178,7 +164,12 @@ const blavaCanvasElements = ref([]);
 /**
  * The Blava instances making up the background waves
  */
-const blavaInstances = ref([]);
+const blavaInstances = ref<
+	{
+		play: () => void;
+		pause: () => void;
+	}[]
+>([]);
 
 registerAnimationFunction('header', animate);
 
@@ -212,9 +203,9 @@ onMounted(() => {
 /**
  * Handle waves animation playback state
  *
- * @param {Boolean} isPlaying Whether animation is active
+ * @param isPlaying Whether animation is active
  */
-function animate(isPlaying) {
+function animate(isPlaying?: boolean) {
 	blavaInstances.value.forEach(blava => blava[isPlaying ? 'play' : 'pause']());
 }
 </script>

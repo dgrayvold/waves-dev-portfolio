@@ -1,4 +1,11 @@
-export async function onRequestPost({ request, env }) {
+interface Env {
+	TURNSTILE_SECRET_KEY: string;
+	FROM_EMAIL: string;
+	CONTACT_EMAIL: string;
+	RESEND_KEY: string;
+}
+
+export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
 	const requestBody = await request.formData();
 
 	// Verify required form data is present
@@ -51,16 +58,16 @@ export async function onRequestPost({ request, env }) {
 			status: response.ok ? 202 : 400,
 		},
 	);
-}
+};
 
 /**
  * Verify that required data for contact form submission was included and satisfies requirements
  *
- * @param {FormData}  formData The submitted data to verify
+ * @param formData The submitted data to verify
  *
- * @returns {Boolean} True if the data is acceptable for submission, false otherwise
+ * @returns  True if the data is acceptable for submission, false otherwise
  */
-function verifyFormData(formData) {
+function verifyFormData(formData: FormData) {
 	const name = formData.get('name');
 	const email = formData.get('email');
 	const message = formData.get('message');
@@ -88,13 +95,13 @@ function verifyFormData(formData) {
 /**
  * Verify a submitted Turnstile token
  *
- * @param {String}    secretKey The Turnstile secret key to use
- * @param {String}    token The token sent with the submission request
+ * @param secretKey The Turnstile secret key to use
+ * @param token The token sent with the submission request
  *
- * @returns {Boolean} True if token verification succeeded, false if not
+ * @returns True if token verification succeeded, false if not
  */
-async function verifyTurnstileToken(secretKey, token) {
-	let verificationFormData = new FormData();
+async function verifyTurnstileToken(secretKey: string, token: string) {
+	const verificationFormData = new FormData();
 
 	verificationFormData.append('secret', secretKey);
 	verificationFormData.append('response', token);
@@ -104,5 +111,5 @@ async function verifyTurnstileToken(secretKey, token) {
 		body: verificationFormData,
 	})
 		.then(response => response.json())
-		.then(data => data.success === true);
+		.then(({ success }: { success: boolean }) => success === true);
 }
