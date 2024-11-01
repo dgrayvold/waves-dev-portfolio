@@ -17,7 +17,7 @@
 
 			<div
 				id="about-text"
-				class="relative max-w-128 mx-auto lg:ml-auto lg:mr-8 px-4 pt-0 pb-2 lg:bg-theme-800 lg:text-theme-100 z-10 min-h-[500px]"
+				class="relative max-w-140 mx-auto lg:ml-auto lg:mr-8 px-4 pt-0 pb-2 lg:bg-theme-800 lg:text-theme-100 z-10 min-h-[500px]"
 			>
 				<i
 					class="i-iconoir-sea-waves waves-icon block w-8 h-8 pt-12 mb-0 -ml-0.5 text-theme-900 lg:text-theme-100"
@@ -49,8 +49,15 @@
 						href="https://greatnews.life"
 						rel="noopener noreferrer nofollow"
 					>
-						GreatNews.Life.
-					</a>
+						GreatNews.Life </a
+					>. and full-stack developer at
+					<a
+						class="text-highlight"
+						href="https://smart-monkeys.com"
+						rel="noopener noreferrer nofollow"
+					>
+						Smart Monkeys </a
+					>.
 				</p>
 			</div>
 		</section>
