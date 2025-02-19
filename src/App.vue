@@ -50,13 +50,6 @@
 						rel="noopener noreferrer nofollow"
 					>
 						GreatNews.Life </a
-					>. and full-stack developer at
-					<a
-						class="text-highlight"
-						href="https://smart-monkeys.com"
-						rel="noopener noreferrer nofollow"
-					>
-						Smart Monkeys </a
 					>.
 				</p>
 			</div>
@@ -383,6 +376,13 @@ main > section {
 
 .text-highlight {
 	font-variant: all-small-caps;
+
+	/**
+     * Prevent Safari from rendering small caps with added spacing at the end of the link. 
+     * 
+     * See https://community.adobe.com/t5/adobe-fonts-discussions/small-caps-rendering-issue-in-safari-macos-and-ios/td-p/11563177
+     */
+	font-synthesis: none;
 
 	@apply font-bold bg-gradient-to-r from-theme-800 to-theme-600 lg:from-theme-100 lg:to-theme-700 bg-no-repeat to-transparent;
 
