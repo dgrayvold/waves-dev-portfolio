@@ -1,29 +1,33 @@
 <template>
-	<header ref="root" class="relative h-screen min-h-180 w-full overflow-hidden bg-theme-100">
+	<header
+		id="header"
+		ref="header"
+		class="relative h-screen min-h-180 w-full overflow-hidden bg-theme-100"
+	>
 		<canvas
 			v-for="(_, index) in 4"
+			:id="`background-${index}`"
 			:key="index"
 			ref="blavaCanvasElements"
-			:id="`background-${index}`"
 		/>
 
-		<div class="max-w-192 mx-auto mt-16 p-4 rounded-xl">
-			<h1 class="leading-12 lg:leading-16 px-8" text="5xl lg:6xl center theme-850">
+		<div class="mx-auto mt-16 max-w-192 rounded-xl p-4">
+			<h1 class="px-8 leading-12 lg:leading-16" text="5xl center theme-850 lg:6xl">
 				Hi, I'm Daniel Grayvold
 			</h1>
-			<p class="text-center px-8" text="3xl lg:4xl theme-800">
+			<p class="px-8 text-center" text="3xl theme-800 lg:4xl">
 				I'm making waves in creative media &amp; tech
 			</p>
 
-			<nav class="flex justify-center mt-14 px-4 text-theme-900">
+			<nav class="mt-14 flex justify-center px-4 text-theme-900">
 				<button
-					@click="() => emit('dive')"
-					class="hidden sm:block top-0 pr-9 text-center transition-colors text-theme-800 hover:text-theme-900"
+					class="top-0 hidden pr-9 text-center text-theme-800 transition-colors sm:block hover:text-theme-900"
 					aria-label="Go to main content"
+					@click="() => emit('dive')"
 				>
 					<i
 						id="dive-icon"
-						class="i-mdi-anchor block relative w-28 h-28 top-0 transform origin-center mx-auto -rotate-45 -translate-x-2 transition-all ease-out"
+						class="i-mdi-anchor relative top-0 mx-auto block h-28 w-28 origin-center transform transition-all ease-out -translate-x-2 -rotate-45"
 						:class="{
 							'top-128': anchorDropped,
 						}"
@@ -40,28 +44,28 @@
 				</button>
 
 				<ul
-					class="grid grid-rows-[repeat(3,1fr),auto] gap-3 lg:gap-2 px-10 justify-start sm:border-l-2 border-theme-800"
+					class="grid grid-rows-[repeat(3,1fr),auto] justify-start gap-3 border-theme-800 px-10 lg:gap-2 sm:border-l-2"
 				>
 					<li v-for="link in sectionLinks" :key="link.url">
 						<IconLink :href="link.url" class="group" v-bind="$attrs">
 							<template #icon>
-								<i class="inline-block w-24px h-24px" :class="link.classes" />
+								<i class="inline-block h-24px w-24px" :class="link.classes" />
 							</template>
 							<template #cta> {{ link.cta }} </template>
 						</IconLink>
 					</li>
 
 					<li>
-						<ul class="flex gap-6 pl-2.5 mt-2">
+						<ul class="mt-2 flex gap-6 pl-2.5">
 							<li v-for="link in externalLinks" :key="link.url">
 								<a
 									:href="link.url"
 									target="_blank"
-									class="inline-block group w-6 h-6 rounded transition-colors"
+									class="group inline-block h-6 w-6 rounded transition-colors"
 									:title="link.title"
 								>
 									<i
-										class="inline-block w-full h-full text-theme-800 transition-colors group-hover:text-theme-950 focus:text-theme-950"
+										class="inline-block h-full w-full text-theme-800 transition-colors focus:text-theme-950 group-hover:text-theme-950"
 										:class="link.classes"
 									/>
 								</a>
@@ -75,43 +79,17 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
 import { Blava } from 'blava';
-import IconLink from '@/components/IconLink.vue';
-import { useAnimation } from '@/composables/animation';
 
-defineProps({
-	/**
-	 * Whether the anchor icon should be in its initial or dropped position
-	 */
-	anchorDropped: {
-		type: Boolean,
-	},
+const props = defineProps<{
+	anchorDropped: boolean;
 
-	/**
-	 * Whether playback should be possible (e.g. for reduced motion preference)
-	 */
-	playbackDisabled: {
-		type: Boolean,
-	},
-
-	/**
-	 * Whether the background is currently animated
-	 */
-	playing: {
-		type: Boolean,
-		default: true,
-	},
-});
+	active: boolean;
+}>();
 
 const emit = defineEmits(['aweigh', 'dive']);
 
-const { registerAnimationFunction } = useAnimation();
-
-/**
- * The header HTML element
- */
-const root = ref();
+const header = useTemplateRef('header');
 
 /**
  * Links to internal sections
@@ -144,12 +122,12 @@ const externalLinks = ref([
 		classes: 'i-akar-icons-github-fill',
 	},
 	{
-		url: 'https://dgrayvold.com',
+		url: 'https://grayvold.com',
 		title: 'Check out my audio work',
 		classes: 'i-fontisto-music-note',
 	},
 	{
-		url: 'https://dgrayvold.com/photography',
+		url: 'https://grayvold.com/photography',
 		title: 'Gaze at my photography',
 		classes: 'i-ant-design-camera-filled',
 	},
@@ -158,7 +136,7 @@ const externalLinks = ref([
 /**
  * The canvas elements for the blavas
  */
-const blavaCanvasElements = ref([]);
+const blavaCanvasElements = useTemplateRef('blavaCanvasElements');
 
 /**
  * The Blava instances making up the background waves
@@ -170,14 +148,19 @@ const blavaInstances = ref<
 	}[]
 >([]);
 
-registerAnimationFunction('header', animate);
+watch(
+	() => props.active,
+	isActive => {
+		blavaInstances.value.forEach(blava => blava[isActive ? 'play' : 'pause']());
+	},
+);
 
 onMounted(() => {
 	// Create blavas and manage animation based on visibility
 	const shades = ['#072227', '#35858b', '#4fbdba', '#aefeff'];
 
 	for (let index = 0; index < 4; index++) {
-		const blava = new Blava(blavaCanvasElements.value[index], {
+		const blava = new Blava(blavaCanvasElements.value![index], {
 			gradient: { from: shades[index], to: shades[index] },
 			movementSpeed: 0.0009,
 		});
@@ -187,7 +170,7 @@ onMounted(() => {
 
 	const observer = new IntersectionObserver(
 		entries => {
-			if (entries[0].intersectionRatio >= 0.5) {
+			if (entries[0] && entries[0].intersectionRatio >= 0.5) {
 				emit('aweigh');
 			}
 		},
@@ -196,17 +179,8 @@ onMounted(() => {
 		},
 	);
 
-	observer.observe(root.value);
+	observer.observe(header.value!);
 });
-
-/**
- * Handle waves animation playback state
- *
- * @param isPlaying Whether animation is active
- */
-function animate(isPlaying?: boolean) {
-	blavaInstances.value.forEach(blava => blava[isPlaying ? 'play' : 'pause']());
-}
 </script>
 
 <style scoped lang="postcss">

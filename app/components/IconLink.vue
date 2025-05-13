@@ -1,11 +1,11 @@
 <template>
 	<a
 		:href="href"
+		class="grid grid-cols-[24px,auto] flex items-center rounded-xl pl-2 pr-4 text-theme-800 uppercase transition-colors"
 		@click="triggerNavigation"
-		class="flex pl-2 pr-4 rounded-xl text-theme-800 uppercase transition-colors grid grid-cols-[24px,auto] items-center"
 	>
 		<slot name="icon">
-			<i class="i-mdi-ship-wheel inline-block w-6 h-6" />
+			<i class="i-mdi-ship-wheel inline-block h-6 w-6" />
 		</slot>
 
 		<span class="h-6 pl-2 text-xl">

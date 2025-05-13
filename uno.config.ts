@@ -2,13 +2,13 @@ import {
 	defineConfig,
 	presetAttributify,
 	presetIcons,
-	presetWind,
+	presetWind3,
 	transformerDirectives,
 	transformerVariantGroup,
 } from 'unocss';
 
 export default defineConfig({
-	presets: [presetAttributify(), presetIcons(), presetWind()],
+	presets: [presetAttributify(), presetIcons(), presetWind3()],
 
 	transformers: [transformerDirectives(), transformerVariantGroup()],
 
@@ -26,8 +26,8 @@ export default defineConfig({
 		},
 
 		fontFamily: {
-			display: ['Overpass Variable', 'Arial'],
-			text: ['Gentium Book Plus', 'Times New Roman'],
+			display: ['"Overpass Variable"', 'Arial'],
+			text: ['"Gentium Book Plus"', '"Times New Roman"'],
 		},
 	},
 

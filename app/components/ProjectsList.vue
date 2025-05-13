@@ -10,14 +10,14 @@
 			pagination: false,
 			gap: '0.5rem',
 		}"
-		class="col-start-2 col-span-8 row-start-1 row-end-6"
+		class="col-span-8 col-start-2 row-start-1 row-end-6"
 		@splide:active="selectProjectFromSplide"
 	>
 		<SplideSlide
 			v-for="(project, index) in projects"
 			:key="project.project"
 			:data-project="project.project"
-			class="border-t-2 border-b-2 md:border-2 border-theme-700 md:rounded-lg overflow-hidden md:max-w-164 mx-auto mb-2 md:mb-0 cursor-pointer"
+			class="mx-auto mb-2 cursor-pointer overflow-hidden border-b-2 border-t-2 border-theme-700 md:(mb-0 max-w-164 border-2 rounded-lg)"
 			:data-project-index="index"
 			@click="selectProject(index)"
 		>
@@ -26,71 +26,73 @@
 				<img :src="project.image.jpg" alt="Project image thumbnail" />
 			</picture>
 
-			<div v-else class="flex flex-col items-center bg-theme-850 w-full h-full">
+			<div v-else class="h-full w-full flex flex-col items-center bg-theme-850">
 				<i
-					class="i-icon-park-outline-sailboat-one inline-block h-full w-24 mx-auto my-8 text-theme-800"
+					class="i-icon-park-outline-sailboat-one mx-auto my-8 inline-block h-full w-24 text-theme-800"
 				/>
 			</div>
 		</SplideSlide>
 	</Splide>
 
 	<div
-		class="relative md:-mt-8 mx-auto min-h-76 w-full max-w-[90%] md:max-w-[500px] px-4 bg-gradient-to-r from-theme-900 to-theme-900 to-opacity-90 border-2 border-theme-700 rounded-lg z-10"
+		class="relative z-10 mx-auto max-w-[90%] min-h-76 w-full border-2 border-theme-700 rounded-lg from-theme-900 to-theme-900 to-opacity-90 bg-gradient-to-r px-4 md:(max-w-[500px] -mt-8)"
 	>
-		<ul class="flex gap-4 justify-center items-end">
+		<ul class="flex items-end justify-center gap-4">
 			<li v-for="(project, index) in projects" :key="project.project">
 				<button
-					class="w-4 h-4 m-3 rounded-xl border-2 border-theme-800 outline outline-2 outline-transparent"
+					class="m-3 h-4 w-4 border-2 border-theme-800 rounded-xl outline-2 outline-transparent outline"
 					:class="{
 						'bg-theme-100 border-theme-100 focus-visible:outline-theme-800':
-							activeProject?.project == projects[index].project,
+							activeProject?.project === projects[index]?.project,
 						'bg-theme-800 border-theme-800 focus-visible:outline-theme-100':
-							activeProject?.project != projects[index].project,
+							activeProject?.project !== projects[index]?.project,
 					}"
-					@click="selectProject(index)"
 					:aria-label="project.project"
+					@click="selectProject(index)"
 				/>
 			</li>
 		</ul>
-		<p class="text-2xl leading-6 font-display font-semibold mt-2">
+		<p class="mt-2 text-2xl font-semibold leading-6 font-display">
 			{{ activeProject?.project }}
 		</p>
 		<p
-			class="leading-2 text-xl font-text mb-4 font-semibold"
+			class="mb-4 text-xl font-semibold leading-2 font-text"
 			style="font-variant: all-small-caps"
 		>
 			{{ activeProject?.location }}
 		</p>
 
-		<ul class="flex flex-wrap gap-2 my-0 mb-6">
+		<ul class="my-0 mb-6 flex flex-wrap gap-2">
 			<li
 				v-for="tag in activeProject?.tags"
 				:key="tag"
-				class="px-1.5 pt-0.5 text-theme-900 bg-theme-600 rounded uppercase text-xs font-display font-700"
+				class="rounded bg-theme-600 px-1.5 pt-0.5 text-xs text-theme-900 font-700 font-display uppercase"
 			>
 				{{ tag }}
 			</li>
 		</ul>
 
-		<p class="font-text text-lg leading-5">{{ activeProject?.description }}</p>
+		<p class="text-lg leading-5 font-text">{{ activeProject?.description }}</p>
 
 		<a
-			v-show="activeProject?.url != null"
+			v-show="activeProject?.url !== null"
 			:href="activeProject?.url"
 			target="_blank"
 			rel="noopener noreferrer nofollow"
-			class="inline-block px-2 pb-1 mt-4 mb-4 rounded bg-theme-700 text-theme-900 self-start hover:bg-theme-900 focus-visible:bg-theme-900 hover:text-theme-100 focus-visible:text-theme-100 outline outline-2 outline-transparent hover:outline-theme-100 focus-visible:outline-theme-100"
+			class="mb-4 mt-4 inline-block self-start rounded bg-theme-700 px-2 pb-1 text-theme-900 outline-2 outline-transparent outline focus-visible:(bg-theme-900 text-theme-100 outline-theme-100) hover:(bg-theme-900 text-theme-100 outline-theme-100)"
 		>
-			<span class="leading-4 align-middle pr-1">
+			<span class="pr-1 align-middle leading-4">
 				{{ activeProject?.cta ?? 'Go' }}
 			</span>
-			<SailboatIcon class="inline-block align-middle h-4 stroke-4 transition-all transform" />
+
+			<i
+				class="i-icon-park-outline-sailboat-one ml-2 inline-block h-4 transform stroke-4 align-middle transition-all"
+			/>
 		</a>
 	</div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
 import { Splide, SplideSlide } from '@splidejs/vue-splide';
 import '@splidejs/vue-splide/css';
 
@@ -106,7 +108,7 @@ withDefaults(
 		/**
 		 * All of the projects available to view
 		 */
-		projects: Project[];
+		projects?: Project[];
 	}>(),
 	{
 		activeProject: undefined,
@@ -158,6 +160,6 @@ function selectProjectFromSplide(_: typeof Splide, slide: typeof SplideSlide) {
 }
 
 .splide__slide:not(.is-active) img {
-	filter: grayscale(100%) sepia(100%) brightness(0.2) hue-rotate(120deg) saturate(5);
+	filter: grayscale(100%) sepia(100%) brightness(0.3) hue-rotate(120deg) saturate(5);
 }
 </style>

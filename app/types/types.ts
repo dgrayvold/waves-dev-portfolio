@@ -1,4 +1,4 @@
-export interface Project {
+export type Project = {
 	project: string;
 	description: string;
 	location: string;
@@ -9,4 +9,4 @@ export interface Project {
 		webp?: string;
 	};
 	cta?: string;
-}
+};

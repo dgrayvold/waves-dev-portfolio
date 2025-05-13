@@ -1,28 +1,75 @@
-# Waves Dev Portfolio
+# Nuxt Minimal Starter
 
-Dev portfolio for Daniel Grayvold ca. 2022. Now with calmer seas.
+Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
 
-## Tools
+## Setup
 
--   Vue 3 + Vite
--   UnoCSS
--   ESLint
--   Prettier
--   [CloudFlare Turnstile](https://www.cloudflare.com/products/turnstile/)
+Make sure to install dependencies:
 
-## Getting started
+```bash
+# npm
+npm install
 
-1. Rename the two example env files `.env` and `.dev.vars`, removing `.example` on both. Fill out the keys as listed in the files (all are required).
+# pnpm
+pnpm install
 
-2. Install packages and run dev server:
+# yarn
+yarn install
 
-    ```sh
-    pnpm install
+# bun
+bun install
+```
 
-    pnpm run dev
+## Development Server
 
-    # To test Pages functions with Wrangler:
-    wrangler pages dev -- pnpm dev
+Start the development server on `http://localhost:3000`:
 
-    # Open 127.0.0.1:8788
-    ```
+```bash
+# npm
+npm run dev
+
+# pnpm
+pnpm dev
+
+# yarn
+yarn dev
+
+# bun
+bun run dev
+```
+
+## Production
+
+Build the application for production:
+
+```bash
+# npm
+npm run build
+
+# pnpm
+pnpm build
+
+# yarn
+yarn build
+
+# bun
+bun run build
+```
+
+Locally preview production build:
+
+```bash
+# npm
+npm run preview
+
+# pnpm
+pnpm preview
+
+# yarn
+yarn preview
+
+# bun
+bun run preview
+```
+
+Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
