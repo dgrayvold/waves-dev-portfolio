@@ -1,75 +1,23 @@
-# Nuxt Minimal Starter
+# Waves Dev Portfolio
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+Dev portfolio for Daniel Grayvold ca. 2022. Now with calmer seas.
 
-## Setup
+## Tools
 
-Make sure to install dependencies:
+-   Nuxt
+-   UnoCSS
+-   ESLint
+-   Prettier
+-   [CloudFlare Turnstile](https://www.cloudflare.com/products/turnstile/)
 
-```bash
-# npm
-npm install
+## Getting started
 
-# pnpm
-pnpm install
+1. Rename the example env file to `.env`. Fill out the keys as listed in the files (all are required).
 
-# yarn
-yarn install
+2. Install packages and run dev server:
 
-# bun
-bun install
-```
+    ```sh
+    pnpm i
 
-## Development Server
-
-Start the development server on `http://localhost:3000`:
-
-```bash
-# npm
-npm run dev
-
-# pnpm
-pnpm dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
-```
-
-## Production
-
-Build the application for production:
-
-```bash
-# npm
-npm run build
-
-# pnpm
-pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+    pnpm dev
+    ```
