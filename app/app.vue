@@ -111,7 +111,7 @@ function isSectionId(id: string): id is SectionId {
 </script>
 
 <script setup lang="ts">
-import type { Project } from './types/types';
+import { projects } from '#nuxt-prepare';
 
 useSeoMeta({
 	charset: 'utf-8',
@@ -131,11 +131,6 @@ const { width: backgroundWidth } = useWindowSize({ initialWidth: 0 });
  * Whether the anchor icon in the header is visible or dropped into the sea
  */
 const anchorDropped = ref(false);
-
-/**
- * The list of projects to show off
- */
-const projects = ref<Project[]>([]);
 
 /**
  * The currently displayed project
@@ -268,7 +263,7 @@ function setBackground(entries: IntersectionObserverEntry[]) {
  * @param activeProjectIndex The index of the project to display
  */
 function setActiveProject(activeProjectIndex: number) {
-	activeProject.value = projects.value[activeProjectIndex];
+	activeProject.value = projects[activeProjectIndex];
 }
 
 /**
@@ -286,11 +281,7 @@ async function scrollToSection(id: string) {
 }
 
 onMounted(async () => {
-	projects.value = await fetch('https://cdn.grayvold.me/developer/data/projects.json').then(
-		response => response.json(),
-	);
-
-	activeProject.value = projects.value[0];
+	activeProject.value = projects[0];
 
 	const mediaQuery = matchMedia('(prefers-reduced-motion: reduce)');
 

@@ -4,9 +4,7 @@ export type Project = {
 	location: string;
 	url: string;
 	tags: string[];
-	image: {
-		jpg: string;
-		webp?: string;
-	};
-	cta?: string;
+	image: string | null;
+	sort: number;
+	cta: string;
 };

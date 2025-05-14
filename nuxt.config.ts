@@ -13,6 +13,7 @@ export default defineNuxtConfig({
 		'@unocss/nuxt',
 		'@vueuse/nuxt',
 		'nuxt-lodash',
+		'nuxt-prepare',
 	],
 
 	app: {
