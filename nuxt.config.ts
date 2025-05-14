@@ -27,6 +27,10 @@ export default defineNuxtConfig({
 		},
 	},
 
+	routeRules: {
+		'/': { prerender: true },
+	},
+
 	runtimeConfig: {
 		turnstile: {
 			secretKey: process.env.TURNSTILE_SECRET_KEY,
