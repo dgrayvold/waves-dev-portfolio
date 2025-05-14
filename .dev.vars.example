@@ -1,8 +1,0 @@
-# Where to send the contact form email to
-CONTACT_EMAIL="name@example.com"
-# The from email (usually a noreply@example.com)
-FROM_EMAIL="noreply@example.com"
-# The secret key for server-side CloudFlare Turnstile verification
-TURNSTILE_SECRET_KEY="secret_key_here"
-# Resend API key for email sending
-RESEND_KEY="re_J1XfkG63_BS5aEod19J8cvD8RkehjuqKS"

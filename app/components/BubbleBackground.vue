@@ -2,14 +2,11 @@
 	<canvas ref="canvas" :width="canvasDimensions.width" :height="canvasDimensions.height" />
 </template>
 
-<script setup lang="ts">
-import { computed, onMounted, ref } from 'vue';
-import { useAnimation } from '@/composables/animation';
-
+<script lang="ts">
 /**
  * A representation of a bubble shown on the animated background
  */
-interface Bubble {
+type Bubble = {
 	/**
 	 * The coordinates of the center of the bubble
 	 */
@@ -27,8 +24,10 @@ interface Bubble {
 	 * How big the bubble is
 	 */
 	size: number;
-}
+};
+</script>
 
+<script setup lang="ts">
 const props = withDefaults(
 	defineProps<{
 		/**
@@ -40,14 +39,18 @@ const props = withDefaults(
 		 * The width of the container to set the canvas width with
 		 */
 		width?: number;
+
+		active: boolean;
 	}>(),
 	{ imageUrl: '', width: 1000 },
 );
 
+const animationFrameId = useAnimationState(() => props.active, animate);
+
 /**
  * The canvas element
  */
-const canvas = ref<HTMLCanvasElement>();
+const canvas = useTemplateRef('canvas');
 
 /**
  * The canvas context
@@ -58,11 +61,6 @@ const ctx = ref<CanvasRenderingContext2D>();
  * The portrait to reveal with bubbles
  */
 const image = ref<HTMLImageElement>();
-
-/**
- * The collection of bubbles currently rising in the background
- */
-const bubbles = ref<Bubble[]>([]);
 
 /**
  * The maximum amount of bubbles that should be visible at a time
@@ -85,6 +83,11 @@ const maxSize = ref(50);
 const sizeModifier = ref(10);
 
 /**
+ * The collection of bubbles currently rising in the background
+ */
+const bubbles = [] as Bubble[];
+
+/**
  * The sizes and style declarations for the canvas
  */
 const canvasDimensions = computed(() => {
@@ -96,10 +99,6 @@ const canvasDimensions = computed(() => {
 	};
 });
 
-const { registerAnimationFunction } = useAnimation();
-
-registerAnimationFunction('about', animate);
-
 onMounted(async () => {
 	image.value = await loadImage();
 	ctx.value = canvas.value!.getContext('2d')!;
@@ -107,7 +106,7 @@ onMounted(async () => {
 	fillColor.value = getComputedStyle(canvas.value!).color;
 
 	for (let x = 0; x < count.value; x++) {
-		bubbles.value.push(generateBubble());
+		bubbles.push(generateBubble());
 	}
 });
 
@@ -139,11 +138,15 @@ function animate() {
 	ctx.value.globalAlpha = 0.9;
 
 	// Replace bubbles that have passed visibility & adjust position based on speed
-	for (let index = 0; index < bubbles.value.length; index++) {
-		const bubble = bubbles.value[index];
+	for (let index = 0; index < bubbles.length; index++) {
+		const bubble = bubbles[index];
+
+		if (!bubble) {
+			continue;
+		}
 
 		if (bubble.position.y < bubble.size * -2) {
-			bubbles.value[index] = generateBubble();
+			bubbles[index] = generateBubble();
 		} else {
 			bubble.position.y -= bubble.speed;
 		}
@@ -152,7 +155,7 @@ function animate() {
 	ctx.value.beginPath();
 
 	// Draw bubble
-	bubbles.value.forEach(bubble => {
+	bubbles.forEach(bubble => {
 		ctx.value?.moveTo(bubble.position.x, bubble.position.y);
 		ctx.value?.arc(
 			Math.floor(bubble.position.x),
@@ -165,6 +168,8 @@ function animate() {
 	});
 
 	ctx.value.fill();
+
+	animationFrameId.value = requestAnimationFrame(animate);
 }
 
 /**
