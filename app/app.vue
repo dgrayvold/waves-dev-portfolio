@@ -113,11 +113,15 @@ function isSectionId(id: string): id is SectionId {
 <script setup lang="ts">
 import { projects } from '#nuxt-prepare';
 
+useHead({
+	title: 'Daniel Grayvold | Making waves in creative media & tech',
+});
+
 useSeoMeta({
 	charset: 'utf-8',
 	viewport: 'width=device-width,initial-scale=1.0',
 	themeColor: '#001015',
-	description: 'A wildly creative tinkerer for media and web',
+	description: 'Making waves in creative media & tech',
 	author: 'Daniel Grayvold',
 	ogTitle: 'Daniel Grayvold',
 	ogType: 'website',
