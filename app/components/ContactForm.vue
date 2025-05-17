@@ -152,7 +152,7 @@ function submitContactForm() {
 	const validationResult = validateFormData(requestData);
 
 	if (!validationResult.success) {
-		formErrors.value = validationResult.error.issues.map(issue => issue.message);
+		formErrors.value = validationResult.issues.map(issue => issue.message);
 		formSubmissionInProgress.value = false;
 		return;
 	}
@@ -160,7 +160,7 @@ function submitContactForm() {
 	$fetch('/api/contact', {
 		method: 'POST',
 		body: {
-			requestData,
+			requestData: validationResult.output,
 			token: turnstileToken.value,
 		},
 	})

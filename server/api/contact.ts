@@ -24,7 +24,7 @@ export default defineEventHandler(async event => {
 
 	const runtimeConfig = useRuntimeConfig();
 	const resend = new Resend(runtimeConfig.resendKey);
-	const { name, email, message } = formValidationResult.data;
+	const { name, email, message } = formValidationResult.output;
 	const text = `You have a new contact form submission from ${name} at ${email}. The message is: \n\n${message}`;
 
 	const { error: emailError } = await resend.emails.send({

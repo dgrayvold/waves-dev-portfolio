@@ -56,15 +56,15 @@ importers:
       typescript:
         specifier: ^5.8.3
         version: 5.8.3
+      valibot:
+        specifier: ^1.1.0
+        version: 1.1.0(typescript@5.8.3)
       vue:
         specifier: ^3.5.13
         version: 3.5.13(typescript@5.8.3)
       vue-router:
         specifier: ^4.5.1
         version: 4.5.1(vue@3.5.13(typescript@5.8.3))
-      zod:
-        specifier: 4.0.0-beta.20250505T195954
-        version: 4.0.0-beta.20250505T195954
     devDependencies:
       '@iconify-json/akar-icons':
         specifier: ^1.2.2
@@ -1619,9 +1619,6 @@ packages:
 
   '@xtuc/long@4.2.2':
     resolution: {integrity: sha512-NuHqBY1PB/D8xU6s/thBgOAiAP7HOYDQ32+BFZILJ8ivkUkAHQnWfn6WhL79Owj1qmUnoN/YPhktdIoucipkAQ==}
-
-  '@zod/core@0.11.6':
-    resolution: {integrity: sha512-03Bv82fFSfjDAvMfdHHdGSS6SOJs0iCcJlWJv1kJHRtoTT02hZpyip/2Lk6oo4l4FtjuwTrsEQTwg/LD8I7dJA==}
 
   abbrev@1.1.1:
     resolution: {integrity: sha512-nne9/IiQ/hzIhY6pdDnbBtz7DjPTKrY00P/zvPSm5pOFkl6xuGrGnXn/VtTNNfNtAfZ9/1RtehkszU9qcTii0Q==}
@@ -5219,9 +5216,6 @@ packages:
   zod@3.24.4:
     resolution: {integrity: sha512-OdqJE9UDRPwWsrHjLN2F8bPxvwJBK22EHLWtanu0LSYr5YqzsaaW3RMgmjwr8Rypg5k+meEJdSPXJZXE/yqOMg==}
 
-  zod@4.0.0-beta.20250505T195954:
-    resolution: {integrity: sha512-iB8WvxkobVIXMARvQu20fKvbS7mUTiYRpcD8OQV1xjRhxO0EEpYIRJBk6yfBzHAHEdOSDh3SxDITr5Eajr2vtg==}
-
 snapshots:
 
   '@ampproject/remapping@2.3.0':
@@ -7250,8 +7244,6 @@ snapshots:
   '@xtuc/ieee754@1.2.0': {}
 
   '@xtuc/long@4.2.2': {}
-
-  '@zod/core@0.11.6': {}
 
   abbrev@1.1.1: {}
 
@@ -11264,7 +11256,3 @@ snapshots:
       zod: 3.24.4
 
   zod@3.24.4: {}
-
-  zod@4.0.0-beta.20250505T195954:
-    dependencies:
-      '@zod/core': 0.11.6

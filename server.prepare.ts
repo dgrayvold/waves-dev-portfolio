@@ -1,6 +1,6 @@
 import { defineNuxtPrepareHandler } from 'nuxt-prepare/config';
 import * as contentful from 'contentful';
-import z from 'zod';
+import * as v from 'valibot';
 import type { EntryFieldTypes } from 'contentful';
 import type { Project } from '~/types/types';
 
@@ -19,12 +19,12 @@ type DevPortfolioProjectSkeleton = {
 };
 
 export default defineNuxtPrepareHandler(async () => {
-	const envValidator = z.object({
-		CONTENTFUL_SPACE_ID: z.string(),
-		CONTENTFUL_CONTENT_TOKEN: z.string(),
+	const envSchema = v.object({
+		CONTENTFUL_SPACE_ID: v.string(),
+		CONTENTFUL_CONTENT_TOKEN: v.string(),
 	});
 
-	const envValidationResult = envValidator.safeParse(process.env);
+	const envValidationResult = v.safeParse(envSchema, process.env);
 
 	if (!envValidationResult.success) {
 		console.error('One or more required env variables not set');
@@ -34,7 +34,7 @@ export default defineNuxtPrepareHandler(async () => {
 		};
 	}
 
-	const env = envValidationResult.data;
+	const env = envValidationResult.output;
 
 	const client = contentful.createClient({
 		space: env.CONTENTFUL_SPACE_ID,
