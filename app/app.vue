@@ -14,7 +14,7 @@
 				<client-only>
 					<BubbleBackground
 						:width="backgroundWidth"
-						image-url="https://cdn.grayvold.me/file/grayvold-me-cdn/developer/images/daniel.png"
+						:image-url="portrait"
 						class="left-0 top-0 mt-8 lg:(absolute mt-0)"
 						:active="activeSection === 'about'"
 					/>
@@ -111,7 +111,7 @@ function isSectionId(id: string): id is SectionId {
 </script>
 
 <script setup lang="ts">
-import { projects } from '#nuxt-prepare';
+import { portrait, projects, ogImage } from '#nuxt-prepare';
 
 useHead({
 	title: 'Daniel Grayvold | Making waves in creative media & tech',
@@ -126,7 +126,7 @@ useSeoMeta({
 	ogTitle: 'Daniel Grayvold',
 	ogType: 'website',
 	ogUrl: 'https://grayvold.me',
-	ogImage: 'https://cdn.grayvold.me/developer/images/waves-dev-portfolio.png',
+	ogImage,
 });
 
 const { width: backgroundWidth } = useWindowSize({ initialWidth: 0 });

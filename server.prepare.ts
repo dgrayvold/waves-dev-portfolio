@@ -43,6 +43,8 @@ export default defineNuxtPrepareHandler(async () => {
 
 	const portraitUrl = (await client.getAsset('32fbbI0qkOG9jMntVM3Ryn')).fields.file?.url;
 
+	const ogImageUrl = (await client.getAsset('5ITLm4KdIwLqOEHR0022sr')).fields.file?.url;
+
 	const projectsListRaw =
 		await client.withoutUnresolvableLinks.getEntries<DevPortfolioProjectSkeleton>({
 			content_type: 'devPortfolioProject',
@@ -67,6 +69,7 @@ export default defineNuxtPrepareHandler(async () => {
 		ok: true,
 		state: {
 			portrait: `https://${portraitUrl}`,
+			ogImage: `https://${ogImageUrl}`,
 			projects: projectsList,
 		},
 	};

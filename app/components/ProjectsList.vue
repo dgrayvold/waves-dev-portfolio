@@ -22,10 +22,17 @@
 				:data-project-index="index"
 				@click="selectProject(index)"
 			>
-				<picture v-if="project.image" :title="project.project">
-					<!-- <source type="image/webp" :srcset="project.image" /> -->
-					<img :src="project.image" alt="Project image thumbnail" />
-				</picture>
+				<NuxtImg
+					v-if="project.image"
+					:title="project.project"
+					:src="project.image"
+					width="656"
+					format="jpg"
+					:modifiers="{
+						fl: 'progressive',
+						q: 75,
+					}"
+				/>
 
 				<div v-else class="h-full w-full flex flex-col items-center bg-theme-850">
 					<i

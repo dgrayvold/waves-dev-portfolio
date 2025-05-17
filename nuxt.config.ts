@@ -27,6 +27,10 @@ export default defineNuxtConfig({
 		},
 	},
 
+	image: {
+		provider: 'contentful',
+	},
+
 	routeRules: {
 		'/': { prerender: true },
 	},
