@@ -3,7 +3,7 @@
 		<form
 			v-if="!submissionComplete && !formSubmissionInProgress"
 			ref="form"
-			:class="elementClasses"
+			:class="$attrs.class"
 			@input="updateFormCompletionStatus"
 			@focusin.once="formInteracted = true"
 			@submit.prevent="submitContactForm"
@@ -43,7 +43,7 @@
 			</label>
 
 			<client-only>
-				<input type="submit" value="Send" :disabled="!formComplete" class="leading-trim" />
+				<input type="submit" value="Send" :disabled="!formComplete" class="mt-6" />
 			</client-only>
 
 			<output v-if="submissionError || formErrors.length" class="text-theme-600">
@@ -82,14 +82,6 @@
 </template>
 
 <script setup lang="ts">
-defineProps({
-	// Any class names to append to the form element
-	elementClasses: {
-		type: String,
-		default: '',
-	},
-});
-
 const form = useTemplateRef('form');
 
 const turnstile = useTemplateRef('turnstile');
@@ -198,8 +190,8 @@ const updateFormCompletionStatus = useDebounce(
 form,
 #submission-confirmation,
 #submission-loading {
-	@apply block max-w-128 mx-auto mt-12 mb-4 p-4 rounded-[0.5rem];
-	@apply border-2 border-theme-700 text-left text-theme-100;
+	@apply block max-w-128 mx-auto mt-8 mb-4 p-4 rounded-[0.5rem] lg:(mt-12);
+	@apply text-left text-theme-100;
 }
 
 input,
@@ -244,6 +236,6 @@ label span {
 }
 
 textarea {
-	@apply min-h-32 !border-theme-700  !border-2 rounded px-1 pt-1 leading-5 resize-y;
+	@apply min-h-32 !border-theme-700 bg-theme-950  !border-2 rounded px-1 pt-1 leading-5 resize-y;
 }
 </style>

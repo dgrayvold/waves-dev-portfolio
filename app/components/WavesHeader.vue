@@ -2,20 +2,24 @@
 	<header
 		id="header"
 		ref="header"
-		class="relative h-screen min-h-180 w-full overflow-hidden bg-theme-100"
+		class="relative h-screen min-h-180 w-full overflow-hidden bg-theme-100 before:(absolute inset-0 bg-theme-100 content-empty -z-100)"
 	>
 		<canvas
 			v-for="(_, index) in 4"
 			:id="`background-${index}`"
 			:key="index"
 			ref="blavaCanvasElements"
+			class="absolute bottom-0 z-1 h-1/4 w-full opacity-100 lg:h-1/3"
 		/>
 
-		<div class="mx-auto mt-16 max-w-192 rounded-xl p-4">
-			<h1 class="px-8 leading-12 lg:leading-16" text="5xl center theme-850 lg:6xl">
+		<div class="mx-auto mt-8 max-w-192 rounded-xl p-2 md:(mt-16 p-4)">
+			<h1
+				class="px-8 text-center text-5xl text-theme-850 leading-12 lg:(text-6xl leading-16)"
+			>
 				Hi, I'm Daniel Grayvold
 			</h1>
-			<p class="px-8 text-center" text="3xl theme-800 lg:4xl">
+
+			<p class="px-8 text-center text-3xl text-theme-800 lg:text-4xl">
 				I'm making waves in creative media &amp; tech
 			</p>
 
@@ -32,12 +36,10 @@
 							'top-128': anchorDropped,
 						}"
 					/>
+
 					<span
 						class="relative top-0 text-2xl uppercase transition-all duration-300"
-						:class="{
-							'top-8': anchorDropped,
-							'opacity-0': anchorDropped,
-						}"
+						:class="[anchorDropped ? 'top-8 opacity-0' : '']"
 					>
 						Dive in
 					</span>
@@ -184,21 +186,6 @@ onMounted(() => {
 </script>
 
 <style scoped lang="postcss">
-header {
-	@apply relative;
-}
-
-header canvas {
-	@apply absolute bottom-0 w-full h-1/4  lg:h-1/3 z-1 opacity-100;
-}
-
-header::before {
-	content: '';
-	z-index: -100;
-
-	@apply absolute inset-0 bg-theme-100;
-}
-
 #background-2 {
 	bottom: 2rem;
 }

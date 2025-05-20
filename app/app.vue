@@ -24,11 +24,13 @@
 					id="about-text"
 					class="relative z-10 mx-auto max-w-140 min-h-[500px] px-4 pb-2 pt-0 lg:(ml-auto mr-8 bg-theme-800 text-theme-100)"
 				>
-					<i
-						class="i-iconoir-sea-waves waves-icon mb-0 block h-8 w-8 pt-12 text-theme-900 -ml-0.5 lg:text-theme-100"
-					/>
+					<div class="mx-12 my-8 flex flex-col items-center gap-2 lg:(gap-0 pt-4)">
+						<i
+							class="i-iconoir-sea-waves waves-icon mb-0 block h-8 w-8 pt-12 text-theme-900 -ml-0.5 lg:text-theme-100"
+						/>
 
-					<h2 class="mb-4">Who I am</h2>
+						<h2 class="col-span-2 mt-2">Who I am</h2>
+					</div>
 
 					<p>
 						A
@@ -61,10 +63,13 @@
 			</section>
 
 			<section id="projects">
-				<i
-					class="i-icon-park-outline-sailboat-one sailboat-icon col-span-2 mx-12 mb-2 block h-10 w-10 !stroke-theme-700"
-				/>
-				<h2 class="col-span-2 mx-12 mb-8">What I've made</h2>
+				<div class="mx-12 mb-16 flex flex-col items-center gap-4">
+					<i
+						class="i-icon-park-outline-sailboat-one sailboat-icon col-span-2 block h-8 w-8 !stroke-theme-700"
+					/>
+
+					<h2 class="col-span-2 mt-2">What I've made</h2>
+				</div>
 
 				<client-only>
 					<FishBackground
@@ -89,10 +94,10 @@
 					<span>Let's set sail together</span>
 				</h2>
 
-				<ContactForm element-classes="bg-theme-950" />
+				<ContactForm />
 
 				<i
-					class="i-mdi-anchor absolute right-8 h-64 w-64 transform text-theme-850 -bottom-16 -z-1 -rotate-30"
+					class="i-mdi-anchor absolute right-8 h-64 w-64 transform text-theme-900 -bottom-16 -z-1 -rotate-30 lg:text-theme-850"
 				/>
 			</section>
 		</main>
