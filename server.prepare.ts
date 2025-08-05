@@ -2,7 +2,7 @@ import { defineNuxtPrepareHandler } from 'nuxt-prepare/config';
 import * as contentful from 'contentful';
 import * as v from 'valibot';
 import type { EntryFieldTypes } from 'contentful';
-import type { Project } from '~/types/types';
+import type { Project } from './app/types/types';
 
 type DevPortfolioProjectSkeleton = {
 	contentTypeId: 'devPortfolioProject';

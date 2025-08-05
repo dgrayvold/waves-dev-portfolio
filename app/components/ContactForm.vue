@@ -82,6 +82,8 @@
 </template>
 
 <script setup lang="ts">
+import { debounce } from 'lodash-es';
+
 const form = useTemplateRef('form');
 
 const turnstile = useTemplateRef('turnstile');
@@ -174,7 +176,7 @@ function submitContactForm() {
 /**
  * Set disabled attribute on submit button depending on form completion status
  */
-const updateFormCompletionStatus = useDebounce(
+const updateFormCompletionStatus = debounce(
 	() => {
 		// Null out the submission error as user is attempting to fix
 		submissionError.value = undefined;
