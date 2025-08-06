@@ -26,7 +26,7 @@
 				>
 					<div class="mx-12 my-8 flex flex-col items-center gap-2 lg:(gap-0 pt-4)">
 						<i
-							class="i-iconoir-sea-waves waves-icon mb-0 block h-8 w-8 pt-12 text-theme-900 -ml-0.5 lg:text-theme-100"
+							class="waves-icon i-iconoir:sea-waves mb-0 block h-8 w-8 pt-12 text-theme-900 -ml-0.5 lg:text-theme-100"
 						/>
 
 						<h2 class="col-span-2 mt-2">Who I am</h2>
@@ -65,7 +65,7 @@
 			<section id="projects">
 				<div class="mx-12 mb-16 flex flex-col items-center gap-4">
 					<i
-						class="i-icon-park-outline-sailboat-one sailboat-icon col-span-2 block h-8 w-8 !stroke-theme-700"
+						class="sailboat-icon i-icon-park-outline:sailboat-one col-span-2 block h-8 w-8 !stroke-theme-700"
 					/>
 
 					<h2 class="col-span-2 mt-2">What I've made</h2>
@@ -88,7 +88,7 @@
 			</section>
 
 			<section id="contact" class="relative min-h-screen overflow-hidden pb-32 text-center">
-				<i class="i-mdi-ship-wheel mx-auto mb-8 mt-32 block h-10 w-10 text-theme-700" />
+				<i class="i-mdi:ship-wheel mx-auto mb-8 mt-32 block h-10 w-10 text-theme-700" />
 
 				<h2>
 					<span>Let's set sail together</span>
@@ -97,7 +97,7 @@
 				<ContactForm />
 
 				<i
-					class="i-mdi-anchor absolute right-8 h-64 w-64 transform text-theme-900 -bottom-16 -z-1 -rotate-30 lg:text-theme-850"
+					class="i-mdi:anchor absolute right-8 h-64 w-64 transform text-theme-900 -bottom-16 -z-1 -rotate-30 lg:text-theme-850"
 				/>
 			</section>
 		</main>

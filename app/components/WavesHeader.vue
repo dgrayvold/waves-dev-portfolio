@@ -31,7 +31,7 @@
 				>
 					<i
 						id="dive-icon"
-						class="i-mdi-anchor relative top-0 mx-auto block h-28 w-28 origin-center transform transition-all ease-out -translate-x-2 -rotate-45"
+						class="i-mdi:anchor relative top-0 mx-auto block h-28 w-28 origin-center transform transition-all ease-out -translate-x-2 -rotate-45"
 						:class="{
 							'top-128': anchorDropped,
 						}"
@@ -100,17 +100,17 @@ const sectionLinks = ref([
 	{
 		url: '#about',
 		cta: 'About',
-		classes: 'i-iconoir-sea-waves group-hover:animate-float waves-icon',
+		classes: 'i-iconoir:sea-waves group-hover:animate-float waves-icon',
 	},
 	{
 		url: '#projects',
 		cta: 'Projects',
-		classes: 'i-icon-park-outline-sailboat-one group-hover:animate-boat sailboat-icon-thicker',
+		classes: 'i-icon-park-outline:sailboat-one group-hover:animate-boat sailboat-icon-thicker',
 	},
 	{
 		url: '#contact',
 		cta: 'Contact',
-		classes: 'i-mdi-ship-wheel stroke-128 group-hover:animate-turn',
+		classes: 'i-mdi:ship-wheel stroke-128 group-hover:animate-turn',
 	},
 ]);
 

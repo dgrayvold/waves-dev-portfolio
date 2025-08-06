@@ -66,7 +66,7 @@
 
 		<div v-else-if="formSubmissionInProgress" id="submission-loading">
 			<i
-				class="i-iconoir-sea-waves waves-icon mx-auto my-8 block h-8 w-8 animate-float text-theme-600"
+				class="i-iconoir:sea-waves waves-icon mx-auto my-8 block h-8 w-8 animate-float text-theme-600"
 			/>
 		</div>
 

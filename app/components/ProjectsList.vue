@@ -36,7 +36,7 @@
 
 				<div v-else class="h-full w-full flex flex-col items-center bg-theme-850">
 					<i
-						class="i-icon-park-outline-sailboat-one mx-auto my-8 inline-block h-full w-24 text-theme-800"
+						class="i-icon-park-outline:sailboat-one mx-auto my-8 inline-block h-full w-24 text-theme-800"
 					/>
 				</div>
 			</SplideSlide>
@@ -49,12 +49,11 @@
 				<li v-for="(project, index) in projects" :key="project.project">
 					<button
 						class="m-3 h-4 w-4 cursor-pointer border-2 border-theme-800 rounded-xl outline-2 outline-transparent outline"
-						:class="{
-							'bg-theme-100 border-theme-100 focus-visible:outline-theme-800':
-								activeProject?.project === projects[index]?.project,
-							'bg-theme-800 border-theme-800 focus-visible:outline-theme-100':
-								activeProject?.project !== projects[index]?.project,
-						}"
+						:class="
+							activeProject?.project === projects[index]?.project
+								? 'bg-theme-100 border-theme-100 focus-visible:outline-theme-800'
+								: 'bg-theme-800 border-theme-800 focus-visible:outline-theme-100'
+						"
 						:aria-label="project.project"
 						@click="selectProject(index)"
 					/>
@@ -94,7 +93,7 @@
 				</span>
 
 				<i
-					class="i-icon-park-outline-sailboat-one ml-2 inline-block h-4 transform stroke-4 align-middle transition-all"
+					class="i-icon-park-outline:sailboat-one ml-2 inline-block h-4 transform stroke-4 align-middle transition-all"
 				/>
 			</a>
 		</div>
