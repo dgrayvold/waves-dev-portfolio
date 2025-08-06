@@ -1,17 +1,21 @@
 <template>
-	<div>
+	<div
+		class="text-theme-100 mx-auto mb-4 mt-8 p-4 text-left rounded-[0.5rem] max-w-128 block lg:(mt-12)"
+	>
 		<form
 			v-if="!submissionComplete && !formSubmissionInProgress"
 			ref="form"
+			class="font-display"
 			:class="$attrs.class"
 			@input="updateFormCompletionStatus"
 			@focusin.once="formInteracted = true"
 			@submit.prevent="submitContactForm"
 		>
-			<label>
-				<span>Name</span>
+			<label class="text-theme-700 block transition-colors focus-within:(text-theme-100)">
+				<span class="block">Name</span>
 				<input
 					v-model="formData.name"
+					class="text-theme-100 mb-4 outline-none border-b-2 border-transparent border-b-theme-700 rounded-none bg-transparent w-full block resize-y transition-colors placeholder:(text-theme-100/40) focus:(outline-none border-transparent border-b-theme-100)"
 					name="name"
 					maxlength="128"
 					placeholder="Dempster 'Shark Bait' Keic"
@@ -19,10 +23,11 @@
 				/>
 			</label>
 
-			<label>
-				<span>Email</span>
+			<label class="text-theme-700 block transition-colors focus-within:(text-theme-100)">
+				<span class="block">Email</span>
 				<input
 					v-model="formData.email"
+					class="text-theme-100 mb-4 outline-none border-b-2 border-transparent border-b-theme-700 rounded-none bg-transparent w-full block resize-y transition-colors placeholder:(text-theme-100/40) focus:(outline-none border-transparent border-b-theme-100)"
 					type="email"
 					name="email"
 					maxlength="128"
@@ -31,10 +36,11 @@
 				/>
 			</label>
 
-			<label>
-				<span>Message</span>
+			<label class="text-theme-700 block transition-colors focus-within:(text-theme-100)">
+				<span class="block">Message</span>
 				<textarea
 					v-model="formData.message"
+					class="text-theme-100 leading-5 mb-4 px-1 pt-1 outline-none border-b-2 border-transparent border-b-theme-700 rounded rounded-none bg-theme-950 bg-transparent min-h-32 w-full block resize-y resize-y transition-colors placeholder:(text-theme-100/40) focus:(outline-none border-transparent border-b-theme-100) !border-2 !border-theme-700"
 					name="message"
 					maxlength="1000"
 					placeholder="Current careening waveson kelp forecastle plankowner primage first assistant engineer companionway berth harbourmaster."
@@ -43,14 +49,19 @@
 			</label>
 
 			<client-only>
-				<input type="submit" value="Send" :disabled="!formComplete" class="mt-6" />
+				<input
+					class="text-theme-900 px-2 py-0.5 rounded border-none bg-theme-600 max-w-28 cursor-pointer disabled:(text-theme-900 bg-theme-800 cursor-auto) focus:(text-theme-100 bg-theme-850) hover:(text-theme-100 bg-theme-850)"
+					type="submit"
+					value="Send"
+					:disabled="!formComplete"
+				/>
 			</client-only>
 
 			<output v-if="submissionError || formErrors.length" class="text-theme-600">
 				<p v-if="submissionError">{{ submissionError }}</p>
 
 				<div v-if="formErrors.length" class="flex gap-4">
-					<i class="i-icon-park-outline:thunderstorm-one inline-block h-6 w-6" />
+					<i class="i-icon-park-outline:thunderstorm-one h-6 w-6 inline-block" />
 					<div>
 						<p>Please check your submission for errors:</p>
 
@@ -66,13 +77,13 @@
 
 		<div v-else-if="formSubmissionInProgress" id="submission-loading">
 			<i
-				class="i-iconoir:sea-waves waves-icon mx-auto my-8 block h-8 w-8 animate-float text-theme-600"
+				class="i-iconoir:sea-waves waves-icon text-theme-600 mx-auto my-8 h-8 w-8 block animate-float"
 			/>
 		</div>
 
 		<div v-else id="submission-confirmation">
-			<p class="text-center text-3xl font-display">Submission complete</p>
-			<p class="mx-auto mt-4 text-xl">
+			<p class="font-display text-3xl text-center">Submission complete</p>
+			<p class="text-xl mx-auto mt-4">
 				Thanks for your interest! I'll get back to you as soon as I can.
 			</p>
 		</div>
@@ -189,55 +200,10 @@ const updateFormCompletionStatus = debounce(
 </script>
 
 <style scoped lang="postcss">
-form,
-#submission-confirmation,
-#submission-loading {
-	@apply block max-w-128 mx-auto mt-8 mb-4 p-4 rounded-[0.5rem] lg:(mt-12);
-	@apply text-left text-theme-100;
-}
-
-input,
-textarea {
-	@apply block w-full mb-4 resize-y bg-transparent text-theme-100 outline-none;
-	@apply border-transparent border-b-2 border-b-theme-700 rounded-none transition-colors;
-}
-
-input::placeholder,
-textarea::placeholder {
-	@apply text-theme-100 text-opacity-40;
-}
-
-input:focus,
-textarea:focus {
-	@apply outline-none border-transparent border-b-theme-100;
-}
-
 input:focus::-webkit-input-placeholder,
 input:focus::-moz-placeholder,
 textarea:focus::-webkit-input-placeholder,
 textarea:focus::-moz-placeholder {
 	@apply text-transparent;
-}
-
-input[type='submit'] {
-	@apply bg-theme-600 text-theme-900 rounded px-2 py-0.5 border-none cursor-pointer max-w-28;
-	@apply focus:(bg-theme-850 text-theme-100) hover:(bg-theme-850 text-theme-100);
-	@apply disabled:(bg-theme-800 text-theme-900 cursor-auto);
-}
-
-label {
-	@apply block text-theme-700 transition-colors;
-}
-
-label:focus-within {
-	@apply text-theme-100;
-}
-
-label span {
-	@apply block;
-}
-
-textarea {
-	@apply min-h-32 !border-theme-700 bg-theme-950  !border-2 rounded px-1 pt-1 leading-5 resize-y;
 }
 </style>

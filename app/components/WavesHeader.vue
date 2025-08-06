@@ -2,43 +2,43 @@
 	<header
 		id="header"
 		ref="header"
-		class="relative h-screen min-h-180 w-full overflow-hidden bg-theme-100 before:(absolute inset-0 bg-theme-100 content-empty -z-100)"
+		class="bg-theme-100 h-screen min-h-180 w-full relative overflow-hidden before:(bg-theme-100 content-empty inset-0 absolute -z-100)"
 	>
 		<canvas
 			v-for="(_, index) in 4"
 			:id="`background-${index}`"
 			:key="index"
 			ref="blavaCanvasElements"
-			class="absolute bottom-0 z-1 h-1/4 w-full opacity-100 lg:h-1/3"
+			class="opacity-100 h-1/4 w-full bottom-0 absolute z-1 lg:h-1/3"
 		/>
 
-		<div class="mx-auto mt-8 max-w-192 rounded-xl p-2 md:(mt-16 p-4)">
+		<div class="mx-auto mt-8 p-2 rounded-xl max-w-192 md:(mt-16 p-4)">
 			<h1
-				class="px-8 text-center text-5xl text-theme-850 leading-12 lg:(text-6xl leading-16)"
+				class="text-5xl text-theme-850 leading-12 px-8 text-center lg:(text-6xl leading-16)"
 			>
 				Hi, I'm Daniel Grayvold
 			</h1>
 
-			<p class="px-8 text-center text-3xl text-theme-800 lg:text-4xl">
+			<p class="text-3xl text-theme-800 px-8 text-center lg:text-4xl">
 				I'm making waves in creative media &amp; tech
 			</p>
 
-			<nav class="mt-14 flex justify-center px-4 text-theme-900">
+			<nav class="text-theme-900 mt-14 px-4 flex justify-center">
 				<button
-					class="top-0 hidden pr-9 text-center text-theme-800 transition-colors sm:block hover:text-theme-900"
+					class="text-theme-800 pr-9 text-center hidden cursor-pointer transition-colors top-0 hover:text-theme-900 sm:block"
 					aria-label="Go to main content"
 					@click="() => emit('dive')"
 				>
 					<i
 						id="dive-icon"
-						class="i-mdi:anchor relative top-0 mx-auto block h-28 w-28 origin-center transform transition-all ease-out -translate-x-2 -rotate-45"
+						class="i-mdi:anchor mx-auto h-28 w-28 block origin-center transform transition-all ease-out top-0 relative -translate-x-2 -rotate-45"
 						:class="{
 							'top-128': anchorDropped,
 						}"
 					/>
 
 					<span
-						class="relative top-0 text-2xl uppercase transition-all duration-300"
+						class="text-2xl uppercase transition-all duration-300 top-0 relative"
 						:class="[anchorDropped ? 'top-8 opacity-0' : '']"
 					>
 						Dive in
@@ -46,28 +46,28 @@
 				</button>
 
 				<ul
-					class="grid grid-rows-[repeat(3,1fr),auto] justify-start gap-3 border-theme-800 px-10 lg:gap-2 sm:border-l-2"
+					class="px-10 border-theme-800 gap-3 grid grid-rows-[repeat(3,1fr),auto] justify-start sm:border-l-2 lg:gap-2"
 				>
 					<li v-for="link in sectionLinks" :key="link.url">
 						<IconLink :href="link.url" class="group" v-bind="$attrs">
 							<template #icon>
-								<i class="inline-block h-24px w-24px" :class="link.classes" />
+								<i class="h-24px w-24px inline-block" :class="link.classes" />
 							</template>
 							<template #cta> {{ link.cta }} </template>
 						</IconLink>
 					</li>
 
 					<li>
-						<ul class="mt-2 flex gap-6 pl-2.5">
+						<ul class="mt-2 pl-2.5 flex gap-6">
 							<li v-for="link in externalLinks" :key="link.url">
 								<a
 									:href="link.url"
 									target="_blank"
-									class="group inline-block h-6 w-6 rounded transition-colors"
+									class="group rounded h-6 w-6 inline-block transition-colors"
 									:title="link.title"
 								>
 									<i
-										class="inline-block h-full w-full text-theme-800 transition-colors focus:text-theme-950 group-hover:text-theme-950"
+										class="text-theme-800 h-full w-full inline-block transition-colors focus:text-theme-950 group-hover:text-theme-950"
 										:class="link.classes"
 									/>
 								</a>

@@ -15,21 +15,21 @@
 					<BubbleBackground
 						:width="backgroundWidth"
 						:image-url="portrait"
-						class="left-0 top-0 mt-8 lg:(absolute mt-0)"
+						class="mt-8 left-0 top-0 lg:(mt-0 absolute)"
 						:active="activeSection === 'about'"
 					/>
 				</client-only>
 
 				<div
 					id="about-text"
-					class="relative z-10 mx-auto max-w-140 min-h-[500px] px-4 pb-2 pt-0 lg:(ml-auto mr-8 bg-theme-800 text-theme-100)"
+					class="font-text mx-auto px-4 pb-2 pt-0 max-w-140 min-h-[500px] relative z-10 lg:(text-theme-100 ml-auto mr-8 bg-theme-800)"
 				>
-					<div class="mx-12 my-8 flex flex-col items-center gap-2 lg:(gap-0 pt-4)">
+					<div class="mx-12 mb-8 flex flex-col gap-2 items-center lg:(pt-4 gap-0)">
 						<i
-							class="waves-icon i-iconoir:sea-waves mb-0 block h-8 w-8 pt-12 text-theme-900 -ml-0.5 lg:text-theme-100"
+							class="waves-icon i-iconoir:sea-waves text-theme-900 mb-0 pt-12 h-8 w-8 block lg:text-theme-100 -ml-0.5"
 						/>
 
-						<h2 class="col-span-2 mt-2">Who I am</h2>
+						<h2 class="mt-2 col-span-2">Who I am</h2>
 					</div>
 
 					<p>
@@ -63,12 +63,12 @@
 			</section>
 
 			<section id="projects">
-				<div class="mx-12 mb-16 flex flex-col items-center gap-4">
+				<div class="mx-12 mb-16 flex flex-col gap-4 items-center">
 					<i
-						class="sailboat-icon i-icon-park-outline:sailboat-one col-span-2 block h-8 w-8 !stroke-theme-700"
+						class="sailboat-icon i-icon-park-outline:sailboat-one col-span-2 h-8 w-8 block !stroke-theme-700"
 					/>
 
-					<h2 class="col-span-2 mt-2">What I've made</h2>
+					<h2 class="mt-2 col-span-2">What I've made</h2>
 				</div>
 
 				<client-only>
@@ -87,8 +87,8 @@
 				/>
 			</section>
 
-			<section id="contact" class="relative min-h-screen overflow-hidden pb-32 text-center">
-				<i class="i-mdi:ship-wheel mx-auto mb-8 mt-32 block h-10 w-10 text-theme-700" />
+			<section id="contact" class="pb-32 text-center min-h-screen relative overflow-hidden">
+				<i class="i-mdi:ship-wheel text-theme-700 mx-auto mb-8 mt-32 h-10 w-10 block" />
 
 				<h2>
 					<span>Let's set sail together</span>
@@ -97,12 +97,12 @@
 				<ContactForm />
 
 				<i
-					class="i-mdi:anchor absolute right-8 h-64 w-64 transform text-theme-900 -bottom-16 -z-1 -rotate-30 lg:text-theme-850"
+					class="i-mdi:anchor text-theme-900 h-64 w-64 transform right-8 absolute lg:text-theme-850 -rotate-30 -bottom-16 -z-1"
 				/>
 			</section>
 		</main>
 
-		<div class="fixed inset-0 transition-colors duration-700 -z-10" :class="backgroundClass" />
+		<div class="transition-colors duration-700 inset-0 fixed -z-10" :class="backgroundClass" />
 	</div>
 </template>
 
@@ -170,7 +170,7 @@ const currentDominantSectionHeight = ref<number>(0);
 /**
  * The current color class to apply to the background
  */
-const backgroundClass = ref('bg-theme-100');
+const backgroundClass = ref('bg-theme-600');
 
 /**
  * The current color class to apply to text elements
@@ -329,10 +329,6 @@ h4,
 h5,
 h6 {
 	@apply font-display !font-bold;
-}
-
-form * {
-	@apply font-display;
 }
 
 .sailboat-icon path {
