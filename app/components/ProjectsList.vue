@@ -43,12 +43,12 @@
 		</Splide>
 
 		<div
-			class="relative z-10 mx-auto max-w-[90%] min-h-76 w-full border-2 border-theme-700 rounded-lg from-theme-900 to-theme-900 to-opacity-90 bg-gradient-to-r px-4 md:(max-w-[500px] -mt-8)"
+			class="bg-linear-to-r relative z-10 mx-auto max-w-[90%] min-h-76 w-full border-2 border-theme-700 rounded-lg from-theme-900 to-theme-900 to-opacity-90 px-4 md:(max-w-[500px] -mt-8)"
 		>
 			<ul class="flex items-end justify-center gap-4">
 				<li v-for="(project, index) in projects" :key="project.project">
 					<button
-						class="m-3 h-4 w-4 border-2 border-theme-800 rounded-xl outline-2 outline-transparent outline"
+						class="m-3 h-4 w-4 cursor-pointer border-2 border-theme-800 rounded-xl outline-2 outline-transparent outline"
 						:class="{
 							'bg-theme-100 border-theme-100 focus-visible:outline-theme-800':
 								activeProject?.project === projects[index]?.project,

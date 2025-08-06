@@ -2,13 +2,21 @@ import {
 	defineConfig,
 	presetAttributify,
 	presetIcons,
-	presetWind3,
+	presetWind4,
 	transformerDirectives,
 	transformerVariantGroup,
 } from 'unocss';
 
 export default defineConfig({
-	presets: [presetAttributify(), presetIcons(), presetWind3()],
+	presets: [
+		presetAttributify(),
+		presetIcons(),
+		presetWind4({
+			preflights: {
+				reset: true,
+			},
+		}),
+	],
 
 	transformers: [transformerDirectives(), transformerVariantGroup()],
 

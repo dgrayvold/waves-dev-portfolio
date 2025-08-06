@@ -16,7 +16,6 @@
     "@nuxt/image": "1.11.0",
     "@nuxtjs/turnstile": "^1.0.0",
     "@splidejs/vue-splide": "^0.6.12",
-    "@unocss/reset": "^66.4.1",
     "@vueuse/nuxt": "^13.6.0",
     "blava": "2.0.2",
     "contentful": "^11.7.15",

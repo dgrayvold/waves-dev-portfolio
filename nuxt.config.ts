@@ -42,8 +42,6 @@ export default defineNuxtConfig({
 		toEmail: process.env.TO_EMAIL,
 	},
 
-	css: ['@unocss/reset/tailwind.css'],
-
 	turnstile: {
 		siteKey: process.env.TURNSTILE_SITE_KEY,
 	},

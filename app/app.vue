@@ -388,7 +388,7 @@ main > section {
      */
 	font-synthesis: none;
 
-	@apply font-bold bg-gradient-to-r from-theme-800 to-theme-600 lg:from-theme-100 lg:to-theme-700 bg-no-repeat to-transparent;
+	@apply font-bold bg-linear-to-r from-theme-800 to-theme-600 lg:from-theme-100 lg:to-theme-700 bg-no-repeat to-transparent;
 
 	background-size: 100% 0.25rem;
 	background-position: left 90%;
