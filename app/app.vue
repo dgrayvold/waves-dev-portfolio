@@ -118,8 +118,19 @@ function isSectionId(id: string): id is SectionId {
 <script setup lang="ts">
 import { portrait, projects, ogImage } from '#nuxt-prepare';
 
+/**
+ * The current color class to apply to the background
+ */
+const backgroundClass = ref('bg-theme-600');
+
 useHead({
 	title: 'Daniel Grayvold | Making waves in creative media & tech',
+	bodyAttrs: {
+		class: backgroundClass,
+		style: {
+			transition: 'background 0.4s',
+		},
+	},
 });
 
 useSeoMeta({
@@ -166,11 +177,6 @@ const currentDominantSection = ref<HTMLElement>();
  * The height of the current dominant section
  */
 const currentDominantSectionHeight = ref<number>(0);
-
-/**
- * The current color class to apply to the background
- */
-const backgroundClass = ref('bg-theme-600');
 
 /**
  * The current color class to apply to text elements
