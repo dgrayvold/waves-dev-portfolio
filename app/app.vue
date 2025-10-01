@@ -25,8 +25,10 @@
 					class="font-text mx-auto px-4 pb-2 pt-0 max-w-140 min-h-[500px] relative z-10 lg:(text-theme-100 ml-auto mr-8 bg-theme-800)"
 				>
 					<div class="mx-12 mb-8 flex flex-col gap-2 items-center lg:(pt-4 gap-0)">
-						<i
-							class="waves-icon i-iconoir:sea-waves text-theme-900 mb-0 pt-12 h-8 w-8 block lg:text-theme-100 -ml-0.5"
+						<Icon
+							name="mdi:ship-wheel"
+							size="32"
+							class="waves-icon text-theme-900 mb-4 mt-12 block lg:text-theme-100 -ml-0.5"
 						/>
 
 						<h2 class="mt-2 col-span-2">Who I am</h2>
@@ -64,8 +66,10 @@
 
 			<section id="projects">
 				<div class="mx-12 mb-16 flex flex-col gap-4 items-center">
-					<i
-						class="sailboat-icon i-icon-park-outline:sailboat-one col-span-2 h-8 w-8 block !stroke-theme-700"
+					<Icon
+						name="icon-park-outline:sailboat-one"
+						size="32"
+						class="sailboat-icon col-span-2 !stroke-theme-700"
 					/>
 
 					<h2 class="mt-2 col-span-2">What I've made</h2>
@@ -88,7 +92,11 @@
 			</section>
 
 			<section id="contact" class="pb-32 text-center min-h-screen relative overflow-hidden">
-				<i class="i-mdi:ship-wheel text-theme-700 mx-auto mb-8 mt-32 h-10 w-10 block" />
+				<Icon
+					name="mdi:ship-wheel"
+					size="40"
+					class="text-theme-700 mx-auto mb-8 mt-32 h-10 w-10 block"
+				/>
 
 				<h2>
 					<span>Let's set sail together</span>
@@ -96,8 +104,10 @@
 
 				<ContactForm />
 
-				<i
-					class="i-mdi:anchor text-theme-900 h-64 w-64 transform right-8 absolute lg:text-theme-850 -rotate-30 -bottom-16 -z-1"
+				<Icon
+					name="mdi:anchor"
+					size="256"
+					class="text-theme-900 transform right-8 absolute lg:text-theme-850 -rotate-30 -bottom-16 -z-1"
 				/>
 			</section>
 		</main>
@@ -349,6 +359,48 @@ h6 {
 .waves-icon path {
 	stroke-width: 2;
 }
+
+@keyframes boat {
+	0% {
+		transform: translateY(0px) rotateZ(0deg);
+	}
+	33% {
+		transform: translateY(-4px) rotateX(2deg) rotateZ(5deg);
+	}
+	66% {
+		transform: translateY(4px) rotateZ(-6deg);
+	}
+	100% {
+		transform: translateY(0px) rotateZ(0deg);
+	}
+}
+
+@keyframes float {
+	0% {
+		transform: translateY(0px);
+	}
+	50% {
+		transform: translateY(-4px);
+	}
+	75% {
+		transform: translateY(4px);
+	}
+	100% {
+		transform: translateY(0px);
+	}
+}
+
+@keyframes turn {
+	0% {
+		transform: rotateZ(0deg);
+	}
+	50% {
+		transform: rotateZ(90deg);
+	}
+	100% {
+		transform: rotateZ(0deg);
+	}
+}
 </style>
 
 <style scoped lang="postcss">
@@ -394,47 +446,5 @@ main > section {
 
 	background-size: 100% 0.25rem;
 	background-position: left 90%;
-}
-
-@keyframes boat {
-	0% {
-		transform: translateY(0px) rotateZ(0deg);
-	}
-	33% {
-		transform: translateY(-4px) rotateX(2deg) rotateZ(5deg);
-	}
-	66% {
-		transform: translateY(4px) rotateZ(-6deg);
-	}
-	100% {
-		transform: translateY(0px) rotateZ(0deg);
-	}
-}
-
-@keyframes float {
-	0% {
-		transform: translateY(0px);
-	}
-	50% {
-		transform: translateY(-4px);
-	}
-	75% {
-		transform: translateY(4px);
-	}
-	100% {
-		transform: translateY(0px);
-	}
-}
-
-@keyframes turn {
-	0% {
-		transform: rotateZ(0deg);
-	}
-	50% {
-		transform: rotateZ(90deg);
-	}
-	100% {
-		transform: rotateZ(0deg);
-	}
 }
 </style>

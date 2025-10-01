@@ -11,6 +11,7 @@ export default defineNuxtConfig({
 		'@unocss/nuxt',
 		'@vueuse/nuxt',
 		'nuxt-prepare',
+		'@nuxt/icon',
 	],
 
 	app: {
@@ -26,6 +27,14 @@ export default defineNuxtConfig({
 
 	image: {
 		provider: 'contentful',
+	},
+
+	icon: {
+		mode: 'svg',
+
+		clientBundle: {
+			scan: true,
+		},
 	},
 
 	routeRules: {

@@ -50,7 +50,7 @@
 
 			<client-only>
 				<input
-					class="text-theme-900 px-2 py-0.5 rounded border-none bg-theme-600 max-w-28 cursor-pointer disabled:(text-theme-900 bg-theme-800 cursor-auto) focus:(text-theme-100 bg-theme-850) hover:(text-theme-100 bg-theme-850)"
+					class="text-theme-900 px-2 py-0.5 rounded border-none bg-theme-600 w-full cursor-pointer disabled:(text-theme-900 bg-theme-800 cursor-auto) focus:(text-theme-100 bg-theme-850) hover:(text-theme-100 bg-theme-850)"
 					type="submit"
 					value="Send"
 					:disabled="!formComplete"
@@ -61,7 +61,7 @@
 				<p v-if="submissionError">{{ submissionError }}</p>
 
 				<div v-if="formErrors.length" class="flex gap-4">
-					<i class="i-icon-park-outline:thunderstorm-one h-6 w-6 inline-block" />
+					<Icon name="icon-park-outline:thunderstorm-one" size="24" />
 					<div>
 						<p>Please check your submission for errors:</p>
 
@@ -76,13 +76,15 @@
 		</form>
 
 		<div v-else-if="formSubmissionInProgress" id="submission-loading">
-			<i
-				class="i-iconoir:sea-waves waves-icon text-theme-600 mx-auto my-8 h-8 w-8 block animate-float"
+			<Icon
+				name="iconoir:sea-waves"
+				size="64"
+				class="waves-icon text-theme-600 mx-auto my-8 block animate-float"
 			/>
 		</div>
 
 		<div v-else id="submission-confirmation">
-			<p class="font-display text-3xl text-center">Submission complete</p>
+			<p class="text-3xl font-display text-center">Submission complete</p>
 			<p class="text-xl mx-auto mt-4">
 				Thanks for your interest! I'll get back to you as soon as I can.
 			</p>

@@ -1,14 +1,14 @@
 <template>
 	<a
 		:href="href"
-		class="flex rounded-xl pl-2 pr-4 text-theme-800 uppercase transition-colors"
+		class="text-theme-800 pl-2 pr-4 rounded-xl flex uppercase transition-colors"
 		@click="triggerNavigation"
 	>
 		<slot name="icon">
-			<i class="i-mdi:ship-wheel inline-block h-6 w-6" />
+			<Icon name="mdi:ship-wheel" size="24" />
 		</slot>
 
-		<span class="h-6 pl-2 text-xl">
+		<span class="text-xl pl-2 h-6">
 			<slot name="cta">Go</slot>
 		</span>
 	</a>

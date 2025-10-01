@@ -18,7 +18,7 @@
 				v-for="(project, index) in projects"
 				:key="project.project"
 				:data-project="project.project"
-				class="mx-auto mb-2 cursor-pointer overflow-hidden border-b-2 border-t-2 border-theme-700 md:(mb-0 max-w-164 border-2 rounded-lg)"
+				class="mx-auto mb-2 border-b-2 border-t-2 border-theme-700 cursor-pointer overflow-hidden md:(mb-0 border-2 rounded-lg max-w-164)"
 				:data-project-index="index"
 				@click="selectProject(index)"
 			>
@@ -34,21 +34,22 @@
 					}"
 				/>
 
-				<div v-else class="h-full w-full flex flex-col items-center bg-theme-850">
-					<i
-						class="i-icon-park-outline:sailboat-one mx-auto my-8 inline-block h-full w-24 text-theme-800"
+				<div v-else class="bg-theme-850 flex flex-col h-full w-full items-center">
+					<Icon
+						name="icon-park-outline:sailboat-one"
+						class="text-theme-800 mx-auto mb-16 mt-8 h-full w-24"
 					/>
 				</div>
 			</SplideSlide>
 		</Splide>
 
 		<div
-			class="bg-linear-to-r relative z-10 mx-auto max-w-[90%] min-h-76 w-full border-2 border-theme-700 rounded-lg from-theme-900 to-theme-900 to-opacity-90 px-4 md:(max-w-[500px] -mt-8)"
+			class="mx-auto px-4 border-2 border-theme-700 rounded-lg max-w-[90%] min-h-76 w-full relative z-10 from-theme-900 to-theme-900 to-opacity-90 bg-linear-to-r md:(max-w-[500px] -mt-8)"
 		>
-			<ul class="flex items-end justify-center gap-4">
+			<ul class="flex gap-4 items-end justify-center">
 				<li v-for="(project, index) in projects" :key="project.project">
 					<button
-						class="m-3 h-4 w-4 cursor-pointer border-2 border-theme-800 rounded-xl outline-2 outline-transparent outline"
+						class="m-3 outline-2 outline-transparent outline border-2 border-theme-800 rounded-xl h-4 w-4 cursor-pointer"
 						:class="
 							activeProject?.project === projects[index]?.project
 								? 'bg-theme-100 border-theme-100 focus-visible:outline-theme-800'
@@ -59,11 +60,11 @@
 					/>
 				</li>
 			</ul>
-			<p class="mt-2 text-2xl font-semibold leading-6 font-display">
+			<p class="text-2xl leading-6 font-display font-semibold mt-2">
 				{{ activeProject?.project }}
 			</p>
 			<p
-				class="mb-4 text-xl font-semibold leading-2 font-text"
+				class="text-xl leading-2 font-semibold font-text mb-4"
 				style="font-variant: all-small-caps"
 			>
 				{{ activeProject?.location }}
@@ -73,7 +74,7 @@
 				<li
 					v-for="tag in activeProject?.tags"
 					:key="tag"
-					class="rounded bg-theme-600 px-1.5 pt-0.5 text-xs text-theme-900 font-700 font-display uppercase"
+					class="text-xs text-theme-900 font-700 font-display px-1.5 pt-0.5 rounded bg-theme-600 uppercase"
 				>
 					{{ tag }}
 				</li>
@@ -86,14 +87,16 @@
 				:href="activeProject?.url"
 				target="_blank"
 				rel="noopener noreferrer nofollow"
-				class="mb-4 mt-4 inline-block self-start rounded bg-theme-700 px-2 pb-1 text-theme-900 outline-2 outline-transparent outline focus-visible:(bg-theme-900 text-theme-100 outline-theme-100) hover:(bg-theme-900 text-theme-100 outline-theme-100)"
+				class="text-theme-900 mb-4 mt-4 px-2 pb-1 outline-2 outline-transparent outline rounded bg-theme-700 inline-block self-start focus-visible:(text-theme-100 outline-theme-100 bg-theme-900) hover:(text-theme-100 outline-theme-100 bg-theme-900)"
 			>
-				<span class="pr-1 align-middle leading-4">
+				<span class="leading-4 pr-1 align-middle">
 					{{ activeProject?.cta ?? 'Go' }}
 				</span>
 
-				<i
-					class="i-icon-park-outline:sailboat-one ml-2 inline-block h-4 transform stroke-4 align-middle transition-all"
+				<Icon
+					name="icon-park-outline:sailboat-one"
+					size="16"
+					class="ml-2 align-middle inline-block transform transition-all stroke-4"
 				/>
 			</a>
 		</div>

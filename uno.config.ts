@@ -1,7 +1,6 @@
 import {
 	defineConfig,
 	presetAttributify,
-	presetIcons,
 	presetWind4,
 	transformerDirectives,
 	transformerVariantGroup,
@@ -10,7 +9,6 @@ import {
 export default defineConfig({
 	presets: [
 		presetAttributify(),
-		presetIcons(),
 		presetWind4({
 			preflights: {
 				reset: true,

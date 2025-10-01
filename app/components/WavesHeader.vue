@@ -29,9 +29,10 @@
 					aria-label="Go to main content"
 					@click="() => emit('dive')"
 				>
-					<i
-						id="dive-icon"
-						class="i-mdi:anchor mx-auto h-28 w-28 block origin-center transform transition-all ease-out top-0 relative -translate-x-2 -rotate-45"
+					<Icon
+						name="mdi:anchor"
+						size="112"
+						class="mx-auto h-28 w-28 block origin-center transform transition-all duration-2000 ease-out top-0 relative -translate-x-2 -rotate-45"
 						:class="{
 							'top-128': anchorDropped,
 						}"
@@ -51,7 +52,7 @@
 					<li v-for="link in sectionLinks" :key="link.url">
 						<IconLink :href="link.url" class="group" v-bind="$attrs">
 							<template #icon>
-								<i class="h-24px w-24px inline-block" :class="link.classes" />
+								<Icon :name="link.icon" size="24" :class="link.classes" />
 							</template>
 							<template #cta> {{ link.cta }} </template>
 						</IconLink>
@@ -66,9 +67,9 @@
 									class="group rounded h-6 w-6 inline-block transition-colors"
 									:title="link.title"
 								>
-									<i
+									<Icon
+										:name="link.icon"
 										class="text-theme-800 h-full w-full inline-block transition-colors focus:text-theme-950 group-hover:text-theme-950"
-										:class="link.classes"
 									/>
 								</a>
 							</li>
@@ -100,17 +101,20 @@ const sectionLinks = ref([
 	{
 		url: '#about',
 		cta: 'About',
-		classes: 'i-iconoir:sea-waves group-hover:animate-float waves-icon',
+		icon: 'iconoir:sea-waves',
+		classes: 'group-hover:animate-float waves-icon',
 	},
 	{
 		url: '#projects',
 		cta: 'Projects',
-		classes: 'i-icon-park-outline:sailboat-one group-hover:animate-boat sailboat-icon-thicker',
+		icon: 'icon-park-outline:sailboat-one',
+		classes: 'group-hover:animate-boat sailboat-icon-thicker',
 	},
 	{
 		url: '#contact',
 		cta: 'Contact',
-		classes: 'i-mdi:ship-wheel stroke-128 group-hover:animate-turn',
+		icon: 'mdi:ship-wheel',
+		classes: 'stroke-128 group-hover:animate-turn',
 	},
 ]);
 
@@ -121,17 +125,17 @@ const externalLinks = ref([
 	{
 		url: 'https://github.com/dgrayvold',
 		title: 'View my GitHub profile',
-		classes: 'i-akar-icons-github-fill',
+		icon: 'akar-icons-github-fill',
 	},
 	{
 		url: 'https://grayvold.com',
 		title: 'Check out my audio work',
-		classes: 'i-fontisto-music-note',
+		icon: 'fontisto-music-note',
 	},
 	{
 		url: 'https://grayvold.com/photography',
 		title: 'Gaze at my photography',
-		classes: 'i-ant-design-camera-filled',
+		icon: 'ant-design-camera-filled',
 	},
 ]);
 

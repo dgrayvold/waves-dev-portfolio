@@ -10,23 +10,24 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
-    "@fontsource-variable/overpass": "^5.2.7",
-    "@fontsource/gentium-book-plus": "^5.2.6",
-    "@nuxt/eslint": "1.7.1",
+    "@fontsource-variable/overpass": "^5.2.8",
+    "@fontsource/gentium-book-plus": "^5.2.7",
+    "@nuxt/eslint": "1.9.0",
+    "@nuxt/icon": "2.0.0",
     "@nuxt/image": "1.11.0",
-    "@nuxtjs/turnstile": "^1.0.0",
+    "@nuxtjs/turnstile": "^1.1.0",
     "@splidejs/vue-splide": "^0.6.12",
-    "@vueuse/nuxt": "^13.6.0",
+    "@vueuse/nuxt": "^13.9.0",
     "blava": "2.0.2",
-    "contentful": "^11.7.17",
-    "eslint": "^9.32.0",
+    "contentful": "^11.8.2",
+    "eslint": "^9.36.0",
     "lodash-es": "^4.17.21",
-    "nuxt": "^4.0.3",
-    "nuxt-prepare": "2.3.2",
-    "resend": "^4.8.0",
-    "typescript": "^5.9.2",
+    "nuxt": "^4.1.2",
+    "nuxt-prepare": "3.0.0",
+    "resend": "^6.1.1",
+    "typescript": "^5.9.3",
     "valibot": "^1.1.0",
-    "vue": "^3.5.17",
+    "vue": "^3.5.22",
     "vue-router": "^4.5.1"
   },
   "devDependencies": {
@@ -38,10 +39,10 @@
     "@iconify-json/iconoir": "^1.2.9",
     "@iconify-json/mdi": "^1.2.3",
     "@types/lodash-es": "^4.17.12",
-    "@unocss/eslint-config": "^66.5.1",
-    "@unocss/nuxt": "^66.5.1",
+    "@unocss/eslint-config": "^66.5.2",
+    "@unocss/nuxt": "^66.5.2",
     "eslint-config-prettier": "^10.1.8",
     "prettier": "2.8.8",
-    "unocss": "^66.5.1"
+    "unocss": "^66.5.2"
   }
 }
