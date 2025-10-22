@@ -132,11 +132,7 @@
 					</button>
 				</menu>
 
-				<h1
-					class="text-3xl text-theme-850 font-text pb-4 text-center grid-col-span-1 grid-col-start-2 grid-row-start-1"
-				>
-					Résumé
-				</h1>
+				<h1 class="text-3xl text-theme-850 font-text pb-4 text-center">Résumé</h1>
 
 				<nav class="text-lg font-text py-4 flex gap-8 justify-center">
 					<NuxtLink
