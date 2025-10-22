@@ -39,7 +39,7 @@
 					/>
 
 					<span
-						class="text-2xl uppercase transition-all duration-300 top-0 relative"
+						class="text-2xl font-text uppercase transition-all duration-300 top-0 relative"
 						:class="[anchorDropped ? 'top-8 opacity-0' : '']"
 					>
 						Dive in
@@ -47,7 +47,7 @@
 				</button>
 
 				<ul
-					class="px-10 border-theme-800 gap-3 grid grid-rows-[repeat(3,1fr),auto] justify-start sm:border-l-2 lg:gap-2"
+					class="font-text px-10 border-theme-800 gap-3 grid grid-rows-[repeat(3,1fr),auto] justify-start sm:border-l-2 lg:gap-2"
 				>
 					<li v-for="link in sectionLinks" :key="link.url">
 						<IconLink :href="link.url" class="group" v-bind="$attrs">
@@ -59,9 +59,22 @@
 					</li>
 
 					<li>
+						<IconLink :href="runtimeConfig.public.resumeUrl" class="group" external>
+							<template #icon>
+								<Icon
+									name="mdi:compass-rose"
+									size="24"
+									class="group-hover:(animate-spin) !group-hover:duration-8000"
+								/>
+							</template>
+							<template #cta> Résumé </template>
+						</IconLink>
+					</li>
+
+					<li>
 						<ul class="mt-2 pl-2.5 flex gap-6">
 							<li v-for="link in externalLinks" :key="link.url">
-								<a
+								<NuxtLink
 									:href="link.url"
 									target="_blank"
 									class="group rounded h-6 w-6 inline-block transition-colors"
@@ -71,7 +84,7 @@
 										:name="link.icon"
 										class="text-theme-800 h-full w-full inline-block transition-colors focus:text-theme-950 group-hover:text-theme-950"
 									/>
-								</a>
+								</NuxtLink>
 							</li>
 						</ul>
 					</li>
@@ -93,6 +106,8 @@ const props = defineProps<{
 const emit = defineEmits(['aweigh', 'dive']);
 
 const header = useTemplateRef('header');
+
+const runtimeConfig = useRuntimeConfig();
 
 /**
  * Links to internal sections

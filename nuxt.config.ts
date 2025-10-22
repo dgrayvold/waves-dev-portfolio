@@ -49,6 +49,11 @@ export default defineNuxtConfig({
 		resendKey: process.env.RESEND_KEY,
 		fromEmail: process.env.FROM_EMAIL,
 		toEmail: process.env.TO_EMAIL,
+
+		public: {
+			resumeUrl: process.env.RESUME_URL,
+			resumeDownloadUrl: process.env.RESUME_DOWNLOAD_URL,
+		},
 	},
 
 	turnstile: {
