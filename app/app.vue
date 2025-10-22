@@ -185,7 +185,7 @@ useHead({
 	},
 });
 
-const windowScrollLocked = useScrollLock(() => (import.meta.client ? window : null), true);
+const windowScrollLocked = useScrollLock(() => (import.meta.client ? window : null), false);
 
 useSeoMeta({
 	charset: 'utf-8',
