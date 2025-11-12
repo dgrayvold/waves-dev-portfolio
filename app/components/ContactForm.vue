@@ -95,7 +95,7 @@
 </template>
 
 <script setup lang="ts">
-import { debounce } from 'lodash-es';
+import { debounce } from 'es-toolkit';
 
 const form = useTemplateRef('form');
 
