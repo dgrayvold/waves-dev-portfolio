@@ -59,7 +59,12 @@
 					</li>
 
 					<li>
-						<IconLink :href="runtimeConfig.public.resumeUrl" class="group" external>
+						<IconLink
+							v-if="runtimeConfig.public.resumeUrl !== ''"
+							:href="runtimeConfig.public.resumeUrl"
+							class="group"
+							external
+						>
 							<template #icon>
 								<Icon
 									name="mdi:compass-rose"

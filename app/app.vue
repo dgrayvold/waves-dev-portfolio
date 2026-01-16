@@ -238,7 +238,8 @@ watch(resumeDialogVisible, isVisible => {
 });
 
 onMounted(() => {
-	resumeDialogVisible.value = route.fullPath.startsWith('/resume');
+	resumeDialogVisible.value =
+		runtimeConfig.public.resumeUrl !== '' && route.fullPath.startsWith('/resume');
 });
 
 /**
