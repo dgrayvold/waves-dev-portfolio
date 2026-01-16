@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<WavesHeader
-			ref="header"
+			:ref="component => addToAppSections(component)"
 			:anchor-dropped="anchorDropped"
 			:active="activeSection === 'header'"
 			@dive="diveIn"
@@ -10,7 +10,7 @@
 		/>
 
 		<main ref="main" :class="textClass">
-			<section id="about">
+			<section id="about" :ref="component => addToAppSections(component)">
 				<client-only>
 					<BubbleBackground
 						:width="backgroundWidth"
@@ -64,7 +64,7 @@
 				</div>
 			</section>
 
-			<section id="projects">
+			<section id="projects" :ref="el => addToAppSections(el)">
 				<div class="mx-12 mb-16 flex flex-col gap-4 items-center">
 					<Icon
 						name="icon-park-outline:sailboat-one"
@@ -91,7 +91,11 @@
 				/>
 			</section>
 
-			<section id="contact" class="pb-32 text-center min-h-screen relative overflow-hidden">
+			<section
+				id="contact"
+				:ref="el => addToAppSections(el)"
+				class="pb-32 text-center min-h-screen relative overflow-hidden"
+			>
 				<Icon
 					name="mdi:ship-wheel"
 					size="40"
@@ -114,47 +118,7 @@
 
 		<div class="transition-colors duration-700 inset-0 fixed -z-10" :class="backgroundClass" />
 
-		<dialog
-			ref="resumeDialog"
-			class="bg-transparent w-screen inset-0 justify-center fixed z-100 h-svh backdrop:bg-theme-950/10"
-			:class="resumeDialogVisible ? 'grid items-center justify-center' : ''"
-			@close="resumeDialogVisible = false"
-		>
-			<section
-				class="border-2 border-theme-700 rounded-lg bg-theme-600 max-w-screen w-100 justify-start max-h-svh"
-			>
-				<menu class="p-2 flex justify-end">
-					<button
-						class="text-theme-800 outline-none rounded-lg cursor-pointer transition-colors focus-visible:(text-theme-950 outline-2 bg-theme-800/20) hover:text-theme-950"
-						@click="resumeDialogVisible = false"
-					>
-						<Icon name="akar-icons:x-small" size="24" />
-					</button>
-				</menu>
-
-				<h1 class="text-3xl text-theme-850 font-text pb-4 text-center">Résumé</h1>
-
-				<nav class="text-lg font-text py-4 flex gap-8 justify-center">
-					<NuxtLink
-						:href="runtimeConfig.public.resumeUrl"
-						target="_blank"
-						class="text-theme-850 p-4 outline-none rounded-2xl flex flex-col w-32 transition-colors items-center focus-visible:(text-theme-950 bg-theme-800/20)"
-					>
-						<Icon name="mdi:compass-rose" size="48" class="" />
-						<span>View</span>
-					</NuxtLink>
-
-					<NuxtLink
-						:href="runtimeConfig.public.resumeDownloadUrl"
-						target="_blank"
-						class="text-theme-850 p-4 outline-none rounded-2xl flex flex-col w-32 transition-colors items-center focus-visible:(text-theme-950 bg-theme-800/20)"
-					>
-						<Icon name="akar-icons:download" size="48" class="" />
-						<span>Download</span>
-					</NuxtLink>
-				</nav>
-			</section>
-		</dialog>
+		<ResumeDialog />
 	</div>
 </template>
 
@@ -169,6 +133,7 @@ function isSectionId(id: string): id is SectionId {
 
 <script setup lang="ts">
 import { portrait, projects, ogImage } from '#nuxt-prepare';
+import type { ComponentPublicInstance } from 'vue';
 
 /**
  * The current color class to apply to the background
@@ -185,8 +150,6 @@ useHead({
 	},
 });
 
-const windowScrollLocked = useScrollLock(() => (import.meta.client ? window : null), false);
-
 useSeoMeta({
 	charset: 'utf-8',
 	viewport: 'width=device-width,initial-scale=1.0',
@@ -199,10 +162,6 @@ useSeoMeta({
 	ogImage,
 });
 
-const route = useRoute();
-
-const runtimeConfig = useRuntimeConfig();
-
 const { width: backgroundWidth } = useWindowSize({ initialWidth: 0 });
 
 /**
@@ -214,38 +173,6 @@ const anchorDropped = ref(false);
  * The currently displayed project
  */
 const activeProject = ref();
-
-const header = useTemplateRef('header');
-
-const main = useTemplateRef('main');
-
-const resumeDialog = useTemplateRef('resumeDialog');
-
-const resumeDialogVisible = ref(false);
-
-watch(resumeDialogVisible, isVisible => {
-	if (!resumeDialog.value) {
-		return;
-	}
-
-	windowScrollLocked.value = isVisible;
-
-	if (isVisible) {
-		resumeDialog.value.showModal();
-	} else {
-		resumeDialog.value.close();
-	}
-});
-
-onMounted(() => {
-	resumeDialogVisible.value =
-		runtimeConfig.public.resumeUrl !== '' && route.fullPath.startsWith('/resume');
-});
-
-/**
- * The intersection observer for background color reactivity
- */
-const backgroundObserver = ref();
 
 const playbackDisabled = ref(false);
 
@@ -285,73 +212,103 @@ function diveIn() {
 	scrollToSection('about');
 }
 
-/**
- * Set the background color of the page based on the section currently dominating the screen space
- *
- * @param {IntersectionObserverEntry[]} entries The entries to process
- */
-function setBackground(entries: IntersectionObserverEntry[]) {
-	let latestDominantSection: HTMLElement | undefined;
-	let latestDominantSectionHeight: number = 0;
-
-	// Update the current dominant section height if it changed
-	const updatedCurrentDominantSection = entries.find(entry => {
-		return entry.target === currentDominantSection.value;
-	});
-
-	if (updatedCurrentDominantSection) {
-		currentDominantSectionHeight.value = updatedCurrentDominantSection.intersectionRect.height;
+const appSections = ref<HTMLElement[]>([]);
+const addToAppSections = (component: Element | ComponentPublicInstance | null) => {
+	if (component === null) {
+		return;
 	}
-
-	// Find the intersection height of the dominant section in the current set of entries
-	entries.forEach(entry => {
-		if (!entry.isIntersecting) {
-			return;
+	if (component instanceof Element) {
+		if (component instanceof HTMLElement) {
+			appSections.value.push(component);
 		}
 
-		if (!latestDominantSection || latestDominantSectionHeight < entry.intersectionRect.height) {
-			latestDominantSection = entry.target as HTMLElement;
-			latestDominantSectionHeight = entry.intersectionRect.height;
-			return;
-		}
-	});
-
-	// Update the record for current dominant section if changed…
-	if (
-		latestDominantSection &&
-		currentDominantSection.value !== latestDominantSection &&
-		currentDominantSectionHeight.value < latestDominantSectionHeight
-	) {
-		currentDominantSection.value = latestDominantSection;
-		currentDominantSectionHeight.value = latestDominantSectionHeight;
-	}
-	// …or stop if not
-	else {
 		return;
 	}
 
-	// Update color classes if dominant section changed
-	switch (currentDominantSection.value?.id) {
-		case 'projects':
-			backgroundClass.value = 'bg-theme-850';
-			textClass.value = 'text-theme-100';
-			break;
-		case 'other':
-			backgroundClass.value = 'bg-theme-900';
-			textClass.value = 'text-theme-100';
-			break;
-		case 'contact':
-			backgroundClass.value = 'bg-theme-950';
-			textClass.value = 'text-theme-100';
-			break;
-		case 'header':
-		case 'about':
-		default:
-			backgroundClass.value = 'bg-theme-600';
-			textClass.value = 'text-theme-900';
-			break;
+	const componentEl = component.$el;
+
+	if (!(componentEl instanceof HTMLElement)) {
+		return;
 	}
-}
+
+	appSections.value.push(component.$el);
+};
+
+/**
+ * Set the background color of the page based on the section currently dominating the screen space
+ */
+useIntersectionObserver(
+	appSections,
+	entries => {
+		let latestDominantSection: HTMLElement | undefined;
+		let latestDominantSectionHeight: number = 0;
+
+		// Update the current dominant section height if it changed
+		const updatedCurrentDominantSection = entries.find(entry => {
+			return entry.target === currentDominantSection.value;
+		});
+
+		if (updatedCurrentDominantSection) {
+			currentDominantSectionHeight.value =
+				updatedCurrentDominantSection.intersectionRect.height;
+		}
+
+		// Find the intersection height of the dominant section in the current set of entries
+		entries.forEach(entry => {
+			if (!entry.isIntersecting) {
+				return;
+			}
+
+			if (
+				!latestDominantSection ||
+				latestDominantSectionHeight < entry.intersectionRect.height
+			) {
+				latestDominantSection = entry.target as HTMLElement;
+				latestDominantSectionHeight = entry.intersectionRect.height;
+				return;
+			}
+		});
+
+		// Update the record for current dominant section if changed…
+		if (
+			latestDominantSection &&
+			currentDominantSection.value !== latestDominantSection &&
+			currentDominantSectionHeight.value < latestDominantSectionHeight
+		) {
+			currentDominantSection.value = latestDominantSection;
+			currentDominantSectionHeight.value = latestDominantSectionHeight;
+		}
+		// …or stop if not
+		else {
+			return;
+		}
+
+		// Update color classes if dominant section changed
+		switch (currentDominantSection.value?.id) {
+			case 'projects':
+				backgroundClass.value = 'bg-theme-850';
+				textClass.value = 'text-theme-100';
+				break;
+			case 'other':
+				backgroundClass.value = 'bg-theme-900';
+				textClass.value = 'text-theme-100';
+				break;
+			case 'contact':
+				backgroundClass.value = 'bg-theme-950';
+				textClass.value = 'text-theme-100';
+				break;
+			case 'header':
+			case 'about':
+			default:
+				backgroundClass.value = 'bg-theme-600';
+				textClass.value = 'text-theme-900';
+				break;
+		}
+	},
+	{
+		threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1],
+	},
+);
 
 /**
  * Set the currently active project
@@ -368,13 +325,17 @@ function setActiveProject(activeProjectIndex: number) {
  * @param id The ID of the section to scroll to
  */
 async function scrollToSection(id: string) {
-	const element = document.querySelector(`#${id}`);
+	const element = appSections.value.find(section => section.id === id);
 	const offset = element?.getBoundingClientRect().top ?? 0;
 
 	playbackDisabled.value = true;
 
 	return smoothScroll(offset, 90).then(() => (playbackDisabled.value = false));
 }
+
+const visibility = useDocumentVisibility();
+
+watch(visibility, isVisible => (playbackDisabled.value = !isVisible));
 
 onMounted(async () => {
 	activeProject.value = projects[0];
@@ -384,23 +345,6 @@ onMounted(async () => {
 	playbackDisabled.value = mediaQuery.matches;
 
 	mediaQuery.addEventListener('change', () => (playbackDisabled.value = mediaQuery.matches));
-
-	// Change playback ability based on window visibility
-	window.addEventListener(
-		'visibilitychange',
-		() => (playbackDisabled.value = document.visibilityState !== 'visible'),
-	);
-
-	// Set up background style reactivity
-	backgroundObserver.value = new IntersectionObserver(setBackground, {
-		threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1],
-	});
-
-	main.value
-		?.querySelectorAll('section')
-		.forEach(section => backgroundObserver.value.observe(section));
-
-	backgroundObserver.value.observe(header.value?.$el);
 });
 </script>
 
