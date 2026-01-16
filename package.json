@@ -12,23 +12,23 @@
   "dependencies": {
     "@fontsource-variable/overpass": "^5.2.8",
     "@fontsource/gentium-book-plus": "^5.2.7",
-    "@nuxt/eslint": "1.11.0",
-    "@nuxt/icon": "2.1.0",
+    "@nuxt/eslint": "1.12.1",
+    "@nuxt/icon": "2.2.0",
     "@nuxt/image": "2.0.0",
     "@nuxtjs/turnstile": "^1.1.1",
     "@splidejs/vue-splide": "^0.6.12",
     "@vueuse/nuxt": "^14.1.0",
     "blava": "3.0.0",
-    "contentful": "^11.9.0",
-    "es-toolkit": "^1.42.0",
-    "eslint": "^9.39.1",
-    "nuxt": "^4.2.1",
+    "contentful": "^11.10.2",
+    "es-toolkit": "^1.43.0",
+    "eslint": "^9.39.2",
+    "nuxt": "^4.2.2",
     "nuxt-prepare": "3.0.0",
-    "resend": "^6.5.2",
+    "resend": "^6.7.0",
     "typescript": "^5.9.3",
     "valibot": "^1.2.0",
-    "vue": "^3.5.25",
-    "vue-router": "^4.6.3"
+    "vue": "^3.5.26",
+    "vue-router": "^4.6.4"
   },
   "devDependencies": {
     "@iconify-json/akar-icons": "^1.2.7",
@@ -38,10 +38,10 @@
     "@iconify-json/icon-park-outline": "^1.2.4",
     "@iconify-json/iconoir": "^1.2.10",
     "@iconify-json/mdi": "^1.2.3",
-    "@unocss/eslint-config": "^66.5.9",
-    "@unocss/nuxt": "^66.5.9",
+    "@unocss/eslint-config": "^66.6.0",
+    "@unocss/nuxt": "^66.6.0",
     "eslint-config-prettier": "^10.1.8",
     "prettier": "2.8.8",
-    "unocss": "^66.5.9"
+    "unocss": "^66.6.0"
   }
 }
