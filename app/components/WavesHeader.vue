@@ -187,8 +187,10 @@ onMounted(() => {
 
 	for (let index = 0; index < 4; index++) {
 		const blava = new Blava(blavaCanvasElements.value![index], {
+			style: 'wave',
 			gradient: { from: shades[index], to: shades[index] },
 			movementSpeed: 0.0009,
+			seed: index.toString(),
 		});
 
 		blavaInstances.value.push(blava);

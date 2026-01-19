@@ -18,7 +18,7 @@
     "@nuxtjs/turnstile": "^1.1.1",
     "@splidejs/vue-splide": "^0.6.12",
     "@vueuse/nuxt": "^14.1.0",
-    "blava": "3.0.0",
+    "blava": "4.0.0",
     "contentful": "^11.10.2",
     "es-toolkit": "^1.43.0",
     "eslint": "^9.39.2",
