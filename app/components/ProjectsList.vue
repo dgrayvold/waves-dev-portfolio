@@ -105,7 +105,6 @@
 
 <script setup lang="ts">
 import { Splide, SplideSlide } from '@splidejs/vue-splide';
-import '@splidejs/vue-splide/css';
 import type { Project } from '~/utils/schema';
 
 withDefaults(

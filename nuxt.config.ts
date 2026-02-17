@@ -25,6 +25,8 @@ export default defineNuxtConfig({
 		},
 	},
 
+	css: ['@splidejs/vue-splide/css'],
+
 	image: {
 		provider: 'contentful',
 	},
