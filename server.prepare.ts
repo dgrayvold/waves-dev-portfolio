@@ -1,29 +1,9 @@
 import { defineNuxtPrepareHandler } from 'nuxt-prepare/config';
-import * as contentful from 'contentful';
 import * as v from 'valibot';
-import type { EntryFieldTypes } from 'contentful';
-import type { Project } from './app/types/types';
-
-type DevPortfolioProjectSkeleton = {
-	contentTypeId: 'devPortfolioProject';
-	fields: {
-		project: EntryFieldTypes.Text;
-		location: EntryFieldTypes.Text;
-		description: EntryFieldTypes.Text;
-		cta: EntryFieldTypes.Text;
-		url: EntryFieldTypes.Text;
-		tags: EntryFieldTypes.Array<EntryFieldTypes.Symbol>;
-		sort: EntryFieldTypes.Number;
-		image: EntryFieldTypes.AssetLink;
-	};
-};
+import { envSchema, assetSchema, devProjectEntriesSchema } from './app/utils/schema';
+import { $fetch } from 'ofetch';
 
 export default defineNuxtPrepareHandler(async () => {
-	const envSchema = v.object({
-		CONTENTFUL_SPACE_ID: v.string(),
-		CONTENTFUL_CONTENT_TOKEN: v.string(),
-	});
-
 	const envValidationResult = v.safeParse(envSchema, process.env);
 
 	if (!envValidationResult.success) {
@@ -36,31 +16,35 @@ export default defineNuxtPrepareHandler(async () => {
 
 	const env = envValidationResult.output;
 
-	const client = contentful.createClient({
-		space: env.CONTENTFUL_SPACE_ID,
-		accessToken: env.CONTENTFUL_CONTENT_TOKEN,
+	const contentfulFetcher = $fetch.create({
+		baseURL: `https://cdn.contentful.com/spaces/${env.CONTENTFUL_SPACE_ID}/environments/master/`,
+		query: {
+			access_token: env.CONTENTFUL_CONTENT_TOKEN,
+		},
 	});
 
-	const portraitUrl = (await client.getAsset('32fbbI0qkOG9jMntVM3Ryn')).fields.file?.url;
+	const portraitAssetId = '32fbbI0qkOG9jMntVM3Ryn';
+	const ogImageAssetId = '5ITLm4KdIwLqOEHR0022sr';
 
-	const ogImageUrl = (await client.getAsset('5ITLm4KdIwLqOEHR0022sr')).fields.file?.url;
+	const [portraitAsset, ogImageAsset, projectsListRaw] = await Promise.all([
+		contentfulFetcher(`assets/${portraitAssetId}`),
+		contentfulFetcher(`assets/${ogImageAssetId}`),
+		contentfulFetcher(`entries`, { query: { content_type: 'devPortfolioProject' } }),
+	]);
 
-	const projectsListRaw =
-		await client.withoutUnresolvableLinks.getEntries<DevPortfolioProjectSkeleton>({
-			content_type: 'devPortfolioProject',
-		});
+	const portraitUrl = v.parse(assetSchema, portraitAsset).fields.file.url;
+	const ogImageUrl = v.parse(assetSchema, ogImageAsset).fields.file.url;
+	const projectEntries = v.parse(devProjectEntriesSchema, projectsListRaw);
 
-	const projectsList: Project[] = projectsListRaw.items
-		.map(item => {
-			if (!item.fields.image?.fields?.file?.url) {
-				return {
-					...item.fields,
-					image: null,
-				};
-			}
+	const projectsList = projectEntries.items
+		.map(entry => {
+			const imageUrl = projectEntries.includes.Asset.find(
+				asset => asset.sys.id === entry.fields.image?.sys.id,
+			)?.fields.file.url;
+
 			return {
-				...item.fields,
-				image: `https:${item.fields.image.fields.file.url}`,
+				...entry.fields,
+				image: imageUrl ? `https:${imageUrl}` : null,
 			};
 		})
 		.sort((a, b) => a.sort - b.sort);
